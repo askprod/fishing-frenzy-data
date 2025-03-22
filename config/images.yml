@@ -1,0 +1,18 @@
+# Images are in meshes, here are some useful routes with the position of the items on the meshes in the json
+# Names seem to be compiled in some way - they might change
+# All these are stored locally in vendor, this file is documentation
+# Use the extractor to extract: MeshImagesExtractor.extract("fishes")
+# Some extra paths for some images seems to be in here? What are they for? https://fishingfrenzy.co/cocos/assets/resources/config.7205d.json
+
+fishes:
+  data: "https://fishingfrenzy.co/cocos/assets/resources/import/09/09b0d4ca5.ee155.json"
+  mesh: "https://fishingfrenzy.co/cocos/assets/resources/native/6d/6d079663-762d-4733-a9c9-9783dda3cb98.4054b.png"
+items: 
+  data: "https://fishingfrenzy.co/cocos/assets/resources/import/0a/0afb6d3fa.e7eef.json"
+  mesh: "https://fishingfrenzy.co/cocos/assets/resources/native/0c/0cea06bd-4bdb-4e76-a98f-c46058c3621f.ff145.png"
+icons: 
+  data: "https://fishingfrenzy.co/cocos/assets/resources/import/04/0435a4dd0.3d95d.json"
+  mesh: "https://fishingfrenzy.co/cocos/assets/resources/native/20/20861a99-4812-48ae-a2a2-03d26c7120fa.79e67.png"
+rods:
+  data: "https://fishingfrenzy.co/cocos/assets/resources/import/06/06183aa5f.13ec6.json"
+  mesh: "https://fishingfrenzy.co/cocos/assets/resources/native/10/10d82a41-29da-43aa-8fe6-86bab532523e.dd7cd.png"
