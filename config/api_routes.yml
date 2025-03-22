@@ -1,16 +1,6 @@
 # paginable means you can add the ?page=1 param
 # limitable means you can add the ?limit=10 param
 
-# Images seems to be meshes, here might be some useful routes with the position of the items on the meshes
-
-# fish assets seems to be stored here: https://fishingfrenzy.co/cocos/assets/resources/import/09/09b0d4ca5.ee155.json
-# with positions for each fish_id
-# some items assets here: https://fishingfrenzy.co/cocos/assets/resources/import/04/0435a4dd0.3d95d.json
-# rods here: https://fishingfrenzy.co/cocos/assets/resources/import/06/06183aa5f.13ec6.json
-# most of the items here: https://fishingfrenzy.co/cocos/assets/resources/import/0a/0afb6d3fa.e7eef.json
-
-# some paths for some images seems to be in here? https://fishingfrenzy.co/cocos/assets/resources/config.7205d.json
-
 v1:
   host: "https://api.fishingfrenzy.co/v1/"
   verify-tokens:
@@ -28,14 +18,14 @@ v1:
   social_quests:
     fetch: "/social-quests"
     user_quests: "/user-quests" # For now returns a 500
-    mark_as_viewed: "/social-quests/mark-as-viewed" # POST, What's the use ?
+    mark_as_viewed: "/social-quests/mark-as-viewed" # POST, what's the use?
   referrals: "reference-code/referrals" # paginable
   events:
     active: "events/active" # Loaded on start
     # event_id: 6780f4c7a48b6c2b29d82bf6
     # theme_id: 6752b7a7ef93f2489cfef709
     # listFish, dropRateInfo are in here
-    switch_events: "events/%{event_id}/switch" # No response ?
+    switch_events: "events/%{event_id}/switch" # No response?
     switch_theme: "events/%{event_id}/themes/%{theme_id}/switch"
   items:
     fetch: "/items" # paginable, limitable
@@ -50,7 +40,7 @@ v1:
   rank: # Rank Menu
     # with ?type=[General/Cooking/Frenzy_point]
     # also pagable like this: startPage= & endPage=
-    # also ?tier=None, present with page param above, need to find other values and hwt it's used for
+    # also ?tier=None, present with page param above, need to find other values and the use
     fetch: "/rank" 
   battle_pass:
     fetch: "/battle-pass"
