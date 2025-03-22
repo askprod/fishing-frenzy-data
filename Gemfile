@@ -57,3 +57,5 @@ group :development do
 end
 
 gem "tailwindcss-rails", "~> 4.2"
+gem "chunky_png"
+gem "colorize"
