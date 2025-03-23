@@ -2,45 +2,85 @@
 # limitable means you can add the ?limit=10 param
 
 v1:
-  host: "https://api.fishingfrenzy.co/v1/"
-  verify-tokens:
-    post: "/auth/verify-tokens" # needs the accessToken param
-    # returns the a lot of data on the user
-  general: 
-    config: "/general-config"
-  accessories: # Upgrades Menu & loaded on start
-    fetch: "/accessories"
-  packages: # Loaded on start
-    starter_pack:
-      fetch: "/packages/starter-pack"
-  daily_rewards: 
-    fetch: "/daily-rewards"
-  social_quests:
-    fetch: "/social-quests"
-    user_quests: "/user-quests" # For now returns a 500
-    mark_as_viewed: "/social-quests/mark-as-viewed" # POST, what's the use?
-  referrals: "reference-code/referrals" # paginable
-  events:
-    active: "events/active" # Loaded on start
-    # event_id: 6780f4c7a48b6c2b29d82bf6
-    # theme_id: 6752b7a7ef93f2489cfef709
-    # listFish, dropRateInfo are in here
-    switch_events: "events/%{event_id}/switch" # No response?
-    switch_theme: "events/%{event_id}/themes/%{theme_id}/switch"
-  items:
-    fetch: "/items" # paginable, limitable
-  inventory:
-    fetch: "/inventory"
-  user_vips:
-    fetch: "/user-vips" # ?
-  users: # Loaded on start
-    fetch: "users/me"
-  frenzy_points: # Campaign Menu & loaded on start
-    fetch: "users/frenzy-points"
-  rank: # Rank Menu
-    # with ?type=[General/Cooking/Frenzy_point]
-    # also pagable like this: startPage= & endPage=
-    # also ?tier=None, present with page param above, need to find other values and the use
-    fetch: "/rank" 
-  battle_pass:
-    fetch: "/battle-pass"
+  host: "https://api.fishingfrenzy.co/v1"
+  routes:
+    verify_tokens:
+      type: "POST"
+      path: "auth/verify-tokens"
+      params: "accessToken"
+
+    general: 
+      config: 
+        type: "GET"
+        path: "general-config"
+
+    accessories: # Upgrades Menu & loaded on start
+      type: "GET"
+      path: "accessories"
+
+    items:
+      type: "GET"
+      path: "items" # paginable, limitable 
+
+    inventory:
+      type:  "GET"
+      path: "inventory"
+
+    packages: # Loaded on start
+      starter_pack:
+        type: "GET"
+        path: "packages/starter-pack"
+
+    daily_rewards: 
+      type: "GET"
+      path: "daily-rewards"
+
+    social_quests:
+      type: "GET"
+      path: "social-quests" 
+
+      user_quests: 
+        type: "GET"
+        path: "user-quests" # For now returns a 500?
+      mark_as_viewed: 
+        type: "POST"
+        path: "social-quests/mark-as-viewed" # What's the use of this route?
+
+    referrals: 
+      type: "GET"
+      path: "reference-code/referrals" # paginable
+
+    events:
+      active: 
+        type: "GET"
+        path: "events/active" # Loaded on start
+
+      # switch_events: "events/%{event_id}/switch" # No response?
+      # switch_theme: "events/%{event_id}/themes/%{theme_id}/switch"
+
+      # event_id: 6780f4c7a48b6c2b29d82bf6
+      # theme_id: 6752b7a7ef93f2489cfef709
+      # listFish, dropRateInfo are in here
+
+    user_vips:
+      type: "GET"
+      path: "user-vips" # What's the use of this route?
+
+    users: # Loaded on start
+      type: "GET"
+      path: "users/me"
+
+    frenzy_points: # Campaign Menu & loaded on start
+      type: "GET"
+      path: "users/frenzy-points"
+
+    rank: # Rank Menu
+      # with ?type=[General/Cooking/Frenzy_point]
+      # also pagable like this: startPage= & endPage=
+      # also ?tier=None, present with page param above, need to find other values and the use
+      type: "GET"
+      path: "rank" 
+
+    battle_pass:
+      type: "GET"
+      path: "battle-pass"
