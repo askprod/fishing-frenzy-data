@@ -1,0 +1,10 @@
+@font-face {
+	font-family: 'DogicaPixel';
+	src: url('fonts/dogicapixel.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+
+body {
+	font-family: 'DogicaPixel', sans-serif;
+}

@@ -18,9 +18,30 @@ v1:
       type: "GET"
       path: "accessories"
 
+    quests:
+      type: "GET"
+      path: "quests"
+
+    sashimis:
+      type: "GET"
+      path: "sashimis"
+
     items:
       type: "GET"
       path: "items" # paginable, limitable 
+
+    fish:
+      type: "GET"
+      path: "fish" # paginable, limitable 
+
+    pets:
+      type: "GET"
+      path: "pets" # paginable, limitable 
+
+    # No 404 but empty for now? Might be user rods?
+    rods:
+      type: "GET"
+      path: "rods" # paginable, limitable 
 
     inventory:
       type:  "GET"
@@ -54,13 +75,9 @@ v1:
       active: 
         type: "GET"
         path: "events/active" # Loaded on start
-
-      # switch_events: "events/%{event_id}/switch" # No response?
-      # switch_theme: "events/%{event_id}/themes/%{theme_id}/switch"
-
-      # event_id: 6780f4c7a48b6c2b29d82bf6
-      # theme_id: 6752b7a7ef93f2489cfef709
-      # listFish, dropRateInfo are in here
+      switch_theme: 
+        type: "GET"
+        path: "events/%{eventId}/themes/%{themeId}/switch"
 
     user_vips:
       type: "GET"

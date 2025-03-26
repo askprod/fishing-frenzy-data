@@ -1,4 +1,4 @@
-class MeshImagesExtractor
+class Initializers::ImagesImport
   IMAGES_FOLDER = Rails.root.join("public", "images")
   attr_reader :folder_name, :images_dir, :folder, :json, :data, :mesh, :original_image
 

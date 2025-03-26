@@ -1,7 +1,7 @@
 # Images are in meshes, here are some useful routes with the position of the items on the meshes in the json
 # Names seem to be compiled in some way - they might change
 # All these are stored locally in vendor, this file is documentation
-# Use the extractor to extract: MeshImagesExtractor.extract("fishes")
+# Use the extractor to extract: Initializers::ImagesImport.extract("fishes")
 # Some extra paths for some images seems to be in here? What are they for? https://fishingfrenzy.co/cocos/assets/resources/config.7205d.json
 
 fishes:

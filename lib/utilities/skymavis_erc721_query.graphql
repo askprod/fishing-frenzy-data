@@ -1,0 +1,154 @@
+query GetERC721TokensList(
+  $tokenAddress: String,
+  $slug: String,
+  $owner: String,
+  $auctionType: AuctionType,
+  $criteria: [SearchCriteria!],
+  $from: Int!,
+  $size: Int!,
+  $sort: SortBy,
+  $name: String,
+  $priceRange: InputRange,
+  $rangeCriteria: [RangeSearchCriteria!],
+  $excludeAddress: String
+) {
+  erc721Tokens(
+    tokenAddress: $tokenAddress,
+    slug: $slug,
+    owner: $owner,
+    auctionType: $auctionType,
+    criteria: $criteria,
+    from: $from,
+    size: $size,
+    sort: $sort,
+    name: $name,
+    priceRange: $priceRange,
+    rangeCriteria: $rangeCriteria,
+    excludeAddress: $excludeAddress
+  ) {
+    total
+    results {
+      ...Erc721TokenBrief
+      __typename
+    }
+    __typename
+  }
+}
+
+fragment Erc721TokenBrief on Erc721 {
+  tokenAddress
+  tokenId
+  slug
+  owner
+  name
+  order {
+    ...OrderInfo
+    assets {
+      address
+      id
+      orderId
+      token {
+        ... on Erc721 {
+          image
+          cdnImage
+          tokenId
+          tokenAddress
+          name
+          __typename
+        }
+        __typename
+      }
+      __typename
+    }
+    __typename
+  }
+  image
+  cdnImage
+  video
+  isLocked
+  attributes
+  traitDistribution {
+    ...TokenTrait
+    __typename
+  }
+  collectionMetadata
+  ownerProfile {
+    name
+    accountId
+    __typename
+  }
+  badged
+  __typename
+}
+
+fragment OrderInfo on Order {
+  id
+  maker
+  kind
+  assets {
+    ...AssetInfo
+    __typename
+  }
+  expiredAt
+  paymentToken
+  startedAt
+  basePrice
+  expectedState
+  nonce
+  marketFeePercentage
+  signature
+  hash
+  duration
+  timeLeft
+  currentPrice
+  suggestedPrice
+  makerProfile {
+    ...PublicProfileBrief
+    __typename
+  }
+  orderStatus
+  orderQuantity {
+    orderId
+    quantity
+    remainingQuantity
+    availableQuantity
+    __typename
+  }
+  __typename
+}
+
+fragment AssetInfo on Asset {
+  erc
+  address
+  id
+  quantity
+  orderId
+  __typename
+}
+
+fragment PublicProfileBrief on PublicProfile {
+  accountId
+  addresses {
+    ...Addresses
+    __typename
+  }
+  activated
+  name
+  __typename
+}
+
+fragment Addresses on NetAddresses {
+  ethereum
+  ronin
+  __typename
+}
+
+fragment TokenTrait on TokenTrait {
+  key
+  value
+  count
+  percentage
+  displayType
+  maxValue
+  __typename
+}

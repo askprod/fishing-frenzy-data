@@ -56,7 +56,8 @@ group :development do
   gem "web-console"
 end
 
-gem "tailwindcss-rails", "~> 4.2"
+gem "tailwindcss-ruby"
+gem "tailwindcss-rails"
 gem "chunky_png"
 gem "colorize"
 gem "rest-client"

@@ -1,0 +1,23 @@
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+	<% @fishes.each do |fish| %>
+		<div class="bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden">
+			<div class="flex h-full">
+				<div class="w-36 bg-no-repeat bg-contain bg-center" style="background-image: url('<%= asset_path "/images/items/item_#{fish.api_data.dig("imageName")}.png" %>')"></div>
+				<div class="w-full p-2 flex flex-col gap-1 justify-center">
+					<h3 class="text-lg font-semibold text-gray-800">
+						<%= fish.api_data.dig("fishName") %>
+					</h3>
+					<div class="flex items-center gap-1">
+						<%= rarity_label(fish.api_data.dig("quality")) %>
+						<%= fish_sell_price_label(fish.api_data.dig("sellPrice")) %>
+						<%#= fish_required_level_label(fish.api_data.dig("unlockLevel")) %>
+						<%#= fish_xp_gain_label(fish.api_data.dig("expGain")) %>
+					</div>
+					<p class="text-xs text-gray-600"><%= fish.api_data.dig("description") %></p>
+				</div>
+			</div>
+		</div>
+	<% end %>
+
+</div>
