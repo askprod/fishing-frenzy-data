@@ -3,7 +3,7 @@ module FishHelper
     content_tag(:span, class: label_classes(color: "amber")) do
       safe_join([
         price.to_s,
-        image_tag("/images/icons/gold_icon.png", class: "h-[10px] ml-1")
+        image_tag("/images/icons/gold_icon.png", class: "h-[7px] mt-[-1px] ml-1")
       ])
     end
   end

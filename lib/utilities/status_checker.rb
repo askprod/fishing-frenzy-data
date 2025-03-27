@@ -1,11 +1,12 @@
 class Utilities::StatusChecker
-  URL = "https://fishingfrenzy.co"
-  STATUS_FILE_PATH = Rails.root.join("lib", "server_status.yml")
+  URL = "https://fishingfrenzy.co".freeze
+  CHANNEL_KEY = "status_checker_channel"
+  STATUS_FILE_PATH = Rails.root.join("lib", "utilities", "server_status.yml")
 
-  def self.check_status
+  def self.check_status(forced_status: nil)
     Rails.logger.info "Checking status for #{URL}...".red
 
-    response_code = RestClient.get(URL).code
+    response_code = forced_status ? forced_status : RestClient.get(URL).code
     status = self.code_to_status(response_code)
     write_status_to_file(status)
     channel_status(status)
@@ -14,11 +15,11 @@ class Utilities::StatusChecker
 
   rescue RestClient::ServiceUnavailable
     write_status_to_file(:maintenance)
-    channel_status(status)
+    channel_status(:maintenance)
     log_status(:maintenance)
   rescue RestClient::InternalServerError
     write_status_to_file(:error)
-    channel_status(status)
+    channel_status(:error)
     log_status(:error)
   end
 
@@ -41,7 +42,7 @@ class Utilities::StatusChecker
   end
 
   def self.channel_status(status)
-    ActionCable.server.broadcast("status_checker_channel", { status: status })
+    ActionCable.server.broadcast(CHANNEL_KEY, { status: status })
   end
 
   def self.write_status_to_file(status)

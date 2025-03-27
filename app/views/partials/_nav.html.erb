@@ -1,19 +1,41 @@
 <nav class="bg-white border-b-1 border-gray-200 shadow-[0px_2px_6px_-2px_rgba(0,0,0,0.1)]">
   <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
     <div class="relative flex h-16 items-center justify-between">
-      <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+      <div class="flex flex-1 items-center justify-start">
         <div class="flex shrink-0 items-center">
 					<%= image_tag("/images/extras/head_icon.png", class: "h-8 w-auto", alt: "Logo") %>
         </div>
         <div class="hidden sm:ml-6 sm:block">
-          <div class="flex items-center space-x-4">
+          <div class="flex items-center gap-4">
             <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-						<%= link_to "Fish", fish_path, class: "rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white" %>
-						<%= link_to "Pets", pets_path, class: "rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white" %>
-            <%= render_server_status_label %>
+						<%= link_to fish_path, class: "flex items-center relative text-xs rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white" do %>
+              <span>Fish</span>
+              <% if Fish.has_nfts? %>
+                <div class="<%= label_classes(color: "blue", extra_classes: "absolute top-[-5px] right-[-10px] text-xxs") %>">NFT</div>
+              <% end %>
+            <% end %>
+						<%= link_to pets_path, class: "flex items-center relative text-xs rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"  do %>
+              <span>Pets</span>
+              <% if Pet.has_nfts? %>
+                <div class="<%= label_classes(color: "blue", extra_classes: "absolute top-[-5px] right-[-10px] text-xxs") %>">NFT</div>
+              <% end %>
+            <% end %>
+						<%= link_to nil, class: "flex items-center relative text-xs rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white" do %>
+              <span>Rods</span>
+              <% if Rod.has_nfts? %>
+                <div class="<%= label_classes(color: "blue", extra_classes: "absolute top-[-5px] right-[-10px] text-xxs") %>">NFT</div>
+              <% end %>
+            <% end %>
+						<%= link_to nil, class: "flex items-center relative text-xs rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white" do %>
+              <span>Chests</span>
+              <% if Chest.has_nfts? %>
+                <div class="<%= label_classes(color: "blue", extra_classes: "absolute top-[-5px] right-[-10px] text-xxs") %>">NFT</div>
+              <% end %>
+            <% end %>
           </div>
         </div>
       </div>
+      <%= render_server_status_label %>
     </div>
   </div>
 

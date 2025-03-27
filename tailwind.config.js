@@ -1,3 +1,5 @@
+const defaultTheme = require("tailwindcss/defaultTheme");
+
 module.exports = {
     content: [
       "./app/views/**/*.html.erb",
@@ -13,7 +15,7 @@ module.exports = {
       "bg-purple-200", "text-purple-800",
       "bg-cyan-200", "text-cyan-800",
       "bg-red-200", "text-red-800",
-      "bg-fuchsia-200", "text-fuchsia-800"
+      "bg-fuchsia-200", "text-fuchsia-800",
     ],
     theme: {
       extend: {},

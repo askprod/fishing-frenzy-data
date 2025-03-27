@@ -10,8 +10,10 @@ consumer.subscriptions.create("StatusCheckerChannel", {
   },
 
   received(data) {
-    let status = data.status
+    let responseStatus = data.status
     let statusLabel = document.getElementById("server-status-label");
+    let tooltip = document.getElementById("server-status-tooltip");
+    let statusDetails = this.getStatusDetails(responseStatus);
 
     Array.from(statusLabel.classList).forEach(className => {
       if (className.startsWith('bg-')) {
@@ -19,11 +21,25 @@ consumer.subscriptions.create("StatusCheckerChannel", {
       }
     });
 
-    statusLabel.classList.add(this.getStatusDetails(status));
+    Array.from(tooltip.classList).forEach(className => {
+      if (className.startsWith('bg-')) {
+        tooltip.classList.remove(className);
+      }
+    });
+
+    statusLabel.classList.add(statusDetails.color);
+    tooltip.classList.add(statusDetails.color);
+    tooltip.textContent = statusDetails.label;
   },
 
   getStatusDetails(status) {
-    const colorsMapping = { up: "bg-green-500", maintenance: "bg-yellow-200", error: "bg-red-500" };
-    return colorsMapping[status] || "bg-gray-500";
+    const defaults = { label: "UNKNOWN", color: "bg-gray-500" };
+    const colorsMapping = { 
+      up: { label: "UP", color: "bg-green-500" }, 
+      maintenance: { label: "MAINTENANCE", color: "bg-amber-200" }, 
+      error: { label: "ERROR", color: "bg-red-500" }
+    };
+    
+    return colorsMapping[status] || defaults;
   }
 });

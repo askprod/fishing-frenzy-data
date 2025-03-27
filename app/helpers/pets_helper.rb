@@ -10,7 +10,7 @@ module PetsHelper
     content_tag(:span, class: label_classes(color: color)) do
       safe_join([
         amount.to_s,
-        image_tag(image_path, class: "h-[15px] ml-1")
+        image_tag(image_path, class: "h-[9px] mt-[-1px] ml-1")
       ])
     end
   end
