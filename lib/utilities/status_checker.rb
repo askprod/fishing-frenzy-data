@@ -7,14 +7,18 @@ class Utilities::StatusChecker
 
     response_code = RestClient.get(URL).code
     status = self.code_to_status(response_code)
-    write_status_to_file(response_code)
-    log_status(response_code)
+    write_status_to_file(status)
+    channel_status(status)
+    log_status(status)
+
 
   rescue RestClient::ServiceUnavailable
     write_status_to_file(:maintenance)
+    channel_status(status)
     log_status(:maintenance)
   rescue RestClient::InternalServerError
     write_status_to_file(:error)
+    channel_status(status)
     log_status(:error)
   end
 
@@ -34,6 +38,10 @@ class Utilities::StatusChecker
 
   def self.log_status(status)
     Rails.logger.info "Updated status for #{URL} - #{status.to_s.upcase}.".red
+  end
+
+  def self.channel_status(status)
+    ActionCable.server.broadcast("status_checker_channel", { status: status })
   end
 
   def self.write_status_to_file(status)
