@@ -1,1 +1,1 @@
-worker: bundle exec whenever --update-crontab && cron -f
+worker: ruby app/workers/worker.rb
