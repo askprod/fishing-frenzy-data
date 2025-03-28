@@ -7,3 +7,26 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+
+
+fish_file = File.read(Rails.root.join("lib", "utilities", "fish_export.json"))
+fish_data = JSON.parse(fish_file).map(&:deep_symbolize_keys)
+
+fish_data.each do |data|
+  next if Fish.exists?(api_id: data.dig(:api_id))
+  Fish.create(
+    api_id: data.dig(:api_id),
+    api_data: data.dig(:api_data)
+  )
+end
+
+pets_file = File.read(Rails.root.join("lib", "utilities", "pets_export.json"))
+pets_data = JSON.parse(pets_file).map(&:deep_symbolize_keys)
+
+pets_data.each do |data|
+  next if Pet.exists?(api_id: data.dig(:api_id))
+  Pet.create(
+    api_id: data.dig(:api_id),
+    api_data: data.dig(:api_data)
+  )
+end
