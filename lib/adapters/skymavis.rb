@@ -1,4 +1,4 @@
-class Adapters::SkymavisToPrice
+class Adapters::Skymavis
   attr_accessor :data, :parsed_data, :price, :collection_amount
 
   def initialize(data)
@@ -16,8 +16,8 @@ class Adapters::SkymavisToPrice
 
   def parse_data
     {
-      collection_amount: @data.dig(:data, :erc721Tokens, :total),
-      price: parse_price
+      floor_price: parse_price,
+      amount: @data.dig(:data, :erc721Tokens, :total)
     }
   end
 
@@ -27,10 +27,10 @@ class Adapters::SkymavisToPrice
   end
 
   def price
-    @parsed_data.dig(:price)
+    @parsed_data.dig(:floor_price)
   end
 
   def collection_amount
-    @parsed_data.dig(:collection_amount)
+    @parsed_data.dig(:amount)
   end
 end

@@ -1,0 +1,74 @@
+# for type, Skymavis criterias structure = [ { name: "rarity", values: [ "legendary" ] } ]
+
+# CHESTS
+chest:
+  token_address: "0x9c76fc5bd894e7f51c422f072675c876d5998a9e"
+  types:
+    common:
+      traits:
+        - name: "rarity"
+          values: 
+            - "common"
+        - name: "series"
+          values: 
+            - "founder"
+    common_origins:
+      traits:
+        - name: "rarity"
+          values: 
+            - "common"
+        - name: "series"
+          values: 
+            - "origins"
+    rare:
+      traits:
+        - name: "rarity"
+          values: 
+            - "rare"
+        - name: "series"
+          values: 
+            - "founder"
+    rare_origins:
+      traits:
+        - name: "rarity"
+          values: 
+            - "rare"
+        - name: "series"
+          values: 
+            - "origins"
+    epic:
+      traits:
+        - name: "rarity"
+          values: 
+            - "epic"
+        - name: "series"
+          values: 
+            - "founder"
+    epic_origins:
+      traits:
+        - name: "rarity"
+          values: 
+            - "epic"
+        - name: "series"
+          values: 
+            - "origins"
+    legendary:
+      traits:
+        - name: "rarity"
+          values: 
+            - "legendary"
+        - name: "series"
+          values: 
+            - "founder"
+    legendary_origins:
+      traits:
+        - name: "rarity"
+          values: 
+            - "legendary"
+        - name: "series"
+          values: 
+            - "origins"
+# RODS
+rod: 
+  token_address: "0x77ce5148b7ad284e431175ad7258b54a64816da6"
+  

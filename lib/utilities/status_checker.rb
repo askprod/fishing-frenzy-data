@@ -12,7 +12,6 @@ class Utilities::StatusChecker
     channel_status(status)
     log_status(status)
 
-
   rescue RestClient::ServiceUnavailable
     write_status_to_file(:maintenance)
     channel_status(:maintenance)

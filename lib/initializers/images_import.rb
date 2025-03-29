@@ -5,7 +5,7 @@ class Initializers::ImagesImport
   def initialize(folder_name)
     @folder_name = folder_name
     @images_dir = "#{IMAGES_FOLDER}/#{@folder_name}"
-    @folder = Rails.root.join("vendor", "meshes", @folder_name)
+    @folder = Rails.root.join("lib", "meshes", @folder_name)
     @json = JSON.parse(File.read("#{@folder}/data.json"))
     @original_image = ChunkyPNG::Image.from_file("#{@folder}/mesh.png")
 

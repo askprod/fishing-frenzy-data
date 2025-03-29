@@ -10,27 +10,17 @@
             <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
 						<%= link_to fish_path, class: "flex items-center relative text-xs rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white" do %>
               <span>Fish</span>
-              <% if Fish.has_nfts? %>
-                <div class="<%= label_classes(color: "blue", extra_classes: "absolute top-[-5px] right-[-10px] text-xxs") %>">NFT</div>
-              <% end %>
             <% end %>
 						<%= link_to pets_path, class: "flex items-center relative text-xs rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"  do %>
               <span>Pets</span>
-              <% if Pet.has_nfts? %>
-                <div class="<%= label_classes(color: "blue", extra_classes: "absolute top-[-5px] right-[-10px] text-xxs") %>">NFT</div>
-              <% end %>
             <% end %>
 						<%= link_to nil, class: "flex items-center relative text-xs rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white" do %>
               <span>Rods</span>
-              <% if Rod.has_nfts? %>
-                <div class="<%= label_classes(color: "blue", extra_classes: "absolute top-[-5px] right-[-10px] text-xxs") %>">NFT</div>
-              <% end %>
+              <div class="<%= label_classes(color: "blue", extra_classes: "absolute top-[-5px] right-[-10px] text-xxs") %>">NFT</div>
             <% end %>
 						<%= link_to nil, class: "flex items-center relative text-xs rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white" do %>
               <span>Chests</span>
-              <% if Chest.has_nfts? %>
-                <div class="<%= label_classes(color: "blue", extra_classes: "absolute top-[-5px] right-[-10px] text-xxs") %>">NFT</div>
-              <% end %>
+              <div class="<%= label_classes(color: "blue", extra_classes: "absolute top-[-5px] right-[-10px] text-xxs") %>">NFT</div>
             <% end %>
           </div>
         </div>

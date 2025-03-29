@@ -9,7 +9,7 @@
 #   end
 
 
-fish_file = File.read(Rails.root.join("lib", "utilities", "fish_export.json"))
+fish_file = File.read(Rails.root.join("lib", "exports", "fish.json"))
 fish_data = JSON.parse(fish_file).map(&:deep_symbolize_keys)
 
 fish_data.each do |data|
@@ -20,7 +20,7 @@ fish_data.each do |data|
   )
 end
 
-pets_file = File.read(Rails.root.join("lib", "utilities", "pets_export.json"))
+pets_file = File.read(Rails.root.join("lib", "exports", "pets.json"))
 pets_data = JSON.parse(pets_file).map(&:deep_symbolize_keys)
 
 pets_data.each do |data|

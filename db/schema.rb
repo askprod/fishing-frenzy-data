@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_26_232611) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_28_233446) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -24,6 +24,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_26_232611) do
   create_table "fish", force: :cascade do |t|
     t.jsonb "api_data", default: {}
     t.string "api_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "nft_statistics", force: :cascade do |t|
+    t.string "nft_type"
+    t.string "trait"
+    t.float "floor_price", default: 0.0
+    t.integer "amount", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

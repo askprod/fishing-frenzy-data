@@ -29,8 +29,6 @@ class Apis::Skymavis
     raise
   end
 
-  private
-
   def headers
     {
       content_type: :json,
