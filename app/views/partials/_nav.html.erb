@@ -8,17 +8,17 @@
         <div class="hidden sm:ml-6 sm:block">
           <div class="flex items-center gap-4">
             <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-						<%= link_to fish_path, class: "flex items-center relative text-xs rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white" do %>
+						<%= link_to fish_index_path, class: "flex items-center relative text-xs rounded-md px-3 py-2 text-sm font-medium #{nav_item_classes("fish")}" do %>
               <span>Fish</span>
             <% end %>
-						<%= link_to pets_path, class: "flex items-center relative text-xs rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"  do %>
+						<%= link_to pets_path, class: "flex items-center relative text-xs rounded-md px-3 py-2 text-sm font-medium #{nav_item_classes("pets")}"  do %>
               <span>Pets</span>
             <% end %>
-						<%= link_to nil, class: "flex items-center relative text-xs rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white" do %>
+						<%= link_to rods_path, class: "flex items-center relative text-xs rounded-md px-3 py-2 text-sm font-medium #{nav_item_classes("rods")}" do %>
               <span>Rods</span>
               <div class="<%= label_classes(color: "blue", extra_classes: "absolute top-[-5px] right-[-10px] text-xxs") %>">NFT</div>
             <% end %>
-						<%= link_to nil, class: "flex items-center relative text-xs rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white" do %>
+						<%= link_to chests_path, class: "flex items-center relative text-xs rounded-md px-3 py-2 text-sm font-medium #{nav_item_classes("chest")}" do %>
               <span>Chests</span>
               <div class="<%= label_classes(color: "blue", extra_classes: "absolute top-[-5px] right-[-10px] text-xxs") %>">NFT</div>
             <% end %>

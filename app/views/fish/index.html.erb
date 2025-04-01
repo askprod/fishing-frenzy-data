@@ -1,0 +1,25 @@
+<% if @fish.any? %>
+	<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+		<% @fish.each do |fish| %>
+			<div class="bg-white border border-1 border-gray-200 rounded-lg shadow-xs overflow-hidden">
+				<div class="flex h-full">
+					<div class="w-36 bg-no-repeat bg-contain bg-center" style="background-image: url('<%= asset_path "/images/items/item_#{fish.image_name}.png" %>')"></div>
+					<div class="w-full p-2 flex flex-col gap-1 justify-center">
+						<h3 class="text-sm font-semibold text-gray-800">
+							<%= fish.fish_name %>
+						</h3>
+						<div class="flex items-center gap-1">
+							<%= rarity_label(fish.quality) %>
+							<%= fish_sell_price_label(fish.sell_price) %>
+							<%= fish_required_level_label(fish.unlock_level) %>
+							<%= fish_xp_gain_label(fish.exp_gain) %>
+						</div>
+						<p class="text-xs text-gray-600"><%= fish.description %></p>
+					</div>
+				</div>
+			</div>
+		<% end %>
+	</div>
+<% else %>
+    <p class="italic text-gray-300 text-center text-xs">No data here...</p>
+<% end %>

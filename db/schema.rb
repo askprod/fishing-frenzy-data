@@ -10,45 +10,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_28_233446) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_30_110221) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
-  create_table "chests", force: :cascade do |t|
+  create_table "collections", force: :cascade do |t|
+    t.string "name"
+    t.string "token_address"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "items", force: :cascade do |t|
+    t.string "name"
+    t.string "slug"
+    t.string "type"
+    t.bigint "collection_id", null: false
     t.string "api_id"
     t.jsonb "api_data"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "fish", force: :cascade do |t|
-    t.jsonb "api_data", default: {}
-    t.string "api_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "nft_statistics", force: :cascade do |t|
-    t.string "nft_type"
-    t.string "trait"
-    t.float "floor_price", default: 0.0
-    t.integer "amount", default: 0
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "pets", force: :cascade do |t|
-    t.jsonb "api_data"
-    t.string "api_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "rods", force: :cascade do |t|
-    t.string "api_id"
-    t.jsonb "api_data"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.index ["api_id"], name: "index_items_on_api_id"
+    t.index ["collection_id"], name: "index_items_on_collection_id"
+    t.index ["type"], name: "index_items_on_type"
   end
 
   create_table "solid_cable_messages", force: :cascade do |t|
@@ -182,10 +166,30 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_28_233446) do
     t.index ["key"], name: "index_solid_queue_semaphores_on_key", unique: true
   end
 
+  create_table "statistics", force: :cascade do |t|
+    t.string "statisticable_type", null: false
+    t.bigint "statisticable_id", null: false
+    t.jsonb "data"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["statisticable_type", "statisticable_id"], name: "index_statistics_on_statisticable"
+  end
+
+  create_table "traits", force: :cascade do |t|
+    t.bigint "item_id", null: false
+    t.string "name"
+    t.string "values", default: [], array: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["item_id"], name: "index_traits_on_item_id"
+  end
+
+  add_foreign_key "items", "collections"
   add_foreign_key "solid_queue_blocked_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_claimed_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_failed_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_ready_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_recurring_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_scheduled_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
+  add_foreign_key "traits", "items"
 end

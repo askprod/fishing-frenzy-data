@@ -10,13 +10,9 @@ Rails.application.routes.draw do
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
   # Defines the root path route ("/")
-  root "fish/main#index"
-
-  namespace :fish do
-    get "/", to: "main#index"
-  end
-
-  namespace :pets do
-    get "/", to: "main#index"
-  end
+  root "fish#index"
+  resources :fish, only: [ :index, :show ], param: :fish_slug
+  resources :pets, only: [ :index, :show ], param: :pet_slug
+  resources :rods, only: [ :index, :show ], param: :rod_slug
+  resources :chests, only: [ :index, :show ], param: :chest_slug
 end

@@ -69,4 +69,20 @@ module ApplicationHelper
   def rarity_label(rarity)
     content_tag(:span, rariry_text(rarity), class: label_classes(color: rarity_color(rarity)))
   end
+
+  def highcharts_formatted_nft_data(statistics)
+    statistics.map do |stat|
+      {
+        amount: stat.data["amount"],
+        floor_price: stat.data["floor_price"],
+        date: stat.created_at.to_time.to_i * 1000
+      }
+    end.to_json
+  end
+
+  def nav_item_classes(path)
+    request.path.include?(path) ?
+      "text-gray-300 bg-gray-700 text-white" :
+      "text-gray-300 hover:text-gray-600 hover:font-bold"
+  end
 end

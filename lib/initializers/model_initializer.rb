@@ -23,10 +23,8 @@ class Initializers::ModelInitializer
 
   def import_data
     @data.each do |hash|
-      @model_klass.create(
-        api_data: hash.except(:id),
-        api_id: hash.dig(:id)
-      ) unless @model_klass.exists?(api_id: hash.dig(:id))
+      next if @model_klass.exists?(api_id: hash.dig(:id))
+      @model_klass.create(api_data: hash.except(:id), api_id: hash.dig(:id))
     end
   end
 end

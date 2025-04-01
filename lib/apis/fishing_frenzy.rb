@@ -96,7 +96,8 @@ class Apis::FishingFrenzy
     {
       eventId: "6780f4c7a48b6c2b29d82bf6",
       themeId: "6752b7a7ef93f2489cfef709"
-      # these 2 can be found in events/active route
+      # These 2 can be found in events/active route
+      # TODO: Might need to create models for them later?
     }
   end
 end

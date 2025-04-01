@@ -1,0 +1,100 @@
+query GetTokenData($tokenAddress: String, $slug: String) {
+  tokenData(tokenAddress: $tokenAddress, slug: $slug) {
+    ...TokenData
+    __typename
+  }
+}
+
+fragment TokenData on TokenData {
+  tokenAddress
+  slug
+  collectionMetadata
+  volumeAllTime
+  totalOwners
+  totalItems
+  totalListing
+  minPrice
+  erc
+  groupTraits
+  content
+  creatorId
+  badged
+  creatorInfo {
+    ...CreatorInformation
+    __typename
+  }
+  allowedPaymentTokens
+  games {
+    ...GameInfo
+    __typename
+  }
+  benefits
+  featuredCampaigns(size: 4) {
+    featuredEvents {
+      ...FeaturedGameEvent
+      __typename
+    }
+    __typename
+  }
+  tradableAfter
+  __typename
+}
+
+fragment CreatorInformation on CreatorInformation {
+  id
+  creatorName
+  verified
+  metadata
+  __typename
+}
+
+fragment GameInfo on GameInfo {
+  slug
+  name
+  consoleMetadata
+  gameId
+  creatorInfo {
+    creatorName
+    verified
+    __typename
+  }
+  gameCampaigns {
+    liveEvents {
+      ...GameCampaign
+      __typename
+    }
+    promotionalBanner {
+      ...GameCampaign
+      __typename
+    }
+    upcomingEvents {
+      ...GameCampaign
+      __typename
+    }
+    __typename
+  }
+  __typename
+}
+
+fragment GameCampaign on GameCampaign {
+  id
+  name
+  startTime
+  endTime
+  metadata
+  __typename
+}
+
+fragment FeaturedGameEvent on FeaturedGameEvent {
+  gameInfo {
+    gameId
+    name
+    consoleMetadata
+    __typename
+  }
+  gameCampaign {
+    ...GameCampaign
+    __typename
+  }
+  __typename
+}

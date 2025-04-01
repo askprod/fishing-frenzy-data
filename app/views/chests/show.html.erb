@@ -1,0 +1,9 @@
+<% if @statistics.any? %>
+    <div 
+        data-controller="chart" 
+        data-chart-data-value="<%= highcharts_formatted_nft_data(@statistics) %>" 
+        style="width:100%; height:400px;">
+    </div>
+<% else %>
+    <p class="italic text-gray-300 text-center text-xs">No data here...</p>
+<% end %>

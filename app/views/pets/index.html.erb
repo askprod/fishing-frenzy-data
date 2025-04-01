@@ -1,0 +1,23 @@
+<% if @pets.any? %>
+	<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+		<% @pets.each do |pet| %>
+			<div class="bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden">
+				<div class="flex h-full">
+					<div class="w-36 bg-no-repeat bg-contain bg-center" style="background-image: url('<%= asset_path "/images/items/item_#{pet.image_name}.png" %>')"></div>
+					<div class="w-full p-2 flex flex-col gap-1 justify-center">
+						<h3 class="text-sm font-semibold text-gray-800">
+							<%= pet.name %>
+						</h3>
+						<div class="flex items-center gap-1">
+							<%= rarity_label(pet.quality) %>
+							<%= pet_price_label(pet.price.first) %>
+						</div>
+						<p class="text-xs text-gray-600"><%= pet.description %></p>
+					</div>
+				</div>
+			</div>
+		<% end %>
+	</div>
+<% else %>
+    <p class="italic text-gray-300 text-center text-xs">No data here...</p>
+<% end %>

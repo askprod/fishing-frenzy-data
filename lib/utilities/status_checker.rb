@@ -1,4 +1,6 @@
 class Utilities::StatusChecker
+  # TODO: Refactor class to store status in cache (solid cache?) or DB instead of file
+
   URL = "https://fishingfrenzy.co".freeze
   CHANNEL_KEY = "status_checker_channel"
   STATUS_FILE_PATH = Rails.root.join("lib", "utilities", "server_status.yml")
