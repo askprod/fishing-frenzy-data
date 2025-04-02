@@ -4,7 +4,7 @@ module ApplicationHelper
   end
 
   def render_server_status_label
-    status = Utilities::StatusChecker.read_status_from_file
+    status = Utilities::StatusChecker.read_status_from_cache
 
     color_class = case status
     when :up
