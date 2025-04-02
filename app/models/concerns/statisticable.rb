@@ -13,5 +13,10 @@ module Statisticable
       adapter = self.class.skymavis_adapter_class.call(response_data)
       statistics.create(data: adapter.parsed_data)
     end
+
+    def latest_statistic
+      # TOD: might need to base date on another columns than created_at at some point
+      statistics.order(created_at: :desc).last
+    end
   end
 end
