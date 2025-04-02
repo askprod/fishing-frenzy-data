@@ -16,7 +16,7 @@ module Statisticable
 
     def latest_statistic
       # TOD: might need to base date on another columns than created_at at some point
-      statistics.order(created_at: :desc).last
+      statistics.order(created_at: :asc).last
     end
   end
 end
