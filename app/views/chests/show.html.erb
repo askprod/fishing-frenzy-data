@@ -1,9 +1,14 @@
 <% if @statistics.any? %>
-    <div 
-        data-controller="chart" 
-        data-chart-data-value="<%= highcharts_formatted_nft_data(@statistics) %>" 
-        style="width:100%; height:400px;">
+  <div class="bg-white border border-1 border-gray-200 rounded-lg shadow-xs flex flex-col justify-between overflow-hidden">
+    <div class="p-3">
+      <h3 class="text-sm font-semibold text-gray-800">Floor price evolution</h3>
+      <div 
+          data-controller="chart" 
+          data-chart-data-value="<%= highcharts_formatted_nft_data(@statistics) %>" 
+          style=>
+      </div>
     </div>
+  </div>
 <% else %>
     <p class="italic text-gray-300 text-center text-xs">No data here...</p>
 <% end %>

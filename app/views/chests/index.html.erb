@@ -2,21 +2,7 @@
 	<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 		<% @chests.each do |chest| %>
 			<%= link_to chest_path(chest.slug) do %>
-				<div class="bg-white border border-1 border-gray-200 rounded-lg shadow-xs overflow-hidden">
-					<div class="flex h-full">
-						<div class="w-36 bg-no-repeat bg-contain bg-center" style="background-image: url('<%= asset_path "/images/items/item_chest_#{chest.slug.underscore}.png" %>')"></div>
-						<div class="w-full p-2 flex flex-col gap-1 justify-center">
-							<h3 class="text-sm font-semibold text-gray-800">
-								<%= chest.name %>
-							</h3>
-							<div class="flex items-center gap-1">
-								<% if chest.has_nft? %>
-									<div class="<%= label_classes(color: "blue", extra_classes: "text-xxs") %>">NFT</div>
-								<% end %>
-							</div>
-						</div>
-					</div>
-				</div>
+        <%= render UI::ItemCardComponent.new(**item_card_chest_attributes(chest)) %>
 			<% end %>
 		<% end %>
 	</div>
