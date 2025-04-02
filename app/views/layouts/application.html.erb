@@ -15,11 +15,25 @@
 
     <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+
+    <%# Google tag (gtag.js) %>
+    <% if Rails.env.production? %>
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-2PX4Y4FQS0"></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-2PX4Y4FQS0');
+      </script>
+    <% end %>
+
     <%= javascript_importmap_tags %>
     
     <%# Using CDNs for now - need to setup yarn %>
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.turbo.min.js"></script>
     <script src="https://code.highcharts.com/highcharts.js"></script>
+
   </head>
 
   <body>
