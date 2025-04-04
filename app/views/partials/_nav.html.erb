@@ -3,7 +3,9 @@
     <div class="relative flex h-16 items-center justify-between">
       <div class="flex flex-1 items-center justify-start">
         <div class="flex shrink-0 items-center">
-					<%= image_tag("/images/extras/head_icon.png", class: "h-8 w-auto", alt: "Logo") %>
+          <%= link_to root_path do %>
+					  <%= image_tag("/images/extras/head_icon.png", class: "h-8 w-auto", alt: "Logo") %>
+          <% end %>
         </div>
         <div class="hidden sm:ml-6 sm:block">
           <div class="flex items-center gap-4">
@@ -32,10 +34,20 @@
   <!-- Mobile menu, show/hide based on menu state. -->
   <div class="sm:hidden" id="mobile-menu">
     <div class="space-y-1 px-2 pt-2 pb-3">
-      <a href="#" class="block rounded-md bg-gray-900 px-3 py-2 text-base font-medium text-white" aria-current="page">Dashboard</a>
-      <a href="#" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Team</a>
-      <a href="#" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Projects</a>
-      <a href="#" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Calendar</a>
+      <%= link_to fish_index_path, class: "block rounded-md px-3 py-2 text-sm #{nav_item_classes("fish")}" do %>
+        <span>Fish</span>
+      <% end %>
+      <%= link_to pets_path, class: "block rounded-md px-3 py-2 text-sm #{nav_item_classes("pets")}"  do %>
+        <span>Pets</span>
+      <% end %>
+      <%= link_to rods_path, class: "block rounded-md px-3 py-2 text-sm #{nav_item_classes("rods")}" do %>
+        <span>Rods</span>
+        <div class="<%= label_classes(color: "blue", extra_classes: "absolute top-[-5px] right-[-10px] text-xxs") %>">NFT</div>
+      <% end %>
+      <%= link_to chests_path, class: "block rounded-md px-3 py-2 text-sm #{nav_item_classes("chests")}" do %>
+        <span>Chests</span>
+        <div class="<%= label_classes(color: "blue", extra_classes: "absolute top-[-5px] right-[-10px] text-xxs") %>">NFT</div>
+      <% end %>
     </div>
   </div>
 </nav>
