@@ -1,7 +1,9 @@
-<% if @fish.any? %>
+<% if @fishes.any? %>
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-    <% @fish.each do |fish| %>
-      <%= render UI::ItemCardComponent.new(**item_card_fish_attributes(fish)) %>
+    <% @fishes.each do |fish| %>
+      <%= link_to fish_path(fish.slug) do %>
+        <%= render UI::ItemCardComponent.new(**item_card_fish_attributes(fish)) %>
+      <% end %>
     <% end %>
   </div>
 <% else %>
