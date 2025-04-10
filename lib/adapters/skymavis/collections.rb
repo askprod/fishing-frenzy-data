@@ -1,7 +1,7 @@
 class Adapters::Skymavis::Collections < Adapters::Skymavis::Abstract
   def parse_data
     {
-      volume: @data.dig(:data, :tokenData, :volumeAllTime) || 0,
+      volume: @data.dig(:data, :tokenData, :volumeAllTime).round || 0,
       owners: @data.dig(:data, :tokenData, :totalOwners) || 0,
       items: @data.dig(:data, :tokenData, :totalItems) || 0,
       listings: @data.dig(:data, :tokenData, :totalListing) || 0,

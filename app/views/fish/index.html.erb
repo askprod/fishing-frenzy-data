@@ -1,4 +1,25 @@
 <% if @fishes.any? %>
+  <p class="text-base text-gray-400 mb-5">
+    Statistics
+    <span class="text-xxs text-gray-300">
+      last updated <%= time_ago_in_words(@collection.latest_statistic.created_at) %> ago
+    </span>
+  </p>
+
+  <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6 mb-5">
+    <% %w[floor_price volume items owners listings].each do |stat_name| %>
+      <%= render UI::StatisticCardComponent.new(
+        name: stat_name.capitalize, 
+        value: @collection.latest_statistic.data.dig(stat_name),
+        percentage_change: Utilities::Calculations.percent_change(
+          @collection.previous_statistic.data.dig(stat_name), @collection.latest_statistic.data.dig(stat_name)
+        )
+      ) %>
+    <% end %>
+  </div>
+
+  <p class="text-base text-gray-400 mb-5">Items</p>
+
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
     <% @fishes.each do |fish| %>
       <%= link_to fish_path(fish.slug) do %>
@@ -6,6 +27,7 @@
       <% end %>
     <% end %>
   </div>
+
 <% else %>
   <p class="italic text-gray-300 text-center text-xs">No data here...</p>
 <% end %>

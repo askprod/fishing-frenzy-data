@@ -18,5 +18,9 @@ module Statisticable
       # TOD: might need to base date on another columns than created_at at some point
       statistics.order(created_at: :asc).last
     end
+
+    def previous_statistic
+      statistics.order(created_at: :asc).last(2)&.first
+    end
   end
 end

@@ -23,9 +23,10 @@ export default class extends Controller {
       title: { text: null },
       xAxis: {
         type: "datetime",
+        tickInterval: 24 * 3600 * 1000,
         labels: {
           formatter: function () {
-              return Highcharts.dateFormat("%d/%m/%y %H:%M", this.value);  
+            return Highcharts.dateFormat("%d/%m/%y", this.value);
           },
           style: {
             fontSize: "0.35rem",
@@ -47,7 +48,7 @@ export default class extends Controller {
                 <span>${this.y}</span>
                 <img src="https://cryptologos.cc/logos/ronin-ron-logo.png" alt="Currency" style="width: 12px; height: 12px; margin-left: 3px; margin-top: -1px;" />
               </div>
-              <p class="text-xxs" style="margin: 0;">${Highcharts.dateFormat('%d/%m/%y %H:%M', this.x)}</p>
+              <p class="text-xxs" style="margin: 0;">${Highcharts.dateFormat('%d/%m/%y', this.x)}</p>
             </div>
           `;
         }

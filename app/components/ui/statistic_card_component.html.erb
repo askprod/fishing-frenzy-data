@@ -1,0 +1,14 @@
+<div class="bg-white border border-1 border-gray-200 rounded-lg shadow-xs flex justify-between items-center p-2">
+  <div>
+    <p class="text-gray-800 text-sm mb-1">
+        <%= @value %> 
+    </p>
+    <p class="text-xs text-gray-400"><%= @name %></p>
+  </div>
+  <div class="flex items-center">
+    <span class="<%= @percentage_color %> text-xs font-bold">
+      <%= @percentage_suffix %><%= @percentage_change %>%
+    </span>
+  </div>
+</div>
+

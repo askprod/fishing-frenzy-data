@@ -8,8 +8,6 @@ module Components::ItemCardComponentHelper
       labels: [
         rarity_label(fish.quality),
         fish_sell_price_label(fish.sell_price)
-        # fish_required_level_label(fish.unlock_level),
-        # fish_xp_gain_label(fish.exp_gain)
       ]
     }
   end
@@ -18,10 +16,7 @@ module Components::ItemCardComponentHelper
     {
       image_path: asset_path("/images/items/item_#{pet.image_name}.png"),
       title: pet.name,
-      labels: [
-        rarity_label(pet.quality),
-        pet_price_label(pet.price.first)
-      ]
+      labels: [ rarity_label(pet.quality) ]
     }
   end
 

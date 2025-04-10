@@ -1,7 +1,9 @@
 <% if @pets.any? %>
 	<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 		<% @pets.each do |pet| %>
-      <%= render UI::ItemCardComponent.new(**item_card_pet_attributes(pet)) %>
+      <%= link_to pet_path(pet.slug) do %>
+        <%= render UI::ItemCardComponent.new(**item_card_pet_attributes(pet)) %>
+      <% end %>
 		<% end %>
 	</div>
 <% else %>
