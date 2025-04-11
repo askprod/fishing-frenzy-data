@@ -1,3 +1,8 @@
+<p class="flex items-center text-base text-gray-400 mb-5">
+  Items
+  <span class="<%= label_classes %> ml-2"><%= @pets.count %></span>
+</p>
+
 <% if @pets.any? %>
 	<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 		<% @pets.each do |pet| %>
