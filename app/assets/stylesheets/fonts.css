@@ -12,9 +12,9 @@ body {
 /* tailwind extends not working - need to find a solution */
 
 .text-xxs {
-	font-size: 0.4rem;
+	font-size: 0.5rem;
 }
 
 .text-xs {
-	font-size: 0.6rem;
+	font-size: 0.65rem;
 }

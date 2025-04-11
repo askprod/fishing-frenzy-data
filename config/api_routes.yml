@@ -87,6 +87,16 @@ v1:
       type: "GET"
       path: "users/me"
 
+    users_all: # I get a forbidden error—from middleware and probably invalid JWT token for this routes
+      type: "GET"
+      path: "users"
+
+    user: 
+      type: "GET" 
+      path: "users/67dcc140270b15947cf643de"
+      # Is called "mongo id" from error
+      # My id is 66cd9ea47605df2d6a9af618 for ex.
+
     frenzy_points: # Campaign Menu & loaded on start
       type: "GET"
       path: "users/frenzy-points"
