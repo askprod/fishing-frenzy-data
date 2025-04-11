@@ -8,6 +8,8 @@ class Initializers::ModelInitializer
   end
 
   def self.call(class_name, type, import: false)
+    puts class_name
+    puts type
     _self = self.new(class_name, type, import: import)
     _self.fetch_all_data
     _self.import_data if import

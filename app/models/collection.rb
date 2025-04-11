@@ -1,6 +1,16 @@
+# == Schema Information
+#
+# Table name: collections
+#
+#  id            :integer          not null, primary key
+#  name          :string
+#  token_address :string
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#
+
 class Collection < ApplicationRecord
   include Statisticable
-  include DatabaseRefreshable
 
   validates :name, presence: true
 

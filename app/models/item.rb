@@ -1,3 +1,26 @@
+# == Schema Information
+#
+# Table name: items
+#
+#  id            :integer          not null, primary key
+#  name          :string
+#  slug          :string
+#  type          :string
+#  collection_id :integer          not null
+#  api_id        :string
+#  api_data      :jsonb
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#  active        :boolean
+#  has_nft       :boolean
+#
+# Indexes
+#
+#  index_items_on_api_id         (api_id)
+#  index_items_on_collection_id  (collection_id)
+#  index_items_on_type           (type)
+#
+
 class Item < ApplicationRecord
   include Statisticable
   include DatabaseRefreshable
@@ -10,14 +33,10 @@ class Item < ApplicationRecord
   belongs_to :collection
   has_many :traits
 
-  ### TODO: Might be a boolean later—need to check once FF API is up
-  # For ex. Fish might not all be NFTS—isShinyFish response from API?
-  scope :with_nfts, -> { all }
+  scope :with_nfts, -> { where(has_nft: true) }
+  scope :active, -> { where(active: true) }
 
-  # Store in column later on—like above
-  def has_nft?
-    true
-  end
+  before_validation :define_default_attributes
 
   def self.skymavis_adapter_class
     Adapters::Skymavis::Traits
@@ -35,5 +54,12 @@ class Item < ApplicationRecord
       criterias: traits_to_skymavis_criterias,
       results: results
     )
+  end
+
+  private
+
+  def define_default_attributes
+    active = false if active.nil?
+    has_nft = false if has_nft.nil?
   end
 end

@@ -26,7 +26,10 @@
   <p class="italic text-gray-300 text-center text-xs">No data here...</p>
 <% end %>
 
-<p class="text-base text-gray-400 mb-5">Items</p>
+<p class="flex items-center text-base text-gray-400 mb-5">
+  Items
+  <span class="<%= label_classes %> ml-2"><%= @fishes.count %></span>
+</p>
 
 <% if @fishes.any? %>
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
