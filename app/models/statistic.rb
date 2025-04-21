@@ -16,6 +16,6 @@
 
 class Statistic < ApplicationRecord
   belongs_to :statisticable, polymorphic: true
-  scope :latest_statistic, -> { order(created_at: :desc).last }
-  scope :previous_statistic, -> { order(created_at: :desc).last(2).first }
+  scope :latest_statistic, -> { order(created_at: :asc).last }
+  scope :previous_statistic, -> { order(created_at: :asc).last(2).first }
 end
