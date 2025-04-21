@@ -15,12 +15,12 @@ module Statisticable
     end
 
     def latest_statistic
-      # TOD: might need to base date on another columns than created_at at some point
-      statistics.order(created_at: :asc).last
+      # TOD: might need to base date on another column than created_at at some point
+      statistics.latest_statistic
     end
 
     def previous_statistic
-      statistics.order(created_at: :asc).last(2)&.first
+      statistics.previous_statistic
     end
   end
 end

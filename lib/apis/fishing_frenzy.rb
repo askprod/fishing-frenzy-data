@@ -5,18 +5,39 @@ class Apis::FishingFrenzy
 
   attr_reader :route_keys, :route_data, :request_type, :route_path, :route_params
 
-  def initialize(*route_keys, get_params: {})
+  def initialize(*route_keys, path_params: {}, get_params: {})
     @route_keys = *route_keys
+    @path_params = path_params
     @get_params = get_params
     @route_data = ROUTES.dig(*route_keys)
     @request_type = @route_data.dig(:type)&.to_sym
     @route_path = @route_data.dig(:path)
     @route_params = @route_data.dig(:params)&.split(",")&.map(&:to_sym)
+    check_interpolated_path_params
   end
 
-  def self.call(*route_keys, get_params: {})
-    _self = self.new(*route_keys, get_params: get_params)
+  def self.call(*route_keys, path_params: {}, get_params: {})
+    _self = self.new(*route_keys, path_params: path_params, get_params: get_params)
     _self.call
+  end
+
+  def self.status
+    _self = self.new("me")
+    _self.status
+  end
+
+  def status
+    api_response = RestClient::Request.execute(
+      method: @request_type,
+      url: request_full_path,
+      payload: payload,
+      headers: headers
+    )
+
+    api_response.code
+  rescue RestClient::ExceptionWithResponse => e
+    Rails.logger.info "#{e}".red
+    e.http_code
   end
 
   def call
@@ -51,7 +72,7 @@ class Apis::FishingFrenzy
 
   def request_full_path
     url = "#{HOST}/"
-    url += (route_parameters? ? (@route_path % route_params_mapping) : @route_path)
+    url += @path_params.any? ? (@route_path % @path_params) : @route_path
     url += "?#{@get_params.to_query}" if @get_params.any?
     url
   end
@@ -68,10 +89,6 @@ class Apis::FishingFrenzy
 
   def post_request?
     @request_type == :POST
-  end
-
-  def route_parameters?
-    @route_path.match?(/%\{[^}]+\}/)
   end
 
   def headers
@@ -95,12 +112,9 @@ class Apis::FishingFrenzy
     }
   end
 
-  def route_params_mapping
-    {
-      eventId: "6780f4c7a48b6c2b29d82bf6",
-      themeId: "6752b7a7ef93f2489cfef709"
-      # These 2 can be found in events/active route
-      # TODO: Might need to create models for them later?
-    }
+  def check_interpolated_path_params
+    required_keys = @route_path.scan(/%\{(\w+)\}/).flatten.map(&:to_sym)
+    missing_keys = required_keys - @path_params.keys
+    raise "Missing path params: #{missing_keys.join(', ')}" unless missing_keys.empty?
   end
 end

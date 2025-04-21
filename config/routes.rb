@@ -10,9 +10,23 @@ Rails.application.routes.draw do
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
   # Defines the root path route ("/")
-  root "fish#index"
+  get "/", to: "dashboard#index", as: :dashboard
   resources :fish, only: [ :index, :show ], param: :fish_slug
   resources :pets, only: [ :index, :show ], param: :pet_slug
   resources :rods, only: [ :index, :show ], param: :rod_slug
   resources :chests, only: [ :index, :show ], param: :chest_slug
+  resources :flashes, only: [ :index ]
+  resources :players, only: [ :index, :show ], param: :player_slug do
+    member do
+      get "/stats-grid", to: "players#stats_grid"
+      post "/refresh", to: "players#refresh"
+    end
+
+    collection do
+      get "/search", to: "players#search"
+      get "/random", to: "players#random"
+      get "/request", to: "players#request_new"
+      post "/request", to: "players#request_create"
+    end
+  end
 end

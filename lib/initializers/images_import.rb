@@ -40,12 +40,6 @@ class Initializers::ImagesImport
     image_y = position.dig("y")
     rect_width = position.dig("width")
     rect_height = position.dig("height")
-    original_image_width = @original_image.width
-    original_image_height = @original_image.height
-
-    Rails.logger.info "IMAGE: #{file_name}, POSITIONS: #{position}".red
-    Rails.logger.info "ORIGINAL H: #{original_image_height}, W: #{original_image_width}, ROTATED: #{rotated}".red
-
     cropped_image = ChunkyPNG::Image.new(rect_width, rect_height)
     cropped_image = @original_image.crop(image_x, image_y, (rotated ? rect_height : rect_width), (rotated ? rect_width : rect_height))
     cropped_image = cropped_image.rotate_left if rotated

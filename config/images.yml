@@ -16,3 +16,6 @@ icons:
 rods:
   data: "https://fishingfrenzy.co/cocos/assets/resources/import/06/06183aa5f.13ec6.json"
   mesh: "https://fishingfrenzy.co/cocos/assets/resources/native/10/10d82a41-29da-43aa-8fe6-86bab532523e.dd7cd.png"
+icons-2:
+  data: "https://fishingfrenzy.co/cocos/assets/resources/import/01/016d88c1d.23906.json"
+  mesh: "https://fishingfrenzy.co/cocos/assets/resources/native/ac/acb49fdc-76f3-4626-862e-52efc1fa8bfc.b1f1d.png"

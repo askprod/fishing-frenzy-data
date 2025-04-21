@@ -1,7 +1,14 @@
 <% if @statistics.any? %>
   <div class="bg-white border border-1 border-gray-200 rounded-lg shadow-xs flex flex-col justify-between overflow-hidden">
     <div class="p-3">
-      <h3 class="text-sm font-semibold text-gray-800">Floor price evolution</h3>
+      <h3 class="text-sm font-semibold text-gray-800 mb-5">
+        Floor price evolution
+        <% if @statistics.latest_statistic.present? %>
+          <span class="text-xxs text-gray-300">
+            last updated <%= time_ago_in_words(@statistics.latest_statistic.created_at) %> ago
+          </span>
+        <% end %>
+      </h3>
       <div 
           data-controller="chart" 
           data-chart-data-value="<%= highcharts_formatted_nft_data(@statistics) %>" 

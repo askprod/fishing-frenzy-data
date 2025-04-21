@@ -1,4 +1,4 @@
-module FishHelper
+module FishesHelper
   def fish_sell_price_label(price)
     content_tag(:span, class: label_classes(color: "amber")) do
       safe_join([

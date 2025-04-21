@@ -5,68 +5,68 @@ chest:
   types:
     common:
       traits:
-        - name: "rarity"
+        - name: "Rarity"
           values: 
-            - "common"
-        - name: "series"
+            - "Common"
+        - name: "Series"
           values: 
-            - "founder"
+            - "Founder"
     common_origins:
       traits:
-        - name: "rarity"
+        - name: "Rarity"
           values: 
-            - "common"
-        - name: "series"
+            - "Common"
+        - name: "Series"
           values: 
-            - "origins"
+            - "Origins"
     rare:
       traits:
-        - name: "rarity"
+        - name: "Rarity"
           values: 
-            - "rare"
+            - "Rare"
         - name: "series"
           values: 
-            - "founder"
+            - "Founder"
     rare_origins:
       traits:
-        - name: "rarity"
+        - name: "Rarity"
           values: 
-            - "rare"
-        - name: "series"
+            - "Rare"
+        - name: "Series"
           values: 
-            - "origins"
+            - "Origins"
     epic:
       traits:
-        - name: "rarity"
+        - name: "Rarity"
           values: 
-            - "epic"
-        - name: "series"
+            - "Epic"
+        - name: "Series"
           values: 
-            - "founder"
+            - "Sounder"
     epic_origins:
       traits:
-        - name: "rarity"
+        - name: "Rarity"
           values: 
-            - "epic"
-        - name: "series"
+            - "Epic"
+        - name: "Series"
           values: 
-            - "origins"
+            - "Origins"
     legendary:
       traits:
-        - name: "rarity"
+        - name: "Rarity"
           values: 
-            - "legendary"
-        - name: "series"
+            - "Legendary"
+        - name: "Series"
           values: 
-            - "founder"
+            - "Founder"
     legendary_origins:
       traits:
-        - name: "rarity"
+        - name: "Rarity"
           values: 
-            - "legendary"
-        - name: "series"
+            - "Legendary"
+        - name: "Series"
           values: 
-            - "origins"
+            - "Origins"
 # RODS
 rod: 
   token_address: "0x77ce5148b7ad284e431175ad7258b54a64816da6"

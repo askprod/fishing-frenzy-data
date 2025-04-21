@@ -1,0 +1,68 @@
+<div 
+  data-controller="player-channel"
+  data-player-channel-name-value="player"
+  data-player-channel-json-value="<%= { 
+    player_id: @player.api_id,
+    session_id: current_session_id
+  }.to_json %>" 
+  class="max-w-full mx-auto"
+>
+  <div class="flex flex-col">
+    <div class="md:flex-1">
+      <div class="w-full h-42 mb-4 rounded-xl overflow-hidden relative">
+        <% image_url = @player.has_profile_image? ? @player.current_player_metric.twitter.dig("avatar") : asset_path("/images/extras/head_icon.png") %>
+        <%= image_tag(image_url, class: "w-full h-full object-cover object-center rounded-xl") %>
+        <div class="absolute text-white top-4 right-4 z-10 flex items-start gap-2">
+          <% if @player.last_api_refresh_at.present? %>
+            <div class="flex flex-col text-right">
+              <span class="text-xxs mt-[2px]">Last refreshed</span>
+              <span class="text-xxs mt-[2px]"><%= time_ago_in_words(@player.last_api_refresh_at) %> ago</span>
+            </div>
+          <% end %>
+          <%= button_to refresh_player_path(@player.slug), class: "group cursor-pointer border-1 border-white p-2 rounded-lg", method: :post do %>
+            <svg class="fill-white w-3 group-hover:animate-spin" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+              <!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+              <path d="M105.1 202.6c7.7-21.8 20.2-42.3 37.8-59.8c62.5-62.5 163.8-62.5 226.3 0L386.3 160 352 160c-17.7 0-32 14.3-32 32s14.3 32 32 32l111.5 0c0 0 0 0 0 0l.4 0c17.7 0 32-14.3 32-32l0-112c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 35.2L414.4 97.6c-87.5-87.5-229.3-87.5-316.8 0C73.2 122 55.6 150.7 44.8 181.4c-5.9 16.7 2.9 34.9 19.5 40.8s34.9-2.9 40.8-19.5zM39 289.3c-5 1.5-9.8 4.2-13.7 8.2c-4 4-6.7 8.8-8.1 14c-.3 1.2-.6 2.5-.8 3.8c-.3 1.7-.4 3.4-.4 5.1L16 432c0 17.7 14.3 32 32 32s32-14.3 32-32l0-35.1 17.6 17.5c0 0 0 0 0 0c87.5 87.4 229.3 87.4 316.7 0c24.4-24.4 42.1-53.1 52.9-83.8c5.9-16.7-2.9-34.9-19.5-40.8s-34.9 2.9-40.8 19.5c-7.7 21.8-20.2 42.3-37.8 59.8c-62.5 62.5-163.8 62.5-226.3 0l-.1-.1L125.6 352l34.4 0c17.7 0 32-14.3 32-32s-14.3-32-32-32L48.4 288c-1.6 0-3.2 .1-4.8 .3s-3.1 .5-4.6 1z"/>
+            </svg>
+          <% end %>
+        </div>
+        <div class="absolute bottom-4 left-4 z-10">
+          <div class="flex items-center">
+            <%= image_tag(image_url, class: "w-14 rounded-full mr-4") %>
+            <div class="flex flex-col">
+              <span class="text-white w-full truncate"><%= @player.display_name %></span>
+              <div>
+                <% if @player.has_twitter_linked? %>
+                  <%= link_to @player.twitter_link, class: label_classes(color: "blue", extra_classes: "cursor-pointer"), target: :blank do %>
+                    <span class="flex items-center">
+                      @<%= @player.current_player_metric.twitter.dig("username") %>
+                      <svg class="ml-1 h-[8px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                        <!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+                        <path d="M320 0c-17.7 0-32 14.3-32 32s14.3 32 32 32l82.7 0L201.4 265.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L448 109.3l0 82.7c0 17.7 14.3 32 32 32s32-14.3 32-32l0-160c0-17.7-14.3-32-32-32L320 0zM80 32C35.8 32 0 67.8 0 112L0 432c0 44.2 35.8 80 80 80l320 0c44.2 0 80-35.8 80-80l0-112c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 112c0 8.8-7.2 16-16 16L80 448c-8.8 0-16-7.2-16-16l0-320c0-8.8 7.2-16 16-16l112 0c17.7 0 32-14.3 32-32s-14.3-32-32-32L80 32z"/>
+                      </svg>
+                    </span>
+                  <% end %>
+                <% end %>
+                <%= link_to @player.ron_wallet_link, class: label_classes(color: "gray", extra_classes: "cursor-pointer"), target: :blank do %>
+                  <%= Utilities::Other.shorten_eth_address(@player.current_player_metric.wallet_address) %>
+                  <svg class="ml-1 h-[8px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                    <!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+                    <path d="M320 0c-17.7 0-32 14.3-32 32s14.3 32 32 32l82.7 0L201.4 265.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L448 109.3l0 82.7c0 17.7 14.3 32 32 32s32-14.3 32-32l0-160c0-17.7-14.3-32-32-32L320 0zM80 32C35.8 32 0 67.8 0 112L0 432c0 44.2 35.8 80 80 80l320 0c44.2 0 80-35.8 80-80l0-112c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 112c0 8.8-7.2 16-16 16L80 448c-8.8 0-16-7.2-16-16l0-320c0-8.8 7.2-16 16-16l112 0c17.7 0 32-14.3 32-32s-14.3-32-32-32L80 32z"/>
+                  </svg>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="absolute inset-0 bg-black/18 backdrop-blur-2xl"></div>
+      </div>
+    </div>
+
+    <div id="<%= @player.api_id %>-container">
+      <div id="<%= @player.api_id %>-grids" >
+        <%= render partial: "players/partials/player_stats_grids", locals: { player: @player } %>
+      </div>
+    </div>
+
+  </div>
+</div>

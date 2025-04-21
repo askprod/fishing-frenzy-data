@@ -12,7 +12,8 @@ class FishController < ApplicationController
 
   def set_collection
     @collection = Collection.find_by(name: "Fish")
-    @fishes = @collection.fish_items.active.merge(Items::Fish.display_order)
+    @all_fishes = @collection.fish_items
+    @fishes = @all_fishes.active.merge(Items::Fish.display_order)
   end
 
   def set_fish_variables

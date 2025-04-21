@@ -1,7 +1,8 @@
 class UI::StatisticCardComponent < ViewComponent::Base
-  def initialize(name: "", value: "", percentage_change: 0)
+  def initialize(name: "", value: "", image_path: "", percentage_change: 0)
     @name = name
     @value = value
+    @image_path = image_path
     @percentage_change = percentage_change
     @percentage_suffix = percentage_suffix
     @percentage_color = percentage_color

@@ -1,16 +1,15 @@
 class Utilities::StatusChecker
-  URL = "https://fishingfrenzy.co".freeze
   CHANNEL_KEY = "status_checker_channel"
   CACHE_KEY = "server_status"
 
   def self.check_status(forced_status: nil)
-    Rails.logger.info "Checking status for #{URL}..."
-    response_code = forced_status ? forced_status : RestClient.get(URL).code
+    Rails.logger.info "Checking Fishing Frenzy API status..."
+    response_code = forced_status ? forced_status : Apis::FishingFrenzy.status
     status = code_to_status(response_code)
     update_status(status)
 
   rescue RestClient::ServiceUnavailable
-    update_status(:maintenance)
+    update_status(:unavailable)
   rescue RestClient::InternalServerError
     update_status(:error)
   end
@@ -25,8 +24,8 @@ class Utilities::StatusChecker
     read_status_from_cache == :up
   end
 
-  def self.maintenance?
-    read_status_from_cache == :maintenance
+  def self.unavailable
+    read_status_from_cache == :unavailable
   end
 
   def self.error?
@@ -36,7 +35,7 @@ class Utilities::StatusChecker
   private
 
   def self.log_status(status)
-    Rails.logger.info "Updated status for #{URL} - #{status.to_s.upcase}."
+    Rails.logger.info "Updated API status - #{status.to_s.upcase}."
   end
 
   def self.send_status_to_channel(status)
@@ -56,7 +55,7 @@ class Utilities::StatusChecker
     case code
     when 200 then :up
     when 500 then :error
-    when 503 then :maintenance
+    when 503 then :unavailable
     else :unknown
     end
   end

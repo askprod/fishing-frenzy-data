@@ -1,0 +1,15 @@
+<% if players.any? %>
+  <p class="italic text-gray-300 text-xs mb-5">
+    <%= players.size %> <%= "player".pluralize(players.size) %>
+  </p>
+  </span>
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <% players.each do |player| %>
+      <%= link_to player_path(player.slug) do %>
+        <%= render UI::ItemCardComponent.new(**player_card_attributes(player)) %>
+      <% end %>
+    <% end %>
+  </div>
+<% else %>
+  <p class="italic text-gray-300 text-xs">No players found...</p>
+<% end %>

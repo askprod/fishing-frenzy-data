@@ -46,7 +46,7 @@ export default class extends Controller {
             <div style="text-align: center; padding: 5px;">
               <div style="font-size: 0.75rem; font-weight: bold; margin-bottom: 5px; display: flex; align-items: center; justify-content: center;">
                 <span>${this.y}</span>
-                <img src="https://cryptologos.cc/logos/ronin-ron-logo.png" alt="Currency" style="width: 12px; height: 12px; margin-left: 3px; margin-top: -1px;" />
+                <img src=${js_utils.icon_ronin} alt="Currency" style="height: 12px; margin-left: 3px; margin-top: -1px;" />
               </div>
               <p class="text-xxs" style="margin: 0;">${Highcharts.dateFormat('%d/%m/%y', this.x)}</p>
             </div>

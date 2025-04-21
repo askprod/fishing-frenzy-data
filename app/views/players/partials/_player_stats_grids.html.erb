@@ -1,0 +1,279 @@
+<div class="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-3 gap-3">
+  <div class="flex p-4 border-1 border-gray-200 rounded-xl flex-col md:flex-1 px-4">
+    <p class="flex gap-2 justify-between items-center mb-4">
+      <span class="text-sm mt-[1px]">Info</span>
+      <svg class="fill-gray-400 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+        <!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+        <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336l24 0 0-64-24 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l48 0c13.3 0 24 10.7 24 24l0 88 8 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-80 0c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z"/>
+      </svg>
+    </p>
+    <div class="flex flex-col gap-2">
+      <div class="flex text-xxs items-center justify-between">
+        <span class="mt-[2px]">Current Energy</span>
+        <span class="flex-1 h-px bg-gray-100 mx-4"></span>
+        <span class="<%= label_classes(color: "white") %>">
+          <%= player.current_player_metric.energy %>/30
+        </span>
+      </div>
+      <%# Fishing %>
+      <div class="flex text-xxs items-center justify-between">
+        <span class="mt-[2px]">Fishing</span>
+        <span class="flex-1 h-px bg-gray-100 mx-4"></span>
+      </div>
+      <div class="flex text-xxs items-center justify-between">
+        <span class="mt-[2px] pl-2">Level</span>
+        <span class="flex-1 h-px bg-gray-100 mx-4"></span>
+        <span class="<%= label_classes(color: "blue") %>">
+          <%= player.current_level_from_exp[:level] %>
+        </span>
+      </div>
+      <div class="flex text-xxs items-center justify-between">
+        <span class="mt-[2px] pl-2">Exp.</span>
+        <span class="flex-1 h-px bg-gray-100 mx-4"></span>
+        <span class="<%= label_classes(color: "white") %>">
+          <%= number_with_delimiter(player.current_player_metric.exp.round, delimiter: " ") %>
+        </span>
+      </div>
+      <div class="flex text-xxs items-center justify-between">
+        <span class="mt-[2px] pl-2">=> <%= player.next_level_from_exp[:level] %></span>
+        <span class="flex-1 h-px bg-gray-100 mx-4"></span>
+        <span class="<%= label_classes(color: "white") %>">
+          <%= number_with_delimiter(
+            player.next_level_from_exp[:required_xp] - player.current_level_from_exp[:required_xp],
+            delimiter: " "
+          )
+          %>
+        </span>
+      </div>
+      <%# Cooking %>
+      <div class="flex text-xxs items-center justify-between">
+        <span class="mt-[2px]">Cooking</span>
+        <span class="flex-1 h-px bg-gray-100 mx-4"></span>
+      </div>
+      <div class="flex text-xxs items-center justify-between">
+        <span class="mt-[2px] pl-2">Level</span>
+        <span class="flex-1 h-px bg-gray-100 mx-4"></span>
+        <span class="<%= label_classes(color: "blue") %>">
+          <%= player.current_player_metric.cooking_level %>
+        </span>
+      </div>
+      <div class="flex text-xxs items-center justify-between">
+        <span class="mt-[2px] pl-2">Exp.</span>
+        <span class="flex-1 h-px bg-gray-100 mx-4"></span>
+        <span class="<%= label_classes(color: "white") %>">
+          <%= number_with_delimiter(player.current_player_metric.cooking_exp.round, delimiter: " ") %>
+        </span>
+      </div>
+      <%# Other %>
+      <div class="flex text-xxs items-center justify-between">
+        <span class="mt-[2px]">Dates</span>
+        <span class="flex-1 h-px bg-gray-100 mx-4"></span>
+      </div>
+      <div class="flex text-xxs items-center justify-between">
+        <span class="mt-[2px] pl-2">Joined In</span>
+        <span class="flex-1 h-px bg-gray-100 mx-4"></span>
+        <span class="<%= label_classes(color: "white") %>">
+          <%= Date.parse(player.current_player_metric.first_login_time).strftime("%b %Y") %>
+        </span>
+      </div>
+      <div class="flex text-xxs items-center justify-between">
+        <span class="mt-[2px] pl-2">Last Login</span>
+        <span class="flex-1 h-px bg-gray-100 mx-4"></span>
+        <span class="<%= label_classes(color: "white") %>">
+          <%= time_ago_in_words(player.current_player_metric.last_login_time).gsub("about", "~") %> ago
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex p-4 border-1 border-gray-200 rounded-xl flex-col md:flex-1 px-4">
+    <p class="flex gap-2 justify-between items-center mb-4">
+      <span class="text-sm mt-[1px]">Ranking</span>
+      <svg class="fill-gray-400 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
+        <!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+        <path d="M353.8 54.1L330.2 6.3c-3.9-8.3-16.1-8.6-20.4 0L286.2 54.1l-52.3 7.5c-9.3 1.4-13.3 12.9-6.4 19.8l38 37-9 52.1c-1.4 9.3 8.2 16.5 16.8 12.2l46.9-24.8 46.6 24.4c8.6 4.3 18.3-2.9 16.8-12.2l-9-52.1 38-36.6c6.8-6.8 2.9-18.3-6.4-19.8l-52.3-7.5zM256 256c-17.7 0-32 14.3-32 32l0 192c0 17.7 14.3 32 32 32l128 0c17.7 0 32-14.3 32-32l0-192c0-17.7-14.3-32-32-32l-128 0zM32 320c-17.7 0-32 14.3-32 32L0 480c0 17.7 14.3 32 32 32l128 0c17.7 0 32-14.3 32-32l0-128c0-17.7-14.3-32-32-32L32 320zm416 96l0 64c0 17.7 14.3 32 32 32l128 0c17.7 0 32-14.3 32-32l0-64c0-17.7-14.3-32-32-32l-128 0c-17.7 0-32 14.3-32 32z"/>
+      </svg>
+    </p>
+    <div class="flex flex-col gap-2">
+      <div class="flex text-xxs items-center justify-between">
+        <span class="mt-[2px]">FFDB Rank</span>
+        <span class="flex-1 h-px bg-gray-100 mx-4"></span>
+        <span class="<%= label_classes(color: "red") %>">
+          <%= player.current_player_rank&.global_calculated_rank ? ordinal_superscript(player.current_player_rank.global_calculated_rank) : "Unranked" %>
+        </span>
+      </div>
+      <div class="flex text-xxs items-center justify-between">
+        <span class="mt-[2px]">Fishing</span>
+        <span class="flex-1 h-px bg-gray-100 mx-4"></span>
+      </div>
+      <div class="flex text-xxs items-center justify-between">
+        <span class="mt-[2px] pl-2">Tier</span>
+        <span class="flex-1 h-px bg-gray-100 mx-4"></span>
+        <% fishing_rank_tier = player.current_player_rank&.api_data&.dig("fishing", "tier") %>
+        <span class="<%= label_classes(color: ranking_tier_color(fishing_rank_tier), extra_classes: "flex items-center") %>">
+          <% if player.has_fishing_rank? %>
+            <%= image_tag("/images/icons-2/icon_#{fishing_rank_tier.downcase.underscore}.png", class: "mr-1 mt-[-1px] h-[10px]") %>
+            <%= fishing_rank_tier.humanize %>
+          <% else %>
+            Unranked
+          <% end %>
+        </span>
+      </div>
+      <div class="flex text-xxs items-center justify-between">
+        <span class="mt-[2px] pl-2">Rank</span>
+        <span class="flex-1 h-px bg-gray-100 mx-4"></span>
+        <span class="<%= label_classes(color: "white") %>">
+          <%= player.has_fishing_rank? ? ordinal_superscript(player.current_player_rank.api_data.dig("fishing", "rank")) : "Unranked" %>
+        </span>
+      </div>
+      <div class="flex text-xxs items-center justify-between">
+        <span class="mt-[2px]">Cooking</span>
+        <span class="flex-1 h-px bg-gray-100 mx-4"></span>
+      </div>
+      <div class="flex text-xxs items-center justify-between">
+        <span class="mt-[2px] pl-2">Tier</span>
+        <span class="flex-1 h-px bg-gray-100 mx-4"></span>
+        <% cooking_rank_tier = player.current_player_rank&.api_data&.dig("cooking", "tier") %>
+        <span class="<%= label_classes(color: ranking_tier_color(cooking_rank_tier), extra_classes: "flex items-center") %>">
+          <% if player.has_cooking_rank? %>
+            <%= image_tag("/images/icons-2/icon_#{cooking_rank_tier.downcase.underscore}.png", class: "mr-1 mt-[-1px] h-[10px]") %>
+            <%= cooking_rank_tier.humanize %>
+          <% else %>
+            Unranked
+          <% end %>
+        </span>
+      </div>
+      <div class="flex text-xxs items-center justify-between">
+        <span class="mt-[2px] pl-2">Rank</span>
+        <span class="flex-1 h-px bg-gray-100 mx-4"></span>
+        <span class="<%= label_classes(color: "white") %>">
+          <%= player.has_cooking_rank? ? ordinal_superscript(player.current_player_rank.api_data&.dig("cooking", "rank")) : "Unranked" %>
+        </span>
+      </div>
+      <div class="flex text-xxs items-center justify-between">
+        <span class="mt-[2px]">Frenzy Points</span>
+        <span class="flex-1 h-px bg-gray-100 mx-4"></span>
+      </div>
+      <div class="flex text-xxs items-center justify-between">
+        <span class="mt-[2px] pl-2">Rank</span>
+        <span class="flex-1 h-px bg-gray-100 mx-4"></span>
+        <span class="<%= label_classes(color: "white") %>">
+          <%= player.has_frenzy_points_rank? ? ordinal_superscript(player.current_player_rank.api_data&.dig("frenzy_points", "rank")) : "Unranked" %>
+        </span>
+      </div>
+      <div class="flex text-xxs items-center justify-between">
+        <span class="mt-[2px] pl-2">Points</span>
+        <span class="flex-1 h-px bg-gray-100 mx-4"></span>
+        <span class="<%= label_classes(color: "white") %>">
+          <%= player.has_frenzy_points_rank? ? number_with_delimiter(player.current_player_rank.api_data&.dig("frenzy_points", "points"), delimiter: " ") : "Unranked" %>
+        </span>
+      </div>
+      <div class="flex text-xxs items-center justify-between">
+        <span class="mt-[2px] pl-2">Multiplier</span>
+        <span class="flex-1 h-px bg-gray-100 mx-4"></span>
+        <span class="<%= label_classes(color: "white") %>">
+          <%= player.has_frenzy_points_rank? ? "x#{player.current_player_rank.api_data&.dig("frenzy_points", "multiplier")}" : "0" %>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex p-4 border-1 border-gray-200 rounded-xl flex-col md:flex-1 px-4">
+    <p class="flex gap-2 justify-between items-center mb-4">
+      <span class="text-sm mt-[1px]">Other</span>
+      <svg class="fill-gray-400 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+        <!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+        <path d="M0 96C0 78.3 14.3 64 32 64l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 128C14.3 128 0 113.7 0 96zM64 256c0-17.7 14.3-32 32-32l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L96 288c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32L32 448c-17.7 0-32-14.3-32-32s14.3-32 32-32l384 0c17.7 0 32 14.3 32 32z"/>
+      </svg>
+    </p>
+    <div class="flex flex-col gap-2">
+      <div class="flex text-xxs items-center justify-between">
+        <span class="mt-[2px]">Currencies</span>
+        <span class="flex-1 h-px bg-gray-100 mx-4"></span>
+      </div>
+      <div class="flex text-xxs items-center justify-between">
+        <span class="mt-[2px] pl-2">Gold</span>
+        <span class="flex-1 h-px bg-gray-100 mx-4"></span>
+        <span class="<%= label_classes(color: "yellow") %>">
+          <%= image_tag("/images/icons/gold_icon.png", class: "h-[7px] mt-[-1px] mr-1") %>
+          <%= number_with_delimiter(player.current_player_metric.gold, delimiter: " ") %>
+        </span>
+      </div>
+      <div class="flex text-xxs items-center justify-between">
+        <span class="mt-[2px] pl-2">Pearls</span>
+        <span class="flex-1 h-px bg-gray-100 mx-4"></span>
+        <span class="<%= label_classes(color: "white") %>">
+          <%= number_with_delimiter(player.current_player_metric.pearl, delimiter: " ") %>
+        </span>
+      </div>
+      <div class="flex text-xxs items-center justify-between">
+        <span class="mt-[2px] pl-2">Scales</span>
+        <span class="flex-1 h-px bg-gray-100 mx-4"></span>
+        <span class="<%= label_classes(color: "white") %>">
+          <%= number_with_delimiter(player.current_player_metric.scale, delimiter: " ") %>
+        </span>
+      </div>
+      <div class="flex text-xxs items-center justify-between">
+        <span class="mt-[2px] pl-2">Founder Emblems</span>
+        <span class="flex-1 h-px bg-gray-100 mx-4"></span>
+        <span class="<%= label_classes(color: "white") %>">
+          <%= number_with_delimiter(player.current_player_metric.founders_emblems, delimiter: " ") %>
+        </span>
+      </div>
+      <div class="flex text-xxs items-center justify-between">
+        <span class="mt-[2px]">Starter Pack</span>
+        <span class="flex-1 h-px bg-gray-100 mx-4"></span>
+        <span class="<%= label_classes(color: "white") %>">
+          <%= player.current_player_metric.has_purchased_starter_pack ? "Yes" : "No" %>
+        </span>
+      </div>
+      <div class="flex text-xxs items-center justify-between">
+        <span class="mt-[2px]">Battle Pass</span>
+        <span class="flex-1 h-px bg-gray-100 mx-4"></span>
+        <span class="<%= label_classes(color: "white") %>">
+          <%= player.current_player_metric.is_premium_battle_pass ? "Yes" : "No" %>
+        </span>
+      </div>
+      <div class="flex text-xxs items-center justify-between">
+        <span class="mt-[2px]">Activated Items</span>
+        <span class="flex-1 h-px bg-gray-100 mx-4"></span>
+      </div>
+      <div class="flex text-xxs items-center justify-between">
+        <span class="mt-[2px] pl-2">Rod</span>
+        <span class="flex-1 h-px bg-gray-100 mx-4"></span>
+        <span class="<%= label_classes(color: "white") %>">
+          <%= player.current_player_metric.activated_rod ? "Yes" : "None" %>
+        </span>
+      </div>
+      <div class="flex text-xxs items-center justify-between">
+        <span class="mt-[2px] pl-2">Pet</span>
+        <span class="flex-1 h-px bg-gray-100 mx-4"></span>
+        <div class="px-1.5">
+          <% if (pet = player.associated_pet).present? %>
+            <%= link_to pet_path(pet.slug), class: "flex gap-1 items-center" do %>
+              <span class="mt-[2px]"><%= pet.name %> </span>
+              <%= image_tag("/images/items/item_#{pet.image_name}.png", class: "rounded-full h-[14px]") %>
+            <% end %>
+          <% else %>
+            None
+          <% end %>
+        </div>
+      </div>
+      <div class="flex text-xxs items-center justify-between">
+        <span class="mt-[2px] pl-2">Other</span>
+        <span class="flex-1 h-px bg-gray-100 mx-4"></span>
+        <div class="px-1.5">
+          <% if (items = player.current_player_metric.activated_items)&.any? %>
+            <div class="flex gap-1">
+              <% items.each do |item| %>
+                <%= image_tag("/images/items/item_#{item["imageName"]}.png", class: "h-[14px]") %>
+              <% end %>
+            </div>
+          <% else %>
+            None
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,18 +1,16 @@
+// TODO: use base channel like javascripts/controller/player_channel_controller
 import consumer from "channels/consumer"
 
 consumer.subscriptions.create("StatusCheckerChannel", {
-  connected() {
-    console.log("Connected to status_checker_channel")
-  },
+  connected() {},
 
-  disconnected() {
-    console.log("Disconnected from status_checker_channel")
-  },
+  disconnected() {},
 
   received(data) {
     let responseStatus = data.status
     let statusLabel = document.getElementById("server-status-label");
-    let tooltip = document.getElementById("server-status-tooltip");
+    let tooltipLabel = document.getElementById("server-status-tooltip");
+    let tooltipText = document.getElementById("status");
     let statusDetails = this.getStatusDetails(responseStatus);
 
     Array.from(statusLabel.classList).forEach(className => {
@@ -21,22 +19,22 @@ consumer.subscriptions.create("StatusCheckerChannel", {
       }
     });
 
-    Array.from(tooltip.classList).forEach(className => {
+    Array.from(tooltipLabel.classList).forEach(className => {
       if (className.startsWith('bg-')) {
-        tooltip.classList.remove(className);
+        tooltipLabel.classList.remove(className);
       }
     });
 
+    tooltipLabel.classList.add(statusDetails.color);
     statusLabel.classList.add(statusDetails.color);
-    tooltip.classList.add(statusDetails.color);
-    tooltip.textContent = statusDetails.label;
+    tooltipText.textContent = statusDetails.label;
   },
 
   getStatusDetails(status) {
     const defaults = { label: "UNKNOWN", color: "bg-gray-500" };
     const colorsMapping = { 
       up: { label: "UP", color: "bg-green-500" }, 
-      maintenance: { label: "MAINTENANCE", color: "bg-amber-200" }, 
+      unavailable: { label: "UNAVAILABLE", color: "bg-amber-500" }, 
       error: { label: "ERROR", color: "bg-red-500" }
     };
     

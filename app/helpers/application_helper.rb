@@ -1,15 +1,40 @@
 module ApplicationHelper
-  def label_classes(color: "gray", extra_classes: "")
-    "bg-#{color}-200 text-#{color}-800 text-xxs px-2.5 py-0.5 rounded-sm inline-flex items-center justify-center #{extra_classes}"
+  def ordinal_superscript(number)
+    suffix = case number.to_i % 100
+    when 11, 12, 13
+      "th"
+    else
+      case number.to_i % 10
+      when 1 then "st"
+      when 2 then "nd"
+      when 3 then "rd"
+      else "th"
+      end
+    end
+
+    content_tag(:span) do
+      concat number.to_i
+      concat content_tag(:sup, suffix)
+    end
   end
 
-  def render_server_status_label
+  def label_classes(color: "gray", extra_classes: "")
+    "
+      bg-#{color}-200 text-#{color}-800
+      text-xxs rounded-sm
+      px-1.5 py-0.5
+      inline-flex items-center justify-center whitespace-nowrap
+      #{extra_classes}
+    "
+  end
+
+  def server_status_label
     status = Utilities::StatusChecker.read_status_from_cache
 
     color_class = case status
     when :up
       "bg-green-500"
-    when :maintenance
+    when :unavailable
       "bg-amber-500"
     when :error
       "bg-red-500"
@@ -18,21 +43,22 @@ module ApplicationHelper
     end
 
     content_tag(:div, class: "flex items-center flex-col gap-1 cursor-help", data: { tooltip_target: "server-status-tooltip", tooltip_trigger: "hover" }) do
-      content = content_tag(
+      dot = content_tag(
         :div, nil, id: "server-status-label",
-        class: "flex items-center justify-center h-[10px] w-[10px] #{color_class} text-white rounded-full transition-colors duration-800 animate-pulse"
+        class: "flex items-center justify-center h-3 w-3 #{color_class} text-white rounded-full transition-colors duration-800 animate-pulse"
       )
 
-      content += content_tag(
+      tooltip = content_tag(
         :div, id: "server-status-tooltip", role: "tooltip",
         class: "absolute z-10 text-xxs invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 #{color_class} rounded-lg shadow-xs opacity-0 tooltip"
       ) do
-        status.to_s.upcase
+        content_tag(:span, "Fishing Frenzy API - ") +
+        content_tag(:span, id: "status") do
+          status.to_s.upcase
+        end
       end
 
-      content += content_tag(:span, nil, class: "text-xxs text-gray-500") do
-        "Server status"
-      end
+      tooltip + dot
     end
   end
 

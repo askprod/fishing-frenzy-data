@@ -42,10 +42,16 @@ v1:
     rods:
       type: "GET"
       path: "rods" # paginable, limitable 
+    
+    # 403 Forbidden
+    chests: 
+      type: "GET"
+      path: "chests"
 
     inventory:
       type:  "GET"
       path: "inventory"
+      # Current connected only—does not work with an id passed
 
     packages: # Loaded on start
       starter_pack:
@@ -78,36 +84,92 @@ v1:
       switch_theme: 
         type: "GET"
         path: "events/%{eventId}/themes/%{themeId}/switch"
+        # ex. eventId 6780f4c7a48b6c2b29d82bf6
+        # ex. themeId 6752b7a7ef93f2489cfef709
 
     user_vips:
       type: "GET"
       path: "user-vips" # What's the use of this route?
 
-    users: # Loaded on start
+    me: # Loaded on start
       type: "GET"
       path: "users/me"
 
-    users_all: # I get a forbidden error—from middleware and probably invalid JWT token for this routes
-      type: "GET"
-      path: "users"
-
     user: 
       type: "GET" 
-      path: "users/67dcc140270b15947cf643de"
-      # Is called "mongo id" from error
-      # My id is 66cd9ea47605df2d6a9af618 for ex.
+      path: "users/%{userId}"
+      # pass /:id as parameter—ex. 66cd9ea47605df2d6a9af618
+      # if no :id passed, get a forbidden error—from middleware—probably invalid JWT token for this route
+      # :id is called "mongo id" from error
 
     frenzy_points: # Campaign Menu & loaded on start
       type: "GET"
       path: "users/frenzy-points"
 
-    rank: # Rank Menu
+    rank: # Rank/Leaderboard Menu
       # with ?type=[General/Cooking/Frenzy_point]
       # also pagable like this: startPage= & endPage=
       # also ?tier=None, present with page param above, need to find other values and the use
       type: "GET"
       path: "rank" 
 
+    rank_type:
+      type: "GET"
+      path: "rank/type"
+
     battle_pass:
       type: "GET"
       path: "battle-pass"
+
+    # Changed for tesing purposes
+    test:
+      type: "GET" 
+      path: "user/%{id}/inventory/fish"
+
+
+# /general-config - Fetches general system or game configuration data.
+
+# /daily-rewards - Likely used to fetch available daily rewards for the user.
+# /daily-rewards/claim - Used to claim the daily rewards.
+
+# /withdraw/confirm - Endpoint used to confirm withdrawal actions, likely for a game currency (e.g., pearls, ETH).
+# /deposit/confirm - Confirms deposit actions for in-game purchases.
+
+# /rank/type?rankType={rankType} - Retrieves leaderboard data for a specific rank type.
+# /rank?startPage={startPage}&endPage={endPage}&rankType={rankType}&tier={tier} - Fetches paginated leaderboard data, with specified rank type and tier.
+
+# /inventory/fish
+# /inventory/rods
+# //inventory/chests
+
+# /user-vips - Likely related to VIP items or status.
+# /user-vips/{id}/claim - Claims a VIP item.
+# /users/{userId}/frenzy-points - Fetches the user's frenzy points (in ApiGetFrenzyPoint).
+# /users/tutorial/step?step={step} - API to track progress in a tutorial (step-wise progression).
+# /users/tutorial/skip - Skips the tutorial for the user.
+# /users/{userId}/complete-tutorial - Marks a user as having completed the tutorial.
+# /users/{userId}/me - Retrieves user-specific data.
+# /user-quests/{id}/claim - Claims a quest reward for a user.
+
+# /items/{itemId}/buy - Used to purchase a specific item by its ID.
+# /items/{id}/prebuyTele?userId={userId} - Pre-buys an item via Telegram for a user.
+# /items?limit=10&page=1
+
+# /fishmovement - Tracks the movement of fish, specifically in a fishing game scenario.
+# /fish/catchFish - For catching fish in the game (with fish info and transaction ID).
+# /fish/sell - Sells a fish in the inventory.
+# /fish/sellAll - Sells all fish in the inventory.
+# /fish/getResult?userId={userId}&range={range} - Retrieves the results for a specific fish catch range.
+
+# /themes/active - Fetches active themes.
+
+# /tournaments/{eventId}/summary - Retrieves tournament summary data.
+# /tournaments/start - Starts a tournament.
+# /tournaments/end - Ends a tournament.
+
+# /events/active - Retrieves the list of active events.
+# /events/today - Retrieves today's event data.
+# /events/{eventId}/switch - Activates or deactivates specific game events.
+
+# /auth/refresh-tokens - Refreshes user authentication tokens.
+# /auth/verify-tokens - Verifies a user's token for authentication.

@@ -1,21 +1,24 @@
 <nav class="bg-white border-b-1 border-gray-200 shadow-[0px_2px_6px_-2px_rgba(0,0,0,0.1)]">
-  <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <div class="relative flex h-16 items-center justify-between">
       <div class="flex flex-1 items-center justify-start">
         <div class="flex shrink-0 items-center">
-          <%= link_to root_path do %>
+          <%= link_to dashboard_path do %>
 					  <%= image_tag("/images/extras/head_icon.png", class: "h-8 w-auto", alt: "Logo") %>
           <% end %>
         </div>
         <div class="hidden sm:ml-6 sm:block">
           <div class="flex items-center gap-4">
+						<%= link_to players_path, class: "flex items-center relative text-xs rounded-md px-3 py-2 text-sm font-medium #{nav_item_classes("player")}" do %>
+              <span>Players</span>
+            <% end %>
 						<%= link_to fish_index_path, class: "flex items-center relative text-xs rounded-md px-3 py-2 text-sm font-medium #{nav_item_classes("fish")}" do %>
               <span>Fish</span>
             <% end %>
-						<%= link_to pets_path, class: "flex items-center relative text-xs rounded-md px-3 py-2 text-sm font-medium #{nav_item_classes("pets")}"  do %>
+						<%= link_to pets_path, class: "flex items-center relative text-xs rounded-md px-3 py-2 text-sm font-medium #{nav_item_classes("pet")}"  do %>
               <span>Pets</span>
             <% end %>
-						<%= link_to rods_path, class: "flex items-center relative text-xs rounded-md px-3 py-2 text-sm font-medium #{nav_item_classes("rods")}" do %>
+						<%= link_to rods_path, class: "flex items-center relative text-xs rounded-md px-3 py-2 text-sm font-medium #{nav_item_classes("rod")}" do %>
               <span>Rods</span>
               <div class="<%= label_classes(color: "blue", extra_classes: "absolute top-[-5px] right-[-10px] text-xxs") %>">NFT</div>
             <% end %>
@@ -26,23 +29,46 @@
           </div>
         </div>
       </div>
-      <%= render_server_status_label %>
+      <div class="flex items-center gap-4">
+        <%= link_to "https://fishingfrenzy.co/", target: :blank, data: { tooltip_target: "play-game", tooltip_trigger: "hover" } do %>
+          <svg class="block w-5 h-5 fill-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
+            <!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+            <path d="M192 64C86 64 0 150 0 256S86 448 192 448l256 0c106 0 192-86 192-192s-86-192-192-192L192 64zM496 168a40 40 0 1 1 0 80 40 40 0 1 1 0-80zM392 304a40 40 0 1 1 80 0 40 40 0 1 1 -80 0zM168 200c0-13.3 10.7-24 24-24s24 10.7 24 24l0 32 32 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-32 0 0 32c0 13.3-10.7 24-24 24s-24-10.7-24-24l0-32-32 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l32 0 0-32z"/>
+          </svg>
+        <% end %>
+        <span id="play-game" role="tooltip" class="absolute z-10 text-xxs invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-500 rounded-lg shadow-xs opacity-0 tooltip">
+          Play Fishing Frenzy
+        </span>
+        <%= link_to "https://wiki.fishingfrenzy.co", target: :blank, data: { tooltip_target: "game-wiki", tooltip_trigger: "hover" } do %>
+          <svg class="block w-4 h-4 fill-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
+            <!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+            <path d="M640 51.2l-.3 12.2c-28.1 .8-45 15.8-55.8 40.3-25 57.8-103.3 240-155.3 358.6H415l-81.9-193.1c-32.5 63.6-68.3 130-99.2 193.1-.3 .3-15 0-15-.3C172 352.3 122.8 243.4 75.8 133.4 64.4 106.7 26.4 63.4 .2 63.7c0-3.1-.3-10-.3-14.2h161.9v13.9c-19.2 1.1-52.8 13.3-43.3 34.2 21.9 49.7 103.6 240.3 125.6 288.6 15-29.7 57.8-109.2 75.3-142.8-13.9-28.3-58.6-133.9-72.8-160-9.7-17.8-36.1-19.4-55.8-19.7V49.8l142.5 .3v13.1c-19.4 .6-38.1 7.8-29.4 26.1 18.9 40 30.6 68.1 48.1 104.7 5.6-10.8 34.7-69.4 48.1-100.8 8.9-20.6-3.9-28.6-38.6-29.4 .3-3.6 0-10.3 .3-13.6 44.4-.3 111.1-.3 123.1-.6v13.6c-22.5 .8-45.8 12.8-58.1 31.7l-59.2 122.8c6.4 16.1 63.3 142.8 69.2 156.7L559.2 91.8c-8.6-23.1-36.4-28.1-47.2-28.3V49.6l127.8 1.1 .2 .5z"/>
+          </svg>
+        <% end %>
+        <span id="game-wiki" role="tooltip" class="absolute z-10 text-xxs invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-500 rounded-lg shadow-xs opacity-0 tooltip">
+          About Fishing Frenzy
+        </span>
+        <%= server_status_label %>
+      </div>
     </div>
   </div>
 
   <div class="sm:hidden" id="mobile-menu">
     <div class="space-y-1 px-2 pt-2 pb-3">
+      <%= link_to players_path, class: "block relative flex items-center gap-2 rounded-md px-3 py-2 text-sm #{nav_item_classes("player")}" do %>
+        <span>Players</span>
+      <% end %>
       <%= link_to fish_index_path, class: "block relative flex items-center gap-2 rounded-md px-3 py-2 text-sm #{nav_item_classes("fish")}" do %>
         <span>Fish</span>
       <% end %>
-      <%= link_to pets_path, class: "block relative flex items-center gap-2 rounded-md px-3 py-2 text-sm #{nav_item_classes("pets")}"  do %>
+      <%= link_to pets_path, class: "block relative flex items-center gap-2 rounded-md px-3 py-2 text-sm #{nav_item_classes("pet")}"  do %>
         <span>Pets</span>
       <% end %>
-      <%= link_to rods_path, class: "block relative flex items-center gap-2 rounded-md px-3 py-2 text-sm #{nav_item_classes("rods")}" do %>
+      <%= link_to rods_path, class: "block relative flex items-center gap-2 rounded-md px-3 py-2 text-sm #{nav_item_classes("rod")}" do %>
         <span>Rods</span>
         <div class="<%= label_classes(color: "blue", extra_classes: "text-xxs") %>">NFT</div>
       <% end %>
-      <%= link_to chests_path, class: "block relative flex items-center gap-2 rounded-md px-3 py-2 text-sm #{nav_item_classes("chests")}" do %>
+      <%= link_to chests_path, class: "block relative flex items-center gap-2 rounded-md px-3 py-2 text-sm #{nav_item_classes("chest")}" do %>
         <span>Chests</span>
         <div class="<%= label_classes(color: "blue", extra_classes: "text-xxs") %>">NFT</div>
       <% end %>

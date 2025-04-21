@@ -8,6 +8,8 @@ module ApiDataAccessible
   private
 
   def define_api_data_methods
+    return if api_data.blank?
+
     api_data.keys.map(&:underscore).each do |key|
       self.class.define_method(key) do
         api_data[key.camelize(:lower)]

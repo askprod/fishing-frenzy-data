@@ -1,0 +1,9 @@
+<% flash.each do |type, message| %>
+  <div 
+    class="flex items-center gap-2 w-full p-4 rounded-xl shadow-md border-1 transition-all duration-500 ease-out opacity-0 <%= flash_style(type)[:container] %>"
+    data-flash-target="message"
+  >
+    <%= flash_style(type)[:icon].html_safe %>
+    <div class="mt-[4px] text-xs font-medium text-gray-900"><%= message %></div>
+  </div>
+<% end %>

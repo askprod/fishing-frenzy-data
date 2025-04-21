@@ -15,6 +15,7 @@ class Collection < ApplicationRecord
   validates :name, presence: true
 
   has_many :items, class_name: "Item"
+  has_many :items_traits, through: :items
   has_many :chest_items, -> { where(type: "Items::Chest") }, class_name: "Item"
   has_many :fish_items, -> { where(type: "Items::Fish") }, class_name: "Item"
   has_many :pet_items, -> { where(type: "Items::Pet") }, class_name: "Item"

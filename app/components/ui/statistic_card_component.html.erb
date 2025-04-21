@@ -1,7 +1,10 @@
 <div class="bg-white border border-1 border-gray-200 rounded-lg shadow-xs flex justify-between items-center p-2">
   <div>
-    <p class="text-gray-800 text-sm mb-1">
-        <%= @value %> 
+    <p class="text-gray-800 flex items-center text-sm mb-1">
+      <%= number_with_delimiter(@value, delimiter: " ") %>
+      <% if @image_path %>
+        <%= image_tag(@image_path, class: "h-[12px] ml-1") %>
+      <% end %>
     </p>
     <p class="text-xs text-gray-400"><%= @name %></p>
   </div>
