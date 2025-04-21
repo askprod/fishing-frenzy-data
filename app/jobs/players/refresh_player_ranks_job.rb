@@ -1,4 +1,4 @@
-class Players::FetchPlayerJob < ApplicationJob
+class Players::RefreshPlayerRanksJob < ApplicationJob
   queue_as :solid_queue
 
   def perform(player_api_id, session_id)
