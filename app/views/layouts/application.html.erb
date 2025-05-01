@@ -12,9 +12,8 @@
 
     <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
-    
     <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
-
+    
     <%# Google tag (gtag.js) %>
     <% if Rails.env.production? %>
       <script async src="https://www.googletagmanager.com/gtag/js?id=G-2PX4Y4FQS0"></script>
@@ -29,12 +28,12 @@
     <%= javascript_importmap_tags %>
     
     <%# Using CDNs for now - need to setup yarn %>
-    <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.turbo.min.js"></script>
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
   </head>
 
   <body>
+
     <div id="flash" class="fixed z-20 bottom-2 left-2 right-2 flex flex-col gap-2" data-controller="flash">
       <%= render partial: "partials/flashes" %>
     </div>
@@ -52,5 +51,6 @@
         loader: "<%= asset_path("/images/fish_loader.png") %>"
       }
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.5.2/flowbite.turbo.min.js"></script>
   </body>
 </html>

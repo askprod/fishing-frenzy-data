@@ -4,7 +4,7 @@ module Highcharts::HighchartsHelper
       {
         amount: stat.data["amount"],
         floor_price: stat.data["floor_price"],
-        date: stat.created_at.to_time.to_i * 1000
+        date: stat.reference_date.to_time.to_i * 1000
       }
     end.to_json
   end

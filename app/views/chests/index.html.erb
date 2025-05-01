@@ -5,7 +5,7 @@
       <span class="ml-2 text-xxs text-gray-300">
         last updated 
         <% if @collection.latest_statistic.present? %>
-          <%= time_ago_in_words(@collection.latest_statistic.created_at) %> ago
+          <%= time_ago_in_words(@collection.latest_statistic.reference_date) %> ago
         <% else %>
           -
         <% end %>
@@ -22,15 +22,13 @@
 </div>
 
 <% if @collection.latest_statistic.present? && @collection.previous_statistic.present? %>
-  <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6 mb-5">
-    <% %w[floor_price volume items owners listings].each do |stat_name| %>
+  <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6 mb-5">
+    <% Utilities::StatisticsAggregator.call(@collection.statistics).each do |stat_name, percentage_changes| %>
       <%= render UI::StatisticCardComponent.new(
-        name: stat_name.humanize.capitalize, 
+        name: human_stat_name(stat_name), 
         value: @collection.latest_statistic.data.dig(stat_name),
         image_path: %w[floor_price volume].include?(stat_name) ? asset_path("/images/icons-2/icon_ronin.png") : nil,
-        percentage_change: Utilities::Calculations.percent_change(
-          @collection.previous_statistic.data.dig(stat_name), @collection.latest_statistic.data.dig(stat_name)
-        )
+        percentage_changes: percentage_changes
       ) %>
     <% end %>
   </div>
@@ -46,9 +44,13 @@
 <% if @chests.any? %>
 	<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 		<% @chests.each do |chest| %>
+      <% if chest.has_nft? %>
 			<%= link_to chest_path(chest.slug) do %>
         <%= render UI::ItemCardComponent.new(**item_card_chest_attributes(chest)) %>
 			<% end %>
+      <% else %>
+        <%= render UI::ItemCardComponent.new(**item_card_chest_attributes(chest)) %>
+      <% end %>
 		<% end %>
 	</div>
 <% else %>

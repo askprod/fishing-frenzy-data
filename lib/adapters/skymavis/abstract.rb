@@ -4,7 +4,6 @@ class Adapters::Skymavis::Abstract
   def initialize(data)
     @data = data
     @parsed_data = parse_data
-    define_dynamic_methods
   end
 
   def self.call(data)
@@ -15,13 +14,5 @@ class Adapters::Skymavis::Abstract
 
   def parse_data
     {}
-  end
-
-  def define_dynamic_methods
-    @parsed_data.each do |key, value|
-      self.class.define_method(key) do
-        @parsed_data[key]
-      end
-    end
   end
 end

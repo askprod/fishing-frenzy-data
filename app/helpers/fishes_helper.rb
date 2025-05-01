@@ -2,7 +2,7 @@ module FishesHelper
   def fish_sell_price_label(price)
     content_tag(:span, class: label_classes(color: "amber")) do
       safe_join([
-        price.to_s,
+        number_with_delimiter(price),
         image_tag("/images/icons/gold_icon.png", class: "h-[7px] mt-[-1px] ml-1")
       ])
     end
@@ -18,6 +18,12 @@ module FishesHelper
         image_tag("/images/items/item_exp_scroll.png", class: "h-[7px] mt-[-1px] mr-1"),
         "+ #{xp} XP"
       ])
+    end
+  end
+
+  def fish_recipes_label(count)
+    content_tag(:span, class: label_classes(color: "cyan")) do
+      "#{count} #{"Recipe".pluralize(count)}"
     end
   end
 end

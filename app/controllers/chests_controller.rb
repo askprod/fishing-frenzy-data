@@ -12,7 +12,7 @@ class ChestsController < ApplicationController
 
   def set_collection
     @collection = Collection.find_by(name: "Chest")
-    @chests = @collection.chest_items
+    @chests = @collection.chest_items.order(has_nft: :desc)
   end
 
   def set_chest_variables

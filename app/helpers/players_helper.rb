@@ -54,4 +54,29 @@ module PlayersHelper
       "No ranking data"
     end
   end
+
+  def ffdb_rank_label(rank)
+    medal = case rank
+    when 1
+      "gold"
+    when 2
+        "silver"
+    when 3
+        "bronze"
+    else
+      nil
+    end
+
+    content_tag(:div, class: "relative") do
+      if medal
+        img = image_tag("/images/medal_#{medal}.png", class: "w-6 h-auto")
+
+        img + content_tag(:div, class: "absolute inset-0 flex items-center justify-center") do
+          content_tag(:span, rank, class: "text-xxs")
+        end
+      else
+        content_tag(:span, "FFDB Rank #{rank}", class: label_classes(color: "gray"))
+      end
+    end
+  end
 end
