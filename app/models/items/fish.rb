@@ -60,6 +60,7 @@ class Items::Fish < Item
   private
 
   def define_default_attributes
+    # TODO active will not be a column on fish (to delete later), it should rely on if a Event is active or not
     self.active = false if active.nil?
   end
 end

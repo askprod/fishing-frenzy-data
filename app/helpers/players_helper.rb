@@ -60,11 +60,9 @@ module PlayersHelper
     when 1
       "gold"
     when 2
-        "silver"
+      "silver"
     when 3
-        "bronze"
-    else
-      nil
+      "bronze"
     end
 
     content_tag(:div, class: "relative") do
