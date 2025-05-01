@@ -13,11 +13,13 @@
 #  updated_at    :datetime         not null
 #  active        :boolean
 #  has_nft       :boolean
+#  event_id      :integer
 #
 # Indexes
 #
 #  index_items_on_api_id         (api_id)
 #  index_items_on_collection_id  (collection_id)
+#  index_items_on_event_id       (event_id)
 #  index_items_on_type           (type)
 #
 

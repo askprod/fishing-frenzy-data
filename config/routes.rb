@@ -16,6 +16,9 @@ Rails.application.routes.draw do
   resources :rods, only: [ :index, :show ], param: :rod_slug
   resources :chests, only: [ :index, :show ], param: :chest_slug
   resources :flashes, only: [ :index ]
+  resources :recipes, only: [ :index, :show ], param: :recipe_slug
+  resources :sushis, only: [ :index, :show ], param: :sushi_slug
+  resources :events, only: [ :index, :show ], param: :event_slug
   resources :players, only: [ :index, :show ], param: :player_slug do
     member do
       get "/stats-grid", to: "players#stats_grid"

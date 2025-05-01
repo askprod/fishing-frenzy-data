@@ -1,5 +1,5 @@
-module Users
+module Cooking
   def self.table_name_prefix
-    "users_"
+    "cooking_"
   end
 end

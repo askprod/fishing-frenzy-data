@@ -1,0 +1,51 @@
+<%
+  color = if @sushi.respond_to? :quality
+    rarity_color(@sushi.quality)
+  else
+    "white"
+  end
+%>
+
+<div class="max-w-full mx-auto">
+  <div class="flex flex-col">
+    <div class="md:flex-1">
+      <div class="w-full h-42 mb-4 rounded-xl overflow-hidden relative">
+        <%= image_tag("/images/items/item_#{@sushi.image_name}.png", class: "w-full h-full object-cover object-center rounded-xl") %>
+        <div class="absolute bottom-4 left-4 z-10">
+          <div class="flex items-center">
+            <% 
+              color_classes = color.eql?("white") ? "bg-white ring-gray-200" : "bg-#{color}-200 ring-#{color}-400" 
+            %>
+            <div class="w-14 rounded-full mr-4 ring-1 <%= color_classes %>">
+              <%= image_tag("/images/items/item_#{@sushi.image_name}.png", class: "") %>
+            </div>
+            <div class="flex flex-col gap-1">
+              <span class="text-white w-full truncate">
+                <%= @sushi.name %>
+              </span>
+              <span class="text-white w-full text-xs"><%= @sushi.description %></span>
+              <div class="flex gap-2">
+                <span class="flex items-center gap-1">
+                  <% if @sushi.respond_to?(:quality) && @sushi.quality %>
+                    <%= rarity_label(@sushi.quality) %>
+                  <% end %>
+                  <% if @sushi.pearl > 0 %>
+                    <span class="<%= label_classes(color: "purple") %> gap-1">
+                      <%= number_with_delimiter(@sushi.pearl) %>
+                      <%= image_tag("/images/icons-2/icon_pearl.png", class: "h-2 w-2") %>
+                    </span>
+                  <% end %>
+                  <span class="<%= label_classes(color: "blue") %>">
+                    <%= number_with_delimiter(@sushi.cooking_exp) %> xp
+                  </span>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <% color = color.eql?("white") ? "black" : "#{color}-400" %>
+        <div class="absolute inset-0 bg-<%= color %>/18 backdrop-blur-2xl"></div>
+      </div>
+    </div>
+  </div>
+</div>

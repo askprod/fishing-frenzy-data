@@ -1,0 +1,16 @@
+<p class="flex items-center text-base text-gray-400 mb-5">
+  Items
+  <span class="<%= label_classes %> ml-2"><%= @recipes.count %></span>
+</p>
+
+<% if @recipes.any? %>
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <% @recipes.each do |recipe| %>
+      <%= link_to recipe_path(recipe.slug) do %>
+        <%= render partial: "recipes/partials/recipe_panel", locals: { recipe: recipe } %>
+      <% end %>
+    <% end %>
+  </div>
+<% else %>
+  <p class="italic text-gray-300 text-center text-xs">No data here...</p>
+<% end %>

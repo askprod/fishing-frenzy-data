@@ -5,7 +5,7 @@
         Floor price evolution
         <% if @statistics.latest_statistic.present? %>
           <span class="text-xxs text-gray-300">
-            last updated <%= time_ago_in_words(@statistics.latest_statistic.created_at) %> ago
+            last updated <%= time_ago_in_words(@statistics.latest_statistic.reference_date) %> ago
           </span>
         <% end %>
       </h3>

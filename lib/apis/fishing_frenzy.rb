@@ -77,10 +77,6 @@ class Apis::FishingFrenzy
     url
   end
 
-  def request_payload
-    payload
-  end
-
   private
 
   def get_request?
