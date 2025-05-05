@@ -33,8 +33,7 @@ class Initializers::CookingModelsInitializer
         Cooking::RecipeFish.create(
           cooking_recipe: new_recipe,
           fish: Items::Fish.find_by(api_id: fish_id),
-          fish_quantity: fish_data[:quantity],
-          shiny_fish: fish_data[:shiny]
+          fish_quantity: fish_data[:quantity]
         )
       end
 
