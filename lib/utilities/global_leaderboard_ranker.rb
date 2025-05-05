@@ -1,25 +1,29 @@
 class Utilities::GlobalLeaderboardRanker
-  TOTAL_LEADERBOARDS = %w[cooking fishing frenzy_points].freeze
-  TIER_ORDER = [ "Angler", "Pro", "Elite", "Apprentice", "Deck Hands" ].freeze
-
   def initialize(players_data)
     @players_data = players_data
   end
 
+  def self.call(players_data)
+    _self = self.new(players_data)
+    _self.calculate
+  end
+
   def calculate
-    scored_players = @players_data.map do |player_id, ranks_hash|
-      ranks = leaderboard_ranks(ranks_hash)
+    scored_players = @players_data.map do |player_id, ranks_data|
+      ranks = ranks_data.pluck(:rank).compact
       participation_count = ranks.size
 
       next if participation_count == 0
 
       average_rank = ranks.sum.to_f / participation_count
-      weighted_score = average_rank * (TOTAL_LEADERBOARDS.size.to_f / participation_count)
+      weighted_score = average_rank * (
+        Leaderboard.categories.except(:global).size.to_f / participation_count
+      )
 
       {
         id: player_id,
         score: weighted_score,
-        tiers: extract_tiers(ranks_hash)
+        tiers: ranks_data.pluck(:tier_name).compact
       }
     end.compact
 
@@ -36,15 +40,5 @@ class Utilities::GlobalLeaderboardRanker
     end
 
     ranked_players
-  end
-
-  private
-
-  def leaderboard_ranks(ranks_hash)
-    TOTAL_LEADERBOARDS.map { |key| ranks_hash[key]&.dig("rank") }.compact
-  end
-
-  def extract_tiers(ranks_hash)
-    TOTAL_LEADERBOARDS.map { |key| ranks_hash[key]&.dig("tier") }.compact
   end
 end

@@ -9,6 +9,11 @@ v1:
       path: "auth/verify-tokens"
       params: "accessToken"
 
+    refresh_tokens:
+      type: "POST"
+      path: "/auth/refresh-tokens"
+      params: "refreshToken"
+
     general: 
       config: 
         type: "GET"
@@ -46,10 +51,14 @@ v1:
       type: "GET"
       path: "pets" # paginable, limitable 
 
-    # No 404 but empty for now? Might be user rods?
+    # No 404 but empty for now?
     rods:
       type: "GET"
       path: "rods" # paginable, limitable 
+
+    rod:
+      type: "GET"
+      path: "rods/%{rodId}" # paginable, limitable 
     
     # 403 Forbidden
     chests: 
@@ -60,6 +69,19 @@ v1:
       type:  "GET"
       path: "inventory"
       # Current connected only—does not work with an id passed
+
+    inventory_rods:
+      type: "GET"
+      path: "inventory/rods"
+
+    accessories_upgrade:
+      type: "POST"
+      path: "accessories/%{accessoryId}/upgrade"
+
+    rod_repair:
+      type: "POST"
+      path: "rods/repair-rod"
+      params: "userRodId"
 
     packages: # Loaded on start
       starter_pack:

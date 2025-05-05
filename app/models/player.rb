@@ -20,8 +20,13 @@ class Player < ApplicationRecord
   has_many :player_metrics, class_name: "Players::Metric", dependent: :destroy
   has_one :current_player_metric, -> { order(created_at: :desc) }, class_name: "Players::Metric"
 
-  has_many :player_ranks, class_name: "Players::Rank", dependent: :destroy
-  has_one :current_player_rank, -> { order(created_at: :desc) }, class_name: "Players::Rank"
+  has_many :ranks, class_name: "Rank"
+  has_many :leaderboards, through: :ranks
+
+  has_one :latest_global_rank, -> { latest.global }, class_name: "Rank"
+  has_one :latest_general_rank, -> { latest.general }, class_name: "Rank"
+  has_one :latest_cooking_rank, -> { latest.cooking }, class_name: "Rank"
+  has_one :latest_frenzy_points_rank, -> { latest.frenzy_points }, class_name: "Rank"
 
   pg_search_scope :search_by_keywords,
     against: :search_keywords, using: { tsearch: { prefix: true, any_word: true } }
@@ -32,11 +37,19 @@ class Player < ApplicationRecord
       time: 6.hours.ago
     )
   }
-  scope :ordered_by_global_rank, -> {
-    left_joins(:current_player_rank)
-      .order("players_ranks.global_calculated_rank ASC NULLS LAST")
+
+  scope :order_by_latest_global_rank, lambda {
+    subquery = Rank
+      .select(:id).joins(:leaderboard).where("ranks.player_id = players.id")
+      .where(leaderboards: { category: :global }).order(created_at: :desc)
+      .limit(1).to_sql
+
+    joins("LEFT JOIN ranks ON ranks.id = (#{subquery})")
+      .order("ranks.rank ASC") # or DESC
   }
-  scope :with_rank, -> { joins(:player_ranks).includes(:current_player_rank).distinct }
+
+  scope :with_rank, -> { includes(:ranks).joins(:ranks).merge(Rank.latest) }
+  scope :without_rank, -> { left_outer_joins(:ranks).where.not(ranks: { id: Rank.latest.select(:id) }).distinct }
 
   after_save :set_slug, if: -> { slug.nil? && current_player_metric.present? }
   after_save :set_search_keywords, if: -> { search_keywords.blank? && current_player_metric.present? }
@@ -49,18 +62,6 @@ class Player < ApplicationRecord
 
   def has_profile_image?
     current_player_metric.twitter&.dig("avatar").present?
-  end
-
-  def has_fishing_rank?
-    current_player_rank&.api_data&.has_key? "fishing"
-  end
-
-  def has_cooking_rank?
-    current_player_rank&.api_data&.has_key? "cooking"
-  end
-
-  def has_frenzy_points_rank?
-    current_player_rank&.api_data&.has_key? "frenzy_points"
   end
 
   def has_twitter_linked?
@@ -144,11 +145,11 @@ class Player < ApplicationRecord
   def self.create_player(requested_id)
     player = create(api_id: requested_id)
     player.refresh_player_data
+    player
   end
 
   def refresh_player_data(manual_refresh: false)
     adapter = self.class.fetch_data(api_id)
-    Rails.logger.info "#{adapter.data}".red
     player_metrics.build(api_data: adapter.data)
     self.last_manual_api_refresh_at = Time.current if manual_refresh
     self.last_automatic_api_refresh_at = Time.current if !manual_refresh
@@ -162,26 +163,6 @@ class Player < ApplicationRecord
 
     players.find_each do |player|
       player.refresh_player_data
-    end
-  end
-
-  def self.refresh_leaderboards_data
-    adapter = Adapters::FishingFrenzy::Leaderboard.call
-
-    adapter.parsed_data.each do |player_api_id, ranking_data|
-      player = Player.find_by(api_id: player_api_id)
-      next unless player.present?
-
-      player.player_ranks.create(api_data: ranking_data)
-    end
-  end
-
-  def self.refresh_global_leaderboard_ranks
-    players_data = self.with_rank.map { |user| [ user.api_id, user.current_player_rank.api_data ] }.to_h
-    data = Utilities::GlobalLeaderboardRanker.new(players_data).calculate
-
-    data.each do |player_id, rank|
-      self.find_by(api_id: player_id).current_player_rank.update(global_calculated_rank: rank)
     end
   end
 

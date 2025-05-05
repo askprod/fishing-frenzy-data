@@ -1,10 +1,10 @@
 class PlayersController < ApplicationController
   include ActionView::Helpers::DateHelper
 
-  before_action :set_players
+  before_action :set_players, :set_leaderboard_variables
   before_action :set_player, only: [ :show, :refresh, :stats_grid ]
   def index
-    @display_players = @players.ordered_by_global_rank.limit(12)
+    @display_players = @players.order_by_latest_global_rank.limit(12)
   end
 
   def show
@@ -42,9 +42,9 @@ class PlayersController < ApplicationController
   def search
     @display_players = (
       if params[:q].blank?
-        @players.ordered_by_global_rank.limit(12)
+        @players.order_by_latest_global_rank.limit(12)
       else
-        @players.search_by_keywords(params[:q]).ordered_by_global_rank
+        @players.search_by_keywords(params[:q]).order_by_latest_global_rank
       end
     )
 
@@ -98,6 +98,17 @@ class PlayersController < ApplicationController
 
   def set_players
     @players = Player.all
+  end
+
+  def set_leaderboard_variables
+    @global_leaderboard = Leaderboard.category_global.most_recently_refreshed
+    @general_leaderboard = Leaderboard.category_general.most_recently_refreshed
+    @cooking_leaderboard = Leaderboard.category_cooking.most_recently_refreshed
+    @frenzy_points_leaderboard = Leaderboard.category_frenzy_points.most_recently_refreshed
+    @leaderboards = [
+      @global_leaderboard, @general_leaderboard,
+      @cooking_leaderboard, @frenzy_points_leaderboard
+    ].compact
   end
 
   def set_player

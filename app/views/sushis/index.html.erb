@@ -1,1 +1,16 @@
-<%# TODO %>
+<p class="flex items-center text-base text-gray-400 mb-5">
+  Items
+  <span class="<%= label_classes %> ml-2"><%= @sushis.count %></span>
+</p>
+
+<% if @sushis.any? %>
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <% @sushis.each do |sushi| %>
+      <%= link_to sushi_path(sushi.slug) do %>
+        <%= render UI::ItemCardComponent.new(**sushi_card_attributes(sushi)) %>
+      <% end %>
+    <% end %>
+  </div>
+<% else %>
+  <p class="italic text-gray-300 text-center text-xs">No data here...</p>
+<% end %>

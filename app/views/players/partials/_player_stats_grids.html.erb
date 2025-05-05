@@ -90,7 +90,7 @@
         <span class="mt-[2px]">FFDB Rank</span>
         <span class="flex-1 h-px bg-gray-100 mx-4"></span>
         <span class="<%= label_classes(color: "red") %>">
-          <%= player.current_player_rank&.global_calculated_rank ? ordinal_superscript(player.current_player_rank.global_calculated_rank) : "Unranked" %>
+          <%= player.latest_global_rank ? ordinal_superscript(player.latest_global_rank.rank) : "Unranked" %>
         </span>
       </div>
       <div class="flex text-xxs items-center justify-between">
@@ -100,11 +100,10 @@
       <div class="flex text-xxs items-center justify-between">
         <span class="mt-[2px] pl-2">Tier</span>
         <span class="flex-1 h-px bg-gray-100 mx-4"></span>
-        <% fishing_rank_tier = player.current_player_rank&.api_data&.dig("fishing", "tier") %>
-        <span class="<%= label_classes(color: ranking_tier_color(fishing_rank_tier), extra_classes: "flex items-center") %>">
-          <% if player.has_fishing_rank? %>
-            <%= image_tag("/images/icons-2/icon_#{fishing_rank_tier.downcase.underscore}.png", class: "mr-1 mt-[-1px] h-[10px]") %>
-            <%= fishing_rank_tier.humanize %>
+        <span class="<%= label_classes(color: ranking_tier_color(player.latest_general_rank&.tier_name), extra_classes: "flex items-center") %>">
+          <% if player.latest_general_rank %>
+            <%= image_tag("/images/icons-2/icon_#{player.latest_general_rank.tier_name.downcase.underscore}.png", class: "mr-1 mt-[-1px] h-[10px]") %>
+            <%= player.latest_general_rank.tier_name %>
           <% else %>
             Unranked
           <% end %>
@@ -114,7 +113,7 @@
         <span class="mt-[2px] pl-2">Rank</span>
         <span class="flex-1 h-px bg-gray-100 mx-4"></span>
         <span class="<%= label_classes(color: "white") %>">
-          <%= player.has_fishing_rank? ? ordinal_superscript(player.current_player_rank.api_data.dig("fishing", "rank")) : "Unranked" %>
+          <%= player.latest_general_rank ? ordinal_superscript(player.latest_general_rank.rank) : "Unranked" %>
         </span>
       </div>
       <div class="flex text-xxs items-center justify-between">
@@ -124,11 +123,10 @@
       <div class="flex text-xxs items-center justify-between">
         <span class="mt-[2px] pl-2">Tier</span>
         <span class="flex-1 h-px bg-gray-100 mx-4"></span>
-        <% cooking_rank_tier = player.current_player_rank&.api_data&.dig("cooking", "tier") %>
-        <span class="<%= label_classes(color: ranking_tier_color(cooking_rank_tier), extra_classes: "flex items-center") %>">
-          <% if player.has_cooking_rank? %>
-            <%= image_tag("/images/icons-2/icon_#{cooking_rank_tier.downcase.underscore}.png", class: "mr-1 mt-[-1px] h-[10px]") %>
-            <%= cooking_rank_tier.humanize %>
+        <span class="<%= label_classes(color: ranking_tier_color(player.latest_cooking_rank&.tier_name), extra_classes: "flex items-center") %>">
+          <% if player.latest_cooking_rank %>
+            <%= image_tag("/images/icons-2/icon_#{player.latest_cooking_rank.tier_name.downcase.underscore}.png", class: "mr-1 mt-[-1px] h-[10px]") %>
+            <%= player.latest_cooking_rank.tier_name %>
           <% else %>
             Unranked
           <% end %>
@@ -138,7 +136,7 @@
         <span class="mt-[2px] pl-2">Rank</span>
         <span class="flex-1 h-px bg-gray-100 mx-4"></span>
         <span class="<%= label_classes(color: "white") %>">
-          <%= player.has_cooking_rank? ? ordinal_superscript(player.current_player_rank.api_data&.dig("cooking", "rank")) : "Unranked" %>
+          <%= player.latest_cooking_rank ? ordinal_superscript(player.latest_cooking_rank.rank) : "Unranked" %>
         </span>
       </div>
       <div class="flex text-xxs items-center justify-between">
@@ -149,21 +147,21 @@
         <span class="mt-[2px] pl-2">Rank</span>
         <span class="flex-1 h-px bg-gray-100 mx-4"></span>
         <span class="<%= label_classes(color: "white") %>">
-          <%= player.has_frenzy_points_rank? ? ordinal_superscript(player.current_player_rank.api_data&.dig("frenzy_points", "rank")) : "Unranked" %>
+          <%= player.latest_frenzy_points_rank ? ordinal_superscript(player.latest_frenzy_points_rank.rank) : "Unranked" %>
         </span>
       </div>
       <div class="flex text-xxs items-center justify-between">
         <span class="mt-[2px] pl-2">Points</span>
         <span class="flex-1 h-px bg-gray-100 mx-4"></span>
         <span class="<%= label_classes(color: "white") %>">
-          <%= player.has_frenzy_points_rank? ? number_with_delimiter(player.current_player_rank.api_data&.dig("frenzy_points", "points")) : "Unranked" %>
+          <%= player.latest_frenzy_points_rank ? number_with_delimiter(player.latest_frenzy_points_rank.points) : "Unranked" %>
         </span>
       </div>
       <div class="flex text-xxs items-center justify-between">
         <span class="mt-[2px] pl-2">Multiplier</span>
         <span class="flex-1 h-px bg-gray-100 mx-4"></span>
         <span class="<%= label_classes(color: "white") %>">
-          <%= player.has_frenzy_points_rank? ? "x#{player.current_player_rank.api_data&.dig("frenzy_points", "multiplier")}" : "0" %>
+          <%= player.latest_frenzy_points_rank ? "x#{player.latest_frenzy_points_rank.multiplier}" : "0" %>
         </span>
       </div>
     </div>

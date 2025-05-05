@@ -1,0 +1,35 @@
+<div class="max-w-full mx-auto <%= "transform transition-transform duration-300 hover:translate-y-[-0.2rem]" if with_animation %>">
+  <div class="flex flex-col">
+    <div class="md:flex-1">
+      <div class="w-full h-42 mb-4 rounded-xl overflow-hidden relative">
+        <%= image_tag("/images/extras/#{event.slug.underscore}.png", class: "w-full h-full object-cover rounded-xl #{"object-[50%_30%]" if event.slug.eql?("default")}") %>
+        <div class="absolute bottom-4 left-4 z-10">
+          <div class="flex items-center">
+            <div class="flex flex-col gap-1">
+              <span class="text-white w-full truncate">
+                <%= event.name %> Event
+              </span>
+              <div class="flex gap-2">
+                <%= event_status_label(event) %>
+                <span class="<%= label_classes(color: "blue") %>">
+                  <%= event.fish_items.count %> Fish
+                </span>
+                <span class="<%= label_classes(color: "purple") %>">
+                  <%= event.pet_items.count %> Pets
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <% if event.ongoing? && event.end_date.present? %>
+        <div class="absolute bottom-4 right-4 z-10">
+          <span class="text-white">
+            Ends in <%= render partial: "partials/countdown", locals: { end_date: event.end_date, size: "sm" } %>
+          </span>
+        </div>
+        <% end %>
+        <div class="absolute inset-0 bg-black/18 backdrop-blur-xs"></div>
+      </div>
+    </div>
+  </div>
+</div>

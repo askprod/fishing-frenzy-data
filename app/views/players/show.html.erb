@@ -16,7 +16,7 @@
           <% if @player.last_api_refresh_at.present? %>
             <div class="flex flex-col text-right">
               <span class="text-xxs mt-[2px]">Last refreshed</span>
-              <span class="text-xxs mt-[2px]"><%= time_ago_in_words(@player.last_api_refresh_at) %> ago</span>
+              <span id="last-refreshed-text" class="text-xxs mt-[2px]"><%= time_ago_in_words(@player.last_api_refresh_at) %> ago</span>
             </div>
           <% end %>
           <%= button_to refresh_player_path(@player.slug), class: "group cursor-pointer border-1 border-white p-2 rounded-lg", method: :post do %>

@@ -99,19 +99,34 @@ const colorSafelist = [
   "ring-emerald-200", "ring-emerald-400", "ring-emerald-800",
   "ring-fuchsia-200", "ring-fuchsia-400", "ring-fuchsia-800",
   "ring-rose-200", "ring-rose-400", "ring-rose-800",
-  "ring-violet-200", "ring-violet-400", "ring-violet-800",
+  "ring-violet-200", "ring-violet-400", "ring-violet-800"
 ];
 
 module.exports = {
-    content: [
-      "./app/views/**/*",
-      "./app/helpers/**/*",
-      "./app/javascript/**/*"
-    ],
-    safelist: colorSafelist,
-    theme: {
-      extend: {},
+  content: [
+    "./app/views/**/*",
+    "./app/helpers/**/*",
+    "./app/javascript/**/*"
+  ],
+  safelist: colorSafelist,
+  theme: {
+    extend: {
+      keyframes: {
+        wave: {
+          '0%': { transform: 'rotate(0deg)' },
+          '15%': { transform: 'rotate(14deg)' },
+          '30%': { transform: 'rotate(-8deg)' },
+          '40%': { transform: 'rotate(14deg)' },
+          '50%': { transform: 'rotate(-4deg)' },
+          '60%': { transform: 'rotate(10deg)' },
+          '100%': { transform: 'rotate(0deg)' },
+        },
+      },
+      animation: {
+        wave: 'wave 2s infinite',
+      },
     },
-    plugins: [],
-  };
+  },
+  plugins: [],
+};
   

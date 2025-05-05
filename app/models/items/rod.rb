@@ -24,4 +24,33 @@
 #
 
 class Items::Rod < Item
+  scope :display_order, -> { order(Arel.sql(
+    "CAST(api_data->>'quality' AS INTEGER) ASC, CAST(api_data->>'boostToExp' AS FLOAT) ASC"
+  )) }
+
+  before_validation :define_default_attributes
+
+  def floor_price
+    return 0 unless latest_statistic&.data.present?
+
+    latest_statistic.data.dig("floor_price")
+  end
+
+  def listed_amount
+    return 0 unless latest_statistic&.data.present?
+
+    latest_statistic.data.dig("amount")
+  end
+
+  def marketplace_link
+    return unless has_nft?
+
+    "https://marketplace.roninchain.com/collections/fishing-frenzy-rods?Name=#{CGI.escape(name)}"
+  end
+
+  private
+
+  def define_default_attributes
+    self.active = true if self.active.nil?
+  end
 end

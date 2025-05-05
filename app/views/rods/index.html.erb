@@ -1,7 +1,55 @@
-<% if @rods.any? %>
-    <%# TODO %>
-<% elsif true # TEMP %>
-    <p class="italic text-gray-300 text-center text-xs">Coming soon...</p>
+<div class="mb-5">
+  <p class="text-gray-400 mb-2">Statistics</p>
+  <p class="text-xxs text-gray-300">
+    last updated 
+    <% if @collection.latest_statistic.present? %>
+      <%= time_ago_in_words(@collection.latest_statistic.reference_date) %> ago
+    <% else %>
+      -
+    <% end %>
+  </p>
+</div>
+
+<% if @collection.latest_statistic.present? && @collection.previous_statistic.present? %>
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-5">
+    <% Utilities::StatisticsAggregator.call(@collection.statistics).each do |stat_name, percentage_changes| %>
+      <%= render UI::StatisticCardComponent.new(
+        name: human_stat_name(stat_name), 
+        value: @collection.latest_statistic.data.dig(stat_name),
+        image_path: %w[floor_price volume].include?(stat_name) ? asset_path("/images/icons-2/icon_ronin.png") : nil,
+        percentage_changes: percentage_changes
+      ) %>
+    <% end %>
+    <%= link_to "https://marketplace.roninchain.com/collections/fishing-frenzy-rods", class: "transform transition-transform duration-300 hover:translate-y-[-0.2rem] overflow-hidden cursor-pointer", target: :blank do %>
+      <div class="bg-white w-full h-full border border-1 border-blue-200 rounded-lg shadow-xs flex flex-col gap-1 justify-center p-3">
+        <span class="text-xxs text-gray-400">For more stats visit the</span>
+        <span class="flex items-center gap-2 text-sm text-blue-400 ">
+          Ronin Marketplace
+          <%= icon_arrow_up("blue-400", size: 3)%>
+        </div>
+      </div>
+    <% end %>
+  </div>
 <% else %>
-    <p class="italic text-gray-300 text-center text-xs">No data here...</p>
+  <p class="italic text-gray-300 text-center text-xs">No data here...</p>
+<% end %>
+
+<div class="mb-5">
+  <p class="text-gray-400 mb-2">Items</p>
+  <div class="flex gap-1">
+    <span class="<%= label_classes %>"><%= @rods.count %> currently available</span>
+    <span class="<%= label_classes(color: "red") %>">5 missing from API</span>
+  </div>
+</div>
+
+<% if @rods.any? %>
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <% @rods.each do |rod| %>
+      <%= link_to rod_path(rod.slug) do %>
+        <%= render UI::ItemCardComponent.new(**item_card_rod_attributes(rod)) %>
+      <% end %>
+    <% end %>
+  </div>
+<% else %>
+  <p class="italic text-gray-300 text-center text-xs">No data here...</p>
 <% end %>

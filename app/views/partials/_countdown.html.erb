@@ -1,8 +1,12 @@
+<%
+  size = local_assigns[:size] || "sm"
+%>
+
 <div data-controller="countdown"
      data-countdown-target-time-value="<%= end_date.iso8601 %>"
      class="text-center">
 
-  <div class="flex justify-center items-center gap-2 text-sm font-bold">
+  <div class="flex justify-center items-center gap-2 text-<%= size %> font-bold">
     <span data-countdown-target="days">00</span>:
     <span data-countdown-target="hours">00</span>:
     <span data-countdown-target="minutes">00</span>:

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_27_092632) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_03_140230) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -88,6 +88,23 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_27_092632) do
     t.index ["type"], name: "index_items_on_type"
   end
 
+  create_table "leaderboard_refreshes", force: :cascade do |t|
+    t.datetime "refreshed_at"
+    t.bigint "leaderboard_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["leaderboard_id"], name: "index_leaderboard_refreshes_on_leaderboard_id"
+  end
+
+  create_table "leaderboards", force: :cascade do |t|
+    t.datetime "end_date"
+    t.integer "category"
+    t.string "title"
+    t.string "subtitle"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "players", force: :cascade do |t|
     t.string "api_id"
     t.string "slug"
@@ -113,6 +130,19 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_27_092632) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["player_id"], name: "index_players_ranks_on_player_id"
+  end
+
+  create_table "ranks", force: :cascade do |t|
+    t.bigint "player_id"
+    t.string "tier_name"
+    t.integer "rank"
+    t.integer "points"
+    t.float "multiplier"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "leaderboard_refresh_id"
+    t.index ["leaderboard_refresh_id"], name: "index_ranks_on_leaderboard_refresh_id"
+    t.index ["player_id"], name: "index_ranks_on_player_id"
   end
 
   create_table "solid_cable_messages", force: :cascade do |t|
@@ -267,6 +297,14 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_27_092632) do
     t.index ["statisticable_type", "statisticable_id"], name: "index_statistics_on_statisticable"
   end
 
+  create_table "tokens", force: :cascade do |t|
+    t.string "key"
+    t.string "value"
+    t.datetime "expires_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "traits", force: :cascade do |t|
     t.bigint "item_id", null: false
     t.string "name"
@@ -282,8 +320,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_27_092632) do
   add_foreign_key "cooking_recipe_sushis", "cooking_sushis"
   add_foreign_key "items", "collections"
   add_foreign_key "items", "events"
+  add_foreign_key "leaderboard_refreshes", "leaderboards"
   add_foreign_key "players_metrics", "players"
   add_foreign_key "players_ranks", "players"
+  add_foreign_key "ranks", "leaderboard_refreshes"
+  add_foreign_key "ranks", "players"
   add_foreign_key "solid_queue_blocked_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_claimed_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_failed_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade

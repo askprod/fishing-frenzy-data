@@ -6,6 +6,7 @@ export default class extends ChannelSubscriptionController {
     this.player_id = this.params.player_id;
     this.cardContainer = document.getElementById(`${this.player_id}-container`);
     this.cardGrids = document.getElementById(`${this.player_id}-grids`);
+    this.refreshText = document.getElementById("last-refreshed-text");
     this.loader = new Loader(this.cardContainer)
   }
 
@@ -31,6 +32,7 @@ export default class extends ChannelSubscriptionController {
     fetch(`/players/${this.player_id}/stats-grid`)
       .then((response) => response.text())
       .then((html) => {
+        this.refreshText.innerText = "just now";
         this.cardGrids.innerHTML = html;
         this.loader.hide();
       })

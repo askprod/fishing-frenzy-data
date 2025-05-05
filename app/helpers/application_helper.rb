@@ -104,8 +104,8 @@ module ApplicationHelper
   end
 
   def nav_item_classes(paths = [])
-    normal_classes = "text-gray-300 hover:text-gray-600 hover:font-bold"
-    active_classes = "text-gray-300 bg-gray-700 text-white"
+    normal_classes = "hover:bg-gray-300"
+    active_classes = "bg-gray-300"
     nav_item_active?(paths) ? active_classes : normal_classes
   end
 

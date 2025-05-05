@@ -54,6 +54,7 @@ class Items::Fish < Item
 
   def marketplace_link
     return unless has_nft?
+
     "https://marketplace.roninchain.com/collections/fishing-frenzy-fish?Name=#{CGI.escape(name)}"
   end
 

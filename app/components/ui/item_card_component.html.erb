@@ -9,20 +9,22 @@
       <div class="flex flex-col flex-1 gap-2 justify-center w-full min-w-0">
         <div class="flex flex-row items-start justify-between">
         <% unless @title.blank? %>
-          <div>
+          <div class="min-w-0 flex-1">
             <h3 class="text-sm font-semibold text-gray-800 w-full">
               <span class="truncate block w-full">
                 <%= @title %>
               </span>
-              <% unless @subtitle.blank? %>
-                <span class="block ml-1 text-gray-400 text-xxs"><%= @subtitle %></span>
-              <% end %>
             </h3>
+            <% unless @subtitle.blank? %>
+              <span class="block ml-1 text-gray-400 text-xxs"><%= @subtitle %></span>
+            <% end %>
           </div>
           <% if @top_right_labels.any? %>
-            <% @top_right_labels.each do |label| %>
-              <%= label %>
-            <% end %>
+            <div class="flex flex-row flex-shrink-0 gap-1">
+              <% @top_right_labels.each do |label| %>
+                <%= label %>
+              <% end %>
+            </div>
           <% end %>
         <% end %>
         </div>

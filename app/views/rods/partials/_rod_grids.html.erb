@@ -1,0 +1,131 @@
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+
+  <div class="flex p-4 border-1 border-gray-200 rounded-xl flex-col md:flex-1 px-4">
+    <p class="flex gap-2 justify-between items-center mb-4">
+      <span class="text-sm mt-[1px]">Info</span>
+    </p>
+    <div class="flex flex-col gap-2">
+      <div class="flex text-xxs items-center justify-between">
+        <span class="mt-[2px] pl-2">Exp. Boost</span>
+        <span class="flex-1 h-px bg-gray-100 mx-4"></span>
+        <span class="<%= label_classes(color: "white") %>">
+          <% if rod.boost_to_exp.blank? || rod.boost_to_exp.zero? %>
+            None
+          <% else %>
+            <%= (rod.boost_to_exp * 100).to_i %>%
+          <% end %>
+        </span>
+      </div>
+      <div class="flex text-xxs items-center justify-between">
+        <span class="mt-[2px] pl-2">Shiny Chance</span>
+        <span class="flex-1 h-px bg-gray-100 mx-4"></span>
+        <span class="<%= label_classes(color: "white") %>">
+          <% if rod.chance_to_catch_shiny_fish.blank? || rod.chance_to_catch_shiny_fish.zero? %>
+            None
+          <% else %>
+            <%= (rod.chance_to_catch_shiny_fish * 100).to_i %>%
+          <% end %>
+        </span>
+      </div>
+      <div class="flex text-xxs items-center justify-between">
+        <span class="mt-[2px] pl-2">Catch Difficulty</span>
+        <span class="flex-1 h-px bg-gray-100 mx-4"></span>
+        <span class="<%= label_classes(color: "red") %>">
+          +<%= rod.difficult_modifier %>
+        </span>
+      </div>
+      <div class="flex text-xxs items-center justify-between">
+        <span class="mt-[2px] pl-2">Repair Price</span>
+        <span class="flex-1 h-px bg-gray-100 mx-4"></span>
+        <span class="<%= label_classes(color: "yellow") %>">
+          <%= image_tag("/images/icons/gold_icon.png", class: "h-[7px] mt-[-1px] mr-1") %>
+          <%= number_with_delimiter(rod.repair_prices.first["amount"]) %>
+        </span>
+      </div>
+      
+    </div>
+  </div>
+
+  <div class="flex p-4 border-1 border-gray-200 rounded-xl flex-col md:flex-1 px-4">
+    <p class="flex gap-2 justify-between items-center mb-4">
+      <span class="text-sm mt-[1px]">Conditions</span>
+    </p>
+    <div class="flex flex-col gap-2">
+      <div class="flex text-xxs items-center justify-between">
+        <span class="">1x</span>
+        <span class="flex-1 h-px bg-gray-100 mx-4"></span>
+      </div>
+      <% rod.durability_states["catch1x"].each do |state| %>
+        <div class="flex text-xxs items-center justify-between">
+          <span class="pl-2"><%= state["condition"] %></span>
+          <span class="flex-1 h-px bg-gray-100 mx-4"></span>
+          <% if state["downgradeChance"].present? && !state["downgradeChance"].zero? %>
+            <span class="<%= label_classes(color: "white") %>">
+              Downgrade <%= (state["downgradeChance"] * 100) %>%
+            </span>
+          <% end %>
+          <% if state["breakChance"].present? && !state["breakChance"].zero? %>
+            <span class="<%= label_classes(color: "white") %>">
+              Break <%= (state["breakChance"] * 100) %>%
+            </span>
+          <% end %>
+        </div>
+      <% end %>
+      <div class="flex flex-col gap-2">
+        <div class="flex text-xxs items-center justify-between">
+          <span class="">5x</span>
+          <span class="flex-1 h-px bg-gray-100 mx-4"></span>
+        </div>
+      <% rod.durability_states["catch5x"].each do |state| %>
+        <div class="flex text-xxs items-center justify-between">
+          <span class="pl-2"><%= state["condition"] %></span>
+          <span class="flex-1 h-px bg-gray-100 mx-4"></span>
+          <% if state["downgradeChance"].present? && !state["downgradeChance"].zero? %>
+            <span class="<%= label_classes(color: "white") %>">
+              Downgrade <%= (state["downgradeChance"] * 100) %>%
+            </span>
+          <% end %>
+          <% if state["breakChance"].present? && !state["breakChance"].zero? %>
+            <span class="<%= label_classes(color: "white") %>">
+              Break <%= (state["breakChance"] * 100) %>%
+            </span>
+          <% end %>
+        </div>
+      <% end %>
+      </div>
+    </div>
+  </div>
+
+  <% if rod.has_nft? %>
+    <div class="flex p-4 border-1 border-gray-200 rounded-xl flex-col md:flex-1 px-4">
+      <p class="flex gap-2 flex-col mb-4">
+        <span class="text-sm mt-[1px]">Statistics</span>
+        <% if rod.latest_statistic %>
+          <span class="text-gray-400 text-xxs">last updated <%= time_ago_in_words(rod.latest_statistic.reference_date) %> ago</span>
+        <% end %>
+      </p>
+      <div class="flex flex-col gap-2">
+        <% if aggregated_stats.any? %>
+          <% aggregated_stats.keys.each do |stat_name| %>     
+            <div class="flex text-xxs items-center justify-between">
+              <span class="mt-[2px]"><%= human_stat_name(stat_name) %></span>
+              <span class="flex-1 h-px bg-gray-100 mx-4"></span>
+              <span class="<%= label_classes(color: "blue") %>">
+                Current <%= rod.latest_statistic.data.dig(stat_name) %>
+              </span>
+            </div>   
+            <% aggregated_stats[stat_name].each do |timeframe, percentage| %>
+              <div class="flex text-xxs items-center justify-between">
+                <span class="ml-2 mt-[2px]"><%= timeframe %></span>
+                <span class="flex-1 h-px bg-gray-100 mx-4"></span>
+                <span class="<%= percentage_color(percentage) %>">
+                  <%= percentage_suffix(percentage) %><%= percentage.presence %>%
+                </span>
+              </div>
+            <% end %>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>

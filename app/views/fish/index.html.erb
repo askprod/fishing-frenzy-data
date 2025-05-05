@@ -1,28 +1,17 @@
 <div class="mb-5">
-  <div class="flex items-center justify-between text-gray-400">
-    <p class="flex items-baseline">
-      <span>Statistics</span>
-      <span class="ml-2 text-xxs text-gray-300">
-        last updated 
-        <% if @collection.latest_statistic.present? %>
-          <%= time_ago_in_words(@collection.latest_statistic.reference_date) %> ago
-        <% else %>
-          -
-        <% end %>
-      </span>
-    </p>
-    <%= link_to "https://marketplace.roninchain.com/collections/fishing-frenzy-fish", class: "flex items-center rounded-lg text-blue-500 hover:text-blue-600 text-xxs transition-all duration-200 cursor-pointer", target: :blank do %>
-      Marketplace
-      <svg class="fill-blue-500 ml-1.5 h-[8px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-        <!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
-        <path d="M320 0c-17.7 0-32 14.3-32 32s14.3 32 32 32l82.7 0L201.4 265.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L448 109.3l0 82.7c0 17.7 14.3 32 32 32s32-14.3 32-32l0-160c0-17.7-14.3-32-32-32L320 0zM80 32C35.8 32 0 67.8 0 112L0 432c0 44.2 35.8 80 80 80l320 0c44.2 0 80-35.8 80-80l0-112c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 112c0 8.8-7.2 16-16 16L80 448c-8.8 0-16-7.2-16-16l0-320c0-8.8 7.2-16 16-16l112 0c17.7 0 32-14.3 32-32s-14.3-32-32-32L80 32z"/>
-      </svg>
+  <p class="text-gray-400 mb-2">Statistics</p>
+  <p class="text-xxs text-gray-300">
+    last updated 
+    <% if @collection.latest_statistic.present? %>
+      <%= time_ago_in_words(@collection.latest_statistic.reference_date) %> ago
+    <% else %>
+      -
     <% end %>
-  </div>
+  </p>
 </div>
 
 <% if @collection.latest_statistic.present? && @collection.previous_statistic.present? %>
-  <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6 mb-5">
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-5">
     <% Utilities::StatisticsAggregator.call(@collection.statistics).each do |stat_name, percentage_changes| %>
       <%= render UI::StatisticCardComponent.new(
         name: human_stat_name(stat_name), 
@@ -31,22 +20,33 @@
         percentage_changes: percentage_changes
       ) %>
     <% end %>
+    <%= link_to "https://marketplace.roninchain.com/collections/fishing-frenzy-fish", class: "transform transition-transform duration-300 hover:translate-y-[-0.2rem] overflow-hidden cursor-pointer", target: :blank do %>
+      <div class="bg-white w-full h-full border border-1 border-blue-200 rounded-lg shadow-xs flex flex-col gap-1 justify-center p-3">
+        <span class="text-xxs text-gray-400">For more stats visit the</span>
+        <span class="flex items-center gap-2 text-sm text-blue-400 ">
+          Ronin Marketplace
+          <%= icon_arrow_up("blue-400", size: 3)%>
+        </div>
+      </div>
+    <% end %>
   </div>
 <% else %>
   <p class="italic text-gray-300 text-center text-xs">No data here...</p>
 <% end %>
 
-<p class="flex items-center text-base text-gray-400 mb-5">
-  Items
-  <span class="<%= label_classes %> ml-2"><%= @active_fishes.count %> currently available</span>
-  <span class="<%= label_classes %> ml-2"><%= @all_fishes.count %> total</span>
-</p>
+<div class="mb-5">
+  <p class="text-gray-400 mb-2">Items</p>
+  <div class="flex gap-1">
+    <span class="<%= label_classes %>"><%= @active_fishes.count %> currently available</span>
+    <span class="<%= label_classes %>"><%= @all_fishes.count %> total</span>
+  </div>
+</div>
 
 <p class="flex items-center text-xs text-gray-400 mb-1">
   Filters
 </p>
 
-<div class="flex gap-2 mb-5">
+<div class="flex gap-1 mb-5">
   <% fish_type = params[:fish_type] %>
   <%= link_to fish_index_path(fish_type: :all), class: label_classes(color: (fish_type&.eql?("all") ? "yellow" : "gray"), extra_classes: "w-18") do %>
     All

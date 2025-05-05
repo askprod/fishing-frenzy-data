@@ -7,8 +7,8 @@ leaderboard_data.each do |player_id, ranking_data|
 
   player = Player.create(api_id: player_id)
   player.refresh_player_data
-  player.player_ranks.create(api_data: ranking_data)
+  player.player_ranks.create(api_data: ranking_data) # deprecated
   sleep(0.8)
 end;nil
 
-Player.refresh_global_leaderboard_ranks
+Player.refresh_global_leaderboard_ranks # deprecated

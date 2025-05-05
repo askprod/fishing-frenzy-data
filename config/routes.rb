@@ -11,6 +11,7 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   get "/", to: "dashboard#index", as: :dashboard
+  get "/about", to: "dashboard#about", as: :about
   resources :fish, only: [ :index, :show ], param: :fish_slug
   resources :pets, only: [ :index, :show ], param: :pet_slug
   resources :rods, only: [ :index, :show ], param: :rod_slug

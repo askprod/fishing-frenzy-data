@@ -52,15 +52,15 @@ module Components::ItemCardComponentHelper
 
   def player_card_attributes(player)
     labels = [].tap do |arr|
-      arr << player_fishing_rank_label(player) if player.has_fishing_rank?
-      arr << player_cooking_rank_label(player) if player.has_cooking_rank?
-      arr << player_frenzy_points_rank_label(player) if player.has_frenzy_points_rank?
+      arr << player_fishing_rank_label(player) if player.latest_general_rank
+      arr << player_cooking_rank_label(player) if player.latest_cooking_rank
+      arr << player_frenzy_points_rank_label(player) if player.latest_frenzy_points_rank
     end
 
     labels << player_no_ranking_label if labels.empty?
 
     top_right_labels = [].tap do |arr|
-      arr << "#{ffdb_rank_label(player.current_player_rank.global_calculated_rank)}".html_safe if player.current_player_rank&.global_calculated_rank.present?
+      arr << "#{ffdb_rank_label(player.latest_global_rank.rank)}".html_safe if player.latest_global_rank
     end
 
     {}.tap do |hash|
@@ -70,6 +70,40 @@ module Components::ItemCardComponentHelper
       hash[:labels] = labels
       hash[:left_footer] = "Joined in #{Date.parse(player.current_player_metric.first_login_time).strftime("%b %Y")}"
       hash[:top_right_labels] = top_right_labels
+    end
+  end
+
+  def sushi_card_attributes(sushi)
+    color = rarity_color(sushi.quality)
+
+    {}.tap do |attributes|
+      attributes[:title] = sushi.name
+      attributes[:image_path] = asset_path("/images/items/item_#{sushi.image_name}.png")
+      attributes[:labels] = [
+        rarity_label(sushi.quality)
+      ]
+      attributes[:image_classes] = [].tap do |arr|
+        arr << "ring-1"
+        arr << (color.eql?("white") ? "bg-white ring-gray-200" : "bg-#{color}-200 ring-#{color}-400")
+      end.join(" ")
+    end
+  end
+
+  def item_card_rod_attributes(rod)
+    labels = [].tap do |arr|
+      arr << rarity_label(rod.quality)
+      unless rod.boost_to_exp.zero?
+        arr << content_tag(:span, "+#{(rod.boost_to_exp * 100).to_i}% XP", class: label_classes(color: "blue"))
+      end
+    end
+
+    {}.tap do |attributes|
+      attributes[:title] = rod.name
+      attributes[:image_path] = asset_path("/images/items/item_#{rod.image_name}.png")
+      attributes[:labels] = labels
+      attributes[:top_right_labels] = [ nft_label ] if rod.has_nft?
+      attributes[:left_footer] = rod.has_nft? ? "Floor #{rod.floor_price}" : "&nbsp;".html_safe
+      attributes[:right_footer] = rod.has_nft? ? "#{rod.listed_amount} listed" : "&nbsp;".html_safe
     end
   end
 
