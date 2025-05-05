@@ -9,6 +9,11 @@ v1:
       path: "auth/verify-tokens"
       params: "accessToken"
 
+    refresh_tokens:
+      type: "POST"
+      path: "/auth/refresh-tokens"
+      params: "refreshToken"
+
     general: 
       config: 
         type: "GET"
@@ -26,9 +31,17 @@ v1:
       type: "GET"
       path: "sashimis"
 
+    # sushi:
+    #   type: "GET"
+    #   path: "sushis"
+
     items:
       type: "GET"
       path: "items" # paginable, limitable 
+
+    item:
+      type: "GET"
+      path: "items/%{itemId}"
 
     fish:
       type: "GET"
@@ -38,10 +51,14 @@ v1:
       type: "GET"
       path: "pets" # paginable, limitable 
 
-    # No 404 but empty for now? Might be user rods?
+    # No 404 but empty for now?
     rods:
       type: "GET"
       path: "rods" # paginable, limitable 
+
+    rod:
+      type: "GET"
+      path: "rods/%{rodId}" # paginable, limitable 
     
     # 403 Forbidden
     chests: 
@@ -52,6 +69,19 @@ v1:
       type:  "GET"
       path: "inventory"
       # Current connected only—does not work with an id passed
+
+    inventory_rods:
+      type: "GET"
+      path: "inventory/rods"
+
+    accessories_upgrade:
+      type: "POST"
+      path: "accessories/%{accessoryId}/upgrade"
+
+    rod_repair:
+      type: "POST"
+      path: "rods/repair-rod"
+      params: "userRodId"
 
     packages: # Loaded on start
       starter_pack:
@@ -77,15 +107,15 @@ v1:
       type: "GET"
       path: "reference-code/referrals" # paginable
 
-    events:
-      active: 
-        type: "GET"
-        path: "events/active" # Loaded on start
-      switch_theme: 
-        type: "GET"
-        path: "events/%{eventId}/themes/%{themeId}/switch"
-        # ex. eventId 6780f4c7a48b6c2b29d82bf6
-        # ex. themeId 6752b7a7ef93f2489cfef709
+    events_switch_theme: 
+      type: "GET"
+      path: "events/%{eventId}/themes/%{themeId}/switch"
+      # ex. eventId 6780f4c7a48b6c2b29d82bf6
+      # ex. themeId 6752b7a7ef93f2489cfef709
+      
+    events_active:
+      type: "GET"
+      path: "events/active" # Loaded on start
 
     user_vips:
       type: "GET"
@@ -126,6 +156,10 @@ v1:
       type: "GET" 
       path: "user/%{id}/inventory/fish"
 
+    recipes:
+      type: "GET"
+      path: "cooking-recipes/active"
+
 
 # /general-config - Fetches general system or game configuration data.
 
@@ -140,7 +174,9 @@ v1:
 
 # /inventory/fish
 # /inventory/rods
-# //inventory/chests
+# /inventory/chests
+
+# /cooking-recipes/sell?sashimiId=&quantity=
 
 # /user-vips - Likely related to VIP items or status.
 # /user-vips/{id}/claim - Claims a VIP item.

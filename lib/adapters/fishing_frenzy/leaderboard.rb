@@ -81,13 +81,6 @@ class Adapters::FishingFrenzy::Leaderboard
   end
 
   def parse_data
-    {}.tap do |merged_data|
-      [ @parsed_fishing_data, @parsed_cooking_data, @parsed_frenzy_points_data ].each do |leaderboard_data|
-        leaderboard_data.each do |id, inner_hash|
-          merged_data[id] ||= {}
-          merged_data[id].merge!(inner_hash)
-        end
-      end
-    end
+    [ @parsed_fishing_data, @parsed_cooking_data, @parsed_frenzy_points_data ]
   end
 end

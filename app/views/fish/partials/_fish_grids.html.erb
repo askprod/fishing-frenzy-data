@@ -1,0 +1,123 @@
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+  <div class="flex p-4 border-1 border-gray-200 rounded-xl flex-col md:flex-1 px-4">
+    <p class="flex gap-2 justify-between items-center mb-4">
+      <span class="text-sm mt-[1px]">Info</span>
+    </p>
+    <div class="flex flex-col gap-2">
+      <div class="flex text-xxs items-center justify-between">
+        <span class="mt-[2px] pl-2">Price</span>
+        <span class="flex-1 h-px bg-gray-100 mx-4"></span>
+        <span class="<%= label_classes(color: "yellow") %>">
+          <%= image_tag("/images/icons/gold_icon.png", class: "h-[7px] mt-[-1px] mr-1") %>
+          <%= number_with_delimiter(fish.sell_price) %>
+        </span>
+      </div>
+      <div class="flex text-xxs items-center justify-between">
+        <span class="mt-[2px] pl-2">Catch Difficulty</span>
+        <span class="flex-1 h-px bg-gray-100 mx-4"></span>
+        <div class="flex items-center gap-2">
+          <div class="relative text-gray-300">
+            <div class="text-xs flex">★★★★★</div>
+            <div class="text-xs absolute top-0 left-0 overflow-hidden text-yellow-400" style="width: <%= fish.catch_difficulty_percentage %>%;">★★★★★</div>
+          </div>
+          <div class="relative">
+            <%= icon_question("gray-400", size: 3, extra_classes: "peer") %>
+            <div class="absolute left-1/2 top-full mt-2 w-64 -translate-x-1/2 rounded-lg bg-gray-900 px-3 py-2 text-xxs text-white shadow-md opacity-0 transition-opacity duration-300 peer-hover:opacity-100">
+              Catch difficulty ranked relative to all fish in the game—the more yellow stars, the harder the catch!
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="flex text-xxs items-center justify-between">
+        <span class="mt-[2px] pl-2">Unlock</span>
+        <span class="flex-1 h-px bg-gray-100 mx-4"></span>
+        <span class="<%= label_classes(color: "blue") %>">
+          Lvl. <%= fish.unlock_level %>
+        </span>
+      </div>
+      <div class="flex text-xxs items-center justify-between">
+        <span class="mt-[2px] pl-2">Exp. Gain</span>
+        <span class="flex-1 h-px bg-gray-100 mx-4"></span>
+        <span class="<%= label_classes(color: "red") %>">
+          +<%= number_with_delimiter(fish.exp_gain) %>
+        </span>
+      </div>
+      <% if fish.event_attributes %>
+        <div class="flex text-xxs items-center justify-between">
+          <span class="mt-[2px] pl-2">Event Properties</span>
+          <span class="flex-1 h-px bg-gray-100 mx-4"></span>
+          <%= event_attributes_label(fish.event_attributes) %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  <div class="flex p-4 border-1 border-gray-200 rounded-xl flex-col md:flex-1 px-4">
+    <p class="flex gap-2 justify-between items-center mb-4">
+      <span class="text-sm mt-[1px]">Associations</span>
+    </p>
+    <div class="flex flex-col gap-2">
+      <div class="flex text-xxs items-center justify-between">
+        <span class="mt-[2px]">Recipes</span>
+        <span class="flex-1 h-px bg-gray-100 mx-4"></span>
+        <span class="<%= label_classes(color: "gray") %>">
+          <%= fish.cooking_recipes.count %>
+        </span>
+      </div>
+      <% fish.cooking_recipes.each do |recipe| %>
+        <div class="flex text-xxs items-center justify-between">
+          <span class="flex-1 h-px bg-gray-100 mx-4"></span>
+          <%= link_to recipe_path(recipe.slug), class: "text-xxs text-blue-400 px-1.5 py-0.5" do %>
+            <span class="flex">
+              <%= recipe.name %>
+              <%= icon_arrow_up("blue-400", size: 2, extra_classes: "ml-1") %>
+            </span>
+          <% end %>
+        </div>
+      <% end %>
+      <% unless fish.event.is_default_event? %>
+        <div class="flex text-xxs items-center justify-between">
+          <span class="mt-[2px]">Event</span>
+          <span class="flex-1 h-px bg-gray-100 mx-4"></span>
+          <%= link_to event_path(fish.event.slug), class: "text-xxs text-blue-400 px-1.5 py-0.5" do %>
+            <span class="flex">
+              <%= fish.event.name %>
+              <%= icon_arrow_up("blue-400", size: 2, extra_classes: "ml-1") %>
+            </span>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  <% if fish.has_nft? %>
+    <div class="flex p-4 border-1 border-gray-200 rounded-xl flex-col md:flex-1 px-4">
+      <p class="flex gap-2 flex-col mb-4">
+        <span class="text-sm mt-[1px]">Statistics</span>
+        <% if fish.latest_statistic %>
+          <span class="text-gray-400 text-xxs">last updated <%= time_ago_in_words(fish.latest_statistic.reference_date) %> ago</span>
+        <% end %>
+      </p>
+      <div class="flex flex-col gap-2">
+        <% if aggregated_stats.any? %>
+          <% aggregated_stats.keys.each do |stat_name| %>     
+            <div class="flex text-xxs items-center justify-between">
+              <span class="mt-[2px]"><%= human_stat_name(stat_name) %></span>
+              <span class="flex-1 h-px bg-gray-100 mx-4"></span>
+              <span class="<%= label_classes(color: "blue") %>">
+                Current <%= fish.latest_statistic.data.dig(stat_name) %>
+              </span>
+            </div>   
+            <% aggregated_stats[stat_name].each do |timeframe, percentage| %>
+              <div class="flex text-xxs items-center justify-between">
+                <span class="ml-2 mt-[2px]"><%= timeframe %></span>
+                <span class="flex-1 h-px bg-gray-100 mx-4"></span>
+                <span class="<%= percentage_color(percentage) %>">
+                  <%= percentage_suffix(percentage) %><%= percentage.presence %>%
+                </span>
+              </div>
+            <% end %>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>

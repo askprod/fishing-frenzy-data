@@ -1,0 +1,19 @@
+<div class="bg-white border border-1 border-gray-200 rounded-lg shadow-xs p-3">
+  <div>
+    <p class="flex justify-between items-center text-sm text-gray-600 mb-1">
+      <%= human_readable_leaderboard_category(leaderboard.category) %>
+      <%= image_tag(leaderboard_category_icon(leaderboard.category), class: "w-5") %>
+    </p>
+    <% if (refresh_time = leaderboard.most_recent_refresh&.refreshed_at).present? %>
+      <p class="text-xxs text-gray-400">
+        refreshed <%= time_ago_in_words(refresh_time) %> ago
+      </p>
+    <% end %>
+    <% if leaderboard.display_end_date? %>
+      <div class="flex justify-between mt-2">
+        <p class="text-xs text-gray-400 mb-1">Ends in</p>
+        <%= render partial: "partials/countdown", locals: { end_date: leaderboard.end_date, size: "xs" } %>
+      </div>
+    <% end %>
+  </div>
+</div>

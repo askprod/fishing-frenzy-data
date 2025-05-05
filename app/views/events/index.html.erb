@@ -1,0 +1,5 @@
+<% @events.each do |event| %>
+  <%= link_to event_path(event.slug) do %>
+    <%= render partial: "events/partials/event_card", locals: { event: event, with_animation: true } %>
+  <% end %>
+<% end %>

@@ -1,0 +1,75 @@
+<p class="flex items-center text-base text-gray-400 mb-1">
+  <%= @recipe.name %>
+</p>
+<div class="flex gap-2 mb-5">
+  <span class="<%= label_classes(color: "blue") %>">Unlocks Lvl<%= @recipe.unlock_level %></span>
+</div>
+
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+  <div class="flex p-4 border-1 border-gray-200 rounded-xl flex-col md:flex-1 px-4">
+    <p class="flex gap-2 justify-between items-center mb-4">
+      <span class="text-sm mt-[1px]">Fish</span>
+    </p>
+    <div class="flex flex-col gap-3">
+      <% @recipe.cooking_recipe_fishes.each do |recipe_fish| %>
+        <% fish = recipe_fish.fish %>
+        <div class="flex text-xxs items-center justify-between">
+          <%= recipe_fish.fish_quantity  %>x &hairsp;
+          <%= link_to fish_path(fish.slug), class: "text-xxs text-blue-400" do %>
+            <span class="flex items-center gap-1">
+              <%= image_tag("/images/items/item_#{fish.image_name}.png", class: "w-4 h-4 rounded-full #{"ring-1 bg-yellow-200 ring-yellow-400" if fish.has_nft?}") %>
+              <%= fish.name %>
+              <%= icon_arrow_up("blue-400", size: 2) %>
+            </span>
+          <% end %>
+          <span class="flex-1 h-px bg-gray-100 mx-4"></span>
+          <% if fish.has_nft? %>
+            <span class="flex items-center gap-0.5"">
+              <%= (fish.floor_price * recipe_fish.fish_quantity).round(3) %>
+              <%= image_tag("/images/icons-2/icon_ronin.png", class: "w-2") %>
+            </span>
+          <% end %>
+        </div>
+      <% end %>
+      <% if @recipe.current_ron_price %>
+        <div class="flex text-xxs items-center justify-between">
+          <span class="mt-[2px] pl-4">
+            Total
+          </span>
+          <span class="flex-1 h-px bg-gray-100 mx-4"></span>
+          <span class="<%= label_classes(color: "blue", extra_classes: "gap-0.5", text_size: "xs") %>">
+            <%= @recipe.current_ron_price %>
+            <%= image_tag("/images/icons-2/icon_ronin.png", class: "w-2") %>
+          </span>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  <div class="flex p-4 border-1 border-gray-200 rounded-xl flex-col md:flex-1 px-4">
+    <p class="flex gap-2 justify-between items-center mb-4">
+      <span class="text-sm mt-[1px]">Potential Rewards</span>
+    </p>
+    <div class="flex flex-col gap-3">
+      <% @recipe.cooking_recipe_sushis.each do |recipe_sushi| %>
+        <% sushi = recipe_sushi.sushi %>
+        <div class="flex text-xxs items-center justify-between">
+          <%= link_to sushi_path(sushi.slug), class: "text-blue-400" do %>
+            <span class="flex items-center gap-1">
+              <% 
+                color = rarity_color(recipe_sushi.sushi.quality) 
+                color_classes = color.eql?("white") ? "bg-white ring-gray-200" : "bg-#{color}-200 ring-#{color}-400"
+              %>
+              <%= image_tag("/images/items/item_#{sushi.image_name}.png", class: "w-4 h-4 rounded-full ring-1 #{color_classes}") %>
+              <%= sushi.name %>
+              <%= icon_arrow_up("blue-400", size: 2) %>
+            </span>
+          <% end %>
+          <span class="flex-1 h-px bg-gray-100 mx-4"></span>
+          <span class="<%= label_classes(color: "gray", text_size: "xxs") %>">
+            <%= recipe_sushi.sushi_percent_drop_chance %>%
+          </span>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

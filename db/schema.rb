@@ -10,13 +10,61 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_21_194357) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_05_205931) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
   create_table "collections", force: :cascade do |t|
     t.string "name"
     t.string "token_address"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "cooking_recipe_fishes", force: :cascade do |t|
+    t.bigint "cooking_recipe_id", null: false
+    t.bigint "item_id", null: false
+    t.integer "fish_quantity"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["cooking_recipe_id"], name: "index_cooking_recipe_fishes_on_cooking_recipe_id"
+    t.index ["item_id"], name: "index_cooking_recipe_fishes_on_item_id"
+  end
+
+  create_table "cooking_recipe_sushis", force: :cascade do |t|
+    t.bigint "cooking_recipe_id", null: false
+    t.bigint "cooking_sushi_id", null: false
+    t.float "sushi_dropchance"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["cooking_recipe_id"], name: "index_cooking_recipe_sushis_on_cooking_recipe_id"
+    t.index ["cooking_sushi_id"], name: "index_cooking_recipe_sushis_on_cooking_sushi_id"
+  end
+
+  create_table "cooking_recipes", force: :cascade do |t|
+    t.jsonb "api_data"
+    t.string "api_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "slug"
+  end
+
+  create_table "cooking_sushis", force: :cascade do |t|
+    t.string "name"
+    t.jsonb "api_data"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "slug"
+  end
+
+  create_table "events", force: :cascade do |t|
+    t.boolean "active"
+    t.string "description"
+    t.datetime "end_date"
+    t.string "api_id"
+    t.string "name"
+    t.string "default_theme_id"
+    t.string "slug"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -32,9 +80,28 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_21_194357) do
     t.datetime "updated_at", null: false
     t.boolean "active"
     t.boolean "has_nft"
+    t.bigint "event_id"
     t.index ["api_id"], name: "index_items_on_api_id"
     t.index ["collection_id"], name: "index_items_on_collection_id"
+    t.index ["event_id"], name: "index_items_on_event_id"
     t.index ["type"], name: "index_items_on_type"
+  end
+
+  create_table "leaderboard_refreshes", force: :cascade do |t|
+    t.datetime "refreshed_at"
+    t.bigint "leaderboard_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["leaderboard_id"], name: "index_leaderboard_refreshes_on_leaderboard_id"
+  end
+
+  create_table "leaderboards", force: :cascade do |t|
+    t.datetime "end_date"
+    t.integer "category"
+    t.string "title"
+    t.string "subtitle"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "players", force: :cascade do |t|
@@ -62,6 +129,19 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_21_194357) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["player_id"], name: "index_players_ranks_on_player_id"
+  end
+
+  create_table "ranks", force: :cascade do |t|
+    t.bigint "player_id"
+    t.string "tier_name"
+    t.integer "rank"
+    t.integer "points"
+    t.float "multiplier"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "leaderboard_refresh_id"
+    t.index ["leaderboard_refresh_id"], name: "index_ranks_on_leaderboard_refresh_id"
+    t.index ["player_id"], name: "index_ranks_on_player_id"
   end
 
   create_table "solid_cable_messages", force: :cascade do |t|
@@ -212,7 +292,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_21_194357) do
     t.jsonb "data"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "reference_date"
     t.index ["statisticable_type", "statisticable_id"], name: "index_statistics_on_statisticable"
+  end
+
+  create_table "tokens", force: :cascade do |t|
+    t.string "key"
+    t.string "value"
+    t.datetime "expires_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "traits", force: :cascade do |t|
@@ -224,9 +313,17 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_21_194357) do
     t.index ["item_id"], name: "index_traits_on_item_id"
   end
 
+  add_foreign_key "cooking_recipe_fishes", "cooking_recipes"
+  add_foreign_key "cooking_recipe_fishes", "items"
+  add_foreign_key "cooking_recipe_sushis", "cooking_recipes"
+  add_foreign_key "cooking_recipe_sushis", "cooking_sushis"
   add_foreign_key "items", "collections"
+  add_foreign_key "items", "events"
+  add_foreign_key "leaderboard_refreshes", "leaderboards"
   add_foreign_key "players_metrics", "players"
   add_foreign_key "players_ranks", "players"
+  add_foreign_key "ranks", "leaderboard_refreshes"
+  add_foreign_key "ranks", "players"
   add_foreign_key "solid_queue_blocked_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_claimed_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_failed_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade

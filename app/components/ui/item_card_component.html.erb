@@ -2,21 +2,32 @@
   <div>
     <div class="p-2 flex gap-2">
       <% if @image_path.present? %>
-        <div class="w-16 h-16 rounded-full overflow-hidden flex-shrink-0">
+        <div class="w-16 h-16 rounded-full overflow-hidden flex-shrink-0 <%= @image_classes %>">
           <img class="w-full h-full object-cover <%= "transform scale-120" if scale_image? %>" src="<%= asset_path "#{@image_path}" %>">
         </div>
       <% end %>
       <div class="flex flex-col flex-1 gap-2 justify-center w-full min-w-0">
+        <div class="flex flex-row items-start justify-between">
         <% unless @title.blank? %>
-          <h3 class="text-sm font-semibold text-gray-800 w-full">
+          <div class="min-w-0 flex-1">
+            <h3 class="text-sm font-semibold text-gray-800 w-full">
               <span class="truncate block w-full">
                 <%= @title %>
               </span>
-              <% unless @subtitle.blank? %>
-                <span class="block ml-1 text-gray-400 text-xxs"><%= @subtitle %></span>
+            </h3>
+            <% unless @subtitle.blank? %>
+              <span class="block ml-1 text-gray-400 text-xxs"><%= @subtitle %></span>
+            <% end %>
+          </div>
+          <% if @top_right_labels.any? %>
+            <div class="flex flex-row flex-shrink-0 gap-1">
+              <% @top_right_labels.each do |label| %>
+                <%= label %>
               <% end %>
-          </h3>
+            </div>
+          <% end %>
         <% end %>
+        </div>
         <% unless @description.blank? %>
           <p class="text-xs font-semibold text-gray-800"><%= @description %></p>
         <% end %>

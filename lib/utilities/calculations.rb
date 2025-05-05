@@ -16,4 +16,9 @@ class Utilities::Calculations
     factor = 10 ** digits
     (number * factor).floor.to_f / factor
   end
+
+  def self.smart_round(number, precision: 1)
+    rounded = number.round(precision)
+    rounded % 1 == 0 ? rounded.to_i : rounded
+  end
 end

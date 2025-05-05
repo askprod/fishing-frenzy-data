@@ -18,10 +18,10 @@ module ApplicationHelper
     end
   end
 
-  def label_classes(color: "gray", extra_classes: "")
+  def label_classes(color: "gray", extra_classes: "", text_size: "xxs")
     "
       bg-#{color}-200 text-#{color}-800
-      text-xxs rounded-sm
+      text-#{text_size} rounded-sm
       px-1.5 py-0.5
       inline-flex items-center justify-center whitespace-nowrap
       #{extra_classes}
@@ -74,6 +74,8 @@ module ApplicationHelper
       "pink"
     when 5
       "purple"
+    else
+      "white"
     end
   end
 
@@ -96,10 +98,15 @@ module ApplicationHelper
     content_tag(:span, rariry_text(rarity), class: label_classes(color: rarity_color(rarity)))
   end
 
-  def nav_item_classes(path)
-    request.path.include?(path) ?
-      "text-gray-300 bg-gray-700 text-white" :
-      "text-gray-300 hover:text-gray-600 hover:font-bold"
+  def nav_item_active?(paths = [])
+    return request.path.eql?("/") if paths.blank?
+    Array(paths).map { |path| request.path.include? path }.any?
+  end
+
+  def nav_item_classes(paths = [])
+    normal_classes = "hover:bg-gray-300"
+    active_classes = "bg-gray-300"
+    nav_item_active?(paths) ? active_classes : normal_classes
   end
 
   def nft_label

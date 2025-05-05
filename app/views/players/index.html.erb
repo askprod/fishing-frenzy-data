@@ -1,3 +1,15 @@
+<% if @leaderboards.any? %>
+  <p class="flex items-center text-gray-400 mb-5">
+    Leaderboards
+  </p>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-5">
+    <% @leaderboards.each do |leaderboard| %>
+      <%= render partial: "players/partials/leaderboard_card", locals: { leaderboard: leaderboard } %>
+    <% end %>
+  </div>
+<% end %>
+
 <p class="flex items-center text-gray-400 mb-5">
   Players <span class="<%= label_classes %> ml-2"><%= @players.count %></span>
 </p>
@@ -12,7 +24,7 @@
     />
 
     <div 
-        class="flex items-center border-r border-r-white bg-blue-500 hover:bg-blue-600 text-white text-xs px-4 transition-all duration-200 cursor-pointer" 
+        class="flex items-center border-r border-r-white bg-blue-400 hover:bg-blue-600 text-white text-xs px-4 transition-all duration-200 cursor-pointer" 
         data-players-target="searchRandomize" data-url="<%= random_players_path %>"
       >
       <svg class="fill-white h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
@@ -20,7 +32,7 @@
         <path d="M403.8 34.4c12-5 25.7-2.2 34.9 6.9l64 64c6 6 9.4 14.1 9.4 22.6s-3.4 16.6-9.4 22.6l-64 64c-9.2 9.2-22.9 11.9-34.9 6.9s-19.8-16.6-19.8-29.6l0-32-32 0c-10.1 0-19.6 4.7-25.6 12.8L284 229.3 244 176l31.2-41.6C293.3 110.2 321.8 96 352 96l32 0 0-32c0-12.9 7.8-24.6 19.8-29.6zM164 282.7L204 336l-31.2 41.6C154.7 401.8 126.2 416 96 416l-64 0c-17.7 0-32-14.3-32-32s14.3-32 32-32l64 0c10.1 0 19.6-4.7 25.6-12.8L164 282.7zm274.6 188c-9.2 9.2-22.9 11.9-34.9 6.9s-19.8-16.6-19.8-29.6l0-32-32 0c-30.2 0-58.7-14.2-76.8-38.4L121.6 172.8c-6-8.1-15.5-12.8-25.6-12.8l-64 0c-17.7 0-32-14.3-32-32s14.3-32 32-32l64 0c30.2 0 58.7 14.2 76.8 38.4L326.4 339.2c6 8.1 15.5 12.8 25.6 12.8l32 0 0-32c0-12.9 7.8-24.6 19.8-29.6s25.7-2.2 34.9 6.9l64 64c6 6 9.4 14.1 9.4 22.6s-3.4 16.6-9.4 22.6l-64 64z"/>
       </svg>
     </div>
-    <%= link_to request_players_path, class: "flex items-center rounded-tr-lg rounded-br-lg bg-blue-500 hover:bg-blue-600 text-white text-xs px-4 transition-all duration-200" do %>
+    <%= link_to request_players_path, class: "flex items-center rounded-tr-lg rounded-br-lg bg-blue-400 hover:bg-blue-600 text-white text-xs px-4 transition-all duration-200" do %>
       <svg class="fill-white h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
         <!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
         <path d="M96 128a128 128 0 1 1 256 0A128 128 0 1 1 96 128zM0 482.3C0 383.8 79.8 304 178.3 304l91.4 0C368.2 304 448 383.8 448 482.3c0 16.4-13.3 29.7-29.7 29.7L29.7 512C13.3 512 0 498.7 0 482.3zM504 312l0-64-64 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l64 0 0-64c0-13.3 10.7-24 24-24s24 10.7 24 24l0 64 64 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-64 0 0 64c0 13.3-10.7 24-24 24s-24-10.7-24-24z"/>

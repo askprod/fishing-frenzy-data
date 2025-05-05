@@ -8,6 +8,7 @@
 #  data               :jsonb
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
+#  reference_date     :datetime
 #
 # Indexes
 #
@@ -16,6 +17,14 @@
 
 class Statistic < ApplicationRecord
   belongs_to :statisticable, polymorphic: true
-  scope :latest_statistic, -> { order(created_at: :asc).last }
-  scope :previous_statistic, -> { order(created_at: :asc).last(2).first }
+  scope :latest_statistic, -> { order(reference_date: :asc).last }
+  scope :previous_statistic, -> { order(reference_date: :asc).last(2).first }
+
+  before_validation :define_default_attributes
+
+  private
+
+  def define_default_attributes
+    self.reference_date = created_at if reference_date.nil?
+  end
 end

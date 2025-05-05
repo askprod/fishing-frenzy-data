@@ -11,11 +11,15 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   get "/", to: "dashboard#index", as: :dashboard
+  get "/about", to: "dashboard#about", as: :about
   resources :fish, only: [ :index, :show ], param: :fish_slug
   resources :pets, only: [ :index, :show ], param: :pet_slug
   resources :rods, only: [ :index, :show ], param: :rod_slug
   resources :chests, only: [ :index, :show ], param: :chest_slug
   resources :flashes, only: [ :index ]
+  resources :recipes, only: [ :index, :show ], param: :recipe_slug
+  resources :sushis, only: [ :index, :show ], param: :sushi_slug
+  resources :events, only: [ :index, :show ], param: :event_slug
   resources :players, only: [ :index, :show ], param: :player_slug do
     member do
       get "/stats-grid", to: "players#stats_grid"
