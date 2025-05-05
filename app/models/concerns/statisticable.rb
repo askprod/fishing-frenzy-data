@@ -2,7 +2,7 @@ module Statisticable
   extend ActiveSupport::Concern
 
   included do
-    has_many :statistics, as: :statisticable
+    has_many :statistics, as: :statisticable, dependent: :destroy
 
     def self.fetch_and_create_all_statistics(**args)
       self.with_nfts.map { |obj| obj.fetch_and_create_statistics(**args) }

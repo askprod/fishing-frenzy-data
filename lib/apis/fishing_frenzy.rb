@@ -42,8 +42,9 @@ class Apis::FishingFrenzy
   end
 
   def call
-    Rails.logger.info "### Apis::FishingFrenzy ###".yellow
-    Rails.logger.info "#{@request_type} — #{request_full_path}".yellow
+    Rails.logger.info "##### Apis::FishingFrenzy".yellow
+    Rails.logger.info "##### #{@request_type} — #{request_full_path}".yellow
+    Rails.logger.info "##### Payload - #{payload}".blue
 
     api_response = RestClient::Request.execute(
       method: @request_type,

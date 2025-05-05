@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_03_140230) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_05_205931) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -25,7 +25,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_03_140230) do
     t.bigint "cooking_recipe_id", null: false
     t.bigint "item_id", null: false
     t.integer "fish_quantity"
-    t.boolean "shiny_fish"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["cooking_recipe_id"], name: "index_cooking_recipe_fishes_on_cooking_recipe_id"
