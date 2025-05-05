@@ -34,8 +34,28 @@ class Leaderboard < ApplicationRecord
       .limit(1).first
   }
 
-  def self.refresh_leaderboards_data
-    Initializers::LeaderboardsInitializer.call(should_create_records: true)
+  def self.refresh_general_leaderboard(should_create_records: false)
+    Initializers::Leaderboards::General.call(
+      should_create_records: should_create_records
+    )
+  end
+
+  def self.refresh_cooking_leaderboard(should_create_records: false)
+    Initializers::Leaderboards::Cooking.call(
+      should_create_records: should_create_records
+    )
+  end
+
+  def self.refresh_frenzy_points_leaderboard(should_create_records: false)
+    Initializers::Leaderboards::FrenzyPoints.call(
+      should_create_records: should_create_records
+    )
+  end
+
+  def self.refresh_global_leaderboard(should_create_records: false)
+    Initializers::Leaderboards::Global.call(
+      should_create_records: should_create_records
+    )
   end
 
   def self.tiers

@@ -129,7 +129,11 @@ module Components::ItemCardComponentHelper
               Utilities::Calculations.smart_round(recipe_sushi.sushi_percent_drop_chance, precision: 1)
             end
 
-            color = rarity_color(recipe_sushi.cooking_sushi.quality)
+            color = if recipe_sushi.cooking_sushi.respond_to? :quality
+              rarity_color(recipe_sushi.cooking_sushi.quality)
+            else
+              "white"
+            end
 
             content_tag(:div, class: "relative flex flex-col items-center #{index.positive? ? '-ml-2' : ''}", style: "z-index: #{index + 1};") do
               image_tag(

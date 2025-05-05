@@ -39,13 +39,14 @@ class Player < ApplicationRecord
   }
 
   scope :order_by_latest_global_rank, lambda {
-    subquery = Rank
-      .select(:id).joins(:leaderboard).where("ranks.player_id = players.id")
-      .where(leaderboards: { category: :global }).order(created_at: :desc)
-      .limit(1).to_sql
+    latest_ranks = Rank
+      .select("DISTINCT ON (ranks.player_id) ranks.player_id, ranks.rank")
+      .joins(:leaderboard)
+      .where(leaderboards: { category: :global })
+      .order("ranks.player_id, ranks.created_at DESC")
 
-    joins("LEFT JOIN ranks ON ranks.id = (#{subquery})")
-      .order("ranks.rank ASC") # or DESC
+    joins("LEFT JOIN (#{latest_ranks.to_sql}) latest_rank ON latest_rank.player_id = players.id")
+      .order("latest_rank.rank ASC")
   }
 
   scope :with_rank, -> { includes(:ranks).joins(:ranks).merge(Rank.latest) }
@@ -150,11 +151,11 @@ class Player < ApplicationRecord
 
   def refresh_player_data(manual_refresh: false)
     adapter = self.class.fetch_data(api_id)
-    player_metrics.build(api_data: adapter.data)
+    player_metrics.build(api_data: adapter.parsed_data)
     self.last_manual_api_refresh_at = Time.current if manual_refresh
     self.last_automatic_api_refresh_at = Time.current if !manual_refresh
-    self.slug = slug_from_data(adapter.data) if slug.nil?
-    self.search_keywords = search_keywords_from_data(adapter.data) if search_keywords.blank?
+    self.slug = slug_from_data(adapter.parsed_data) if slug.nil?
+    self.search_keywords = search_keywords_from_data(adapter.parsed_data) if search_keywords.blank?
     save
   end
 
