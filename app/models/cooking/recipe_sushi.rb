@@ -17,7 +17,7 @@
 
 class Cooking::RecipeSushi < ApplicationRecord
   belongs_to :cooking_recipe, class_name: "Cooking::Recipe", foreign_key: :cooking_recipe_id
-  belongs_to :sushi, class_name: "Cooking::Sushi", foreign_key: :cooking_sushi_id
+  belongs_to :cooking_sushi, class_name: "Cooking::Sushi", foreign_key: :cooking_sushi_id
 
   def sushi_percent_drop_chance
     (sushi_dropchance * 100).round(2)

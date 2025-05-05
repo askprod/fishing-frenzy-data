@@ -51,12 +51,12 @@
     </p>
     <div class="flex flex-col gap-3">
       <% @recipe.cooking_recipe_sushis.each do |recipe_sushi| %>
-        <% sushi = recipe_sushi.sushi %>
+        <% sushi = recipe_sushi.cooking_sushi %>
         <div class="flex text-xxs items-center justify-between">
           <%= link_to sushi_path(sushi.slug), class: "text-blue-400" do %>
             <span class="flex items-center gap-1">
               <% 
-                color = rarity_color(recipe_sushi.sushi.quality) 
+                color = rarity_color(recipe_sushi.cooking_sushi.quality) 
                 color_classes = color.eql?("white") ? "bg-white ring-gray-200" : "bg-#{color}-200 ring-#{color}-400"
               %>
               <%= image_tag("/images/items/item_#{sushi.image_name}.png", class: "w-4 h-4 rounded-full ring-1 #{color_classes}") %>

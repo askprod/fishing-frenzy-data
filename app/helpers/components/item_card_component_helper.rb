@@ -129,11 +129,11 @@ module Components::ItemCardComponentHelper
               Utilities::Calculations.smart_round(recipe_sushi.sushi_percent_drop_chance, precision: 1)
             end
 
-            color = rarity_color(recipe_sushi.sushi.quality)
+            color = rarity_color(recipe_sushi.cooking_sushi.quality)
 
             content_tag(:div, class: "relative flex flex-col items-center #{index.positive? ? '-ml-2' : ''}", style: "z-index: #{index + 1};") do
               image_tag(
-                "/images/items/item_#{recipe_sushi.sushi.image_name}.png",
+                "/images/items/item_#{recipe_sushi.cooking_sushi.image_name}.png",
                 class: "w-14 rounded-full ring-1 #{color.eql?("white") ? "bg-white ring-gray-200" : "bg-#{color}-200 ring-#{color}-400"}"
               ) +
               content_tag(:span, "#{catch_percent}%", class: label_classes(color: "gray", extra_classes: "mt-[-8px]"))
