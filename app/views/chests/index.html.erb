@@ -43,9 +43,9 @@
 	<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 		<% @chests.each do |chest| %>
       <% if chest.has_nft? %>
-			<%= link_to chest_path(chest.slug) do %>
-        <%= render UI::ItemCardComponent.new(**item_card_chest_attributes(chest)) %>
-			<% end %>
+        <%= link_to chest_path(chest.slug) do %>
+          <%= render UI::ItemCardComponent.new(**item_card_chest_attributes(chest)) %>
+        <% end %>
       <% else %>
         <%= render UI::ItemCardComponent.new(**item_card_chest_attributes(chest)) %>
       <% end %>

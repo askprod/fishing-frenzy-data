@@ -22,9 +22,8 @@ class Initializers::Items::PetsInitializer
     collection = Collection.find_by(name: "Pet")
 
     @data.each do |hash|
-      next if Items::Pet.exists?(api_id: hash[:id])
-
-      Items::Pet.create!(
+      pet = collection.pet_items.find_or_initialize_by(api_id: hash[:id])
+      pet.assign_attributes(
         api_id: hash[:id],
         api_data: hash.except(:id),
         name: hash[:name],
@@ -32,6 +31,7 @@ class Initializers::Items::PetsInitializer
         collection: collection,
         has_nft: false
       )
+      pet.save!
     end
   end
 end

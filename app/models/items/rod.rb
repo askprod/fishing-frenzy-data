@@ -11,7 +11,6 @@
 #  api_data      :jsonb
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
-#  active        :boolean
 #  has_nft       :boolean
 #  event_id      :integer
 #
@@ -46,11 +45,5 @@ class Items::Rod < Item
     return unless has_nft?
 
     "https://marketplace.roninchain.com/collections/fishing-frenzy-rods?Name=#{CGI.escape(name)}"
-  end
-
-  private
-
-  def define_default_attributes
-    self.active = true if self.active.nil?
   end
 end

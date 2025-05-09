@@ -24,12 +24,10 @@ class Initializers::EventsInitializer
       end
 
       Items::Pet.where(api_id: event_attributes[:pet_ids]).update_all(
-        active: true,
         event_id: event.id
       )
 
       Items::Fish.where(api_id: event_attributes[:fish_ids]).update_all(
-        active: true,
         event_id: event.id
       )
     end

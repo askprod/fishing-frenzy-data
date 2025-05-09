@@ -65,6 +65,10 @@ v1:
       type: "GET"
       path: "chests"
 
+    chest:
+      type: "GET"
+      path: "chests/%{chestId}"
+
     inventory:
       type:  "GET"
       path: "inventory"

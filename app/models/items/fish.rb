@@ -11,7 +11,6 @@
 #  api_data      :jsonb
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
-#  active        :boolean
 #  has_nft       :boolean
 #  event_id      :integer
 #
@@ -28,8 +27,11 @@ class Items::Fish < Item
   has_many :cooking_recipes, through: :cooking_recipe_fishes
 
   scope :display_order, -> { order(Arel.sql("CAST(api_data->>'quality' AS INTEGER) ASC, CAST(api_data->>'sellPrice' AS INTEGER) ASC")) }
-
-  before_validation :define_default_attributes
+  scope :with_event, -> { where.not(event_id: nil) }
+  scope :event_ongoing, -> { joins(:event).merge(Event.ongoing) }
+  scope :by_rarity, ->(int) {
+    where("api_data ->> 'quality' = ?", int)
+  }
 
   def floor_price
     return 0 unless latest_statistic&.data.present?
@@ -56,12 +58,5 @@ class Items::Fish < Item
     return unless has_nft?
 
     "https://marketplace.roninchain.com/collections/fishing-frenzy-fish?Name=#{CGI.escape(name)}"
-  end
-
-  private
-
-  def define_default_attributes
-    # TODO active will not be a column on fish (to delete later), it should rely on if a Event is active or not
-    self.active = false if active.nil?
   end
 end

@@ -11,7 +11,6 @@
 #  api_data      :jsonb
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
-#  active        :boolean
 #  has_nft       :boolean
 #  event_id      :integer
 #
@@ -25,4 +24,21 @@
 
 class Items::Pet < Item
   scope :display_order, -> { order(Arel.sql("CAST(api_data->>'quality' AS INTEGER) ASC")) }
+
+  def min_catch_fish
+    api_data.dig("catchFish", "min")
+  end
+
+  def max_catch_fish
+    api_data.dig("catchFish", "max")
+  end
+
+  # TODO: Create association table
+  def fish_drop_rate
+    api_data.dig("catchFish", "dropRate")&.sort_by { |item| item["rate"] }&.reverse
+  end
+
+  def fish_percent_chance(fish_id)
+    fish_drop_rate.find { |d| d["fishId"].eql? fish_id }["rate"]
+  end
 end

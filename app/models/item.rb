@@ -11,7 +11,6 @@
 #  api_data      :jsonb
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
-#  active        :boolean
 #  has_nft       :boolean
 #  event_id      :integer
 #
@@ -38,7 +37,6 @@ class Item < ApplicationRecord
 
   scope :with_nfts, -> { where(has_nft: true) }
   scope :without_nfts, -> { where(has_nft: [ nil, false ]) }
-  scope :active, -> { where(active: true) }
 
   before_validation :define_default_attributes
 
@@ -63,7 +61,6 @@ class Item < ApplicationRecord
   private
 
   def define_default_attributes
-    active = false if active.nil?
     has_nft = false if has_nft.nil?
   end
 end

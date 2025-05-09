@@ -6,7 +6,7 @@
     <% if pet.price.any? %>
     <div class="flex flex-col gap-2">
       <div class="flex text-xxs items-center justify-between">
-        <span class="mt-[2px] pl-2">Price</span>
+        <span class="mt-[2px]">Price</span>
         <% pet.price.each do |price| %>
           <span class="flex-1 h-px bg-gray-100 mx-4"></span>
           <span class="<%= label_classes(color: "purple") %>">
@@ -15,14 +15,6 @@
           </span>
         <% end %>
       </div>
-    </div>
-    <% end %>
-  </div>
-  <div class="flex p-4 border-1 border-gray-200 rounded-xl flex-col md:flex-1 px-4">
-    <p class="flex gap-2 justify-between items-center mb-4">
-      <span class="text-sm mt-[1px]">Associations</span>
-    </p>
-    <div class="flex flex-col gap-2">
       <div class="flex text-xxs items-center justify-between">
         <% if pet.event && !pet.event.is_default_event? %>
           <span class="mt-[2px]">Event</span>
@@ -33,6 +25,40 @@
               <%= icon_arrow_up("blue-400", size: 2, extra_classes: "ml-1") %>
             </span>
           <% end %>
+        <% end %>
+      </div>
+    </div>
+    <% end %>
+  </div>
+  <div class="flex p-4 border-1 border-gray-200 rounded-xl flex-col md:flex-1 px-4">
+    <p class="flex gap-2 justify-between items-center mb-4">
+      <span class="text-sm mt-[1px]">Fish</span>
+    </p>
+    <div class="flex flex-col gap-2">
+      <div class="flex text-xxs items-center justify-between">
+        <span class="mt-[2px]">Amount</span>
+        <span class="flex-1 h-px bg-gray-100 mx-4"></span>
+        <div class="flex gap-0.5">
+          <span class="<%= label_classes(color: "orange") %>">Min. <%= pet.min_catch_fish %></span>
+          <span class="<%= label_classes(color: "green") %>">Max. <%= pet.max_catch_fish %></span>
+        </div>
+      </div>
+      <div class="flex flex-col gap-2">
+        <% pet.fish_drop_rate.each do |fish_drop_rate| %>
+          <% fish = Items::Fish.find_by(api_id: fish_drop_rate["fishId"]) %>
+          <div class="flex text-xxs items-center justify-between">
+            <%= link_to fish_path(fish.slug), class: "text-xxs text-blue-400" do %>
+              <span class="flex items-center gap-1">
+                <%= image_tag("/images/items/item_#{fish.image_name}.png", class: "w-4 h-4 rounded-full #{"ring-1 bg-yellow-200 ring-yellow-400" if fish.has_nft?}") %>
+                <%= fish.name %>
+                <%= icon_arrow_up("blue-400", size: 2) %>
+              </span>
+            <% end %>
+            <span class="flex-1 h-px bg-gray-100 mx-4"></span>
+            <span class="<%= label_classes %>"">
+              <%= pet.fish_percent_chance(fish.api_id) %>%
+            </span>
+          </div>
         <% end %>
       </div>
     </div>

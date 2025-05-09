@@ -42,15 +42,15 @@ module ApplicationHelper
       "bg-gray-500"
     end
 
-    content_tag(:div, class: "flex items-center flex-col gap-1 cursor-help", data: { tooltip_target: "server-status-tooltip", tooltip_trigger: "hover" }) do
+    content_tag(:div, class: "flex items-center flex-col gap-1 cursor-help", data: { tooltip_target: "server-status-tooltip", tooltip_trigger: "hover", tooltip_placement: :right }) do
       dot = content_tag(
         :div, nil, id: "server-status-label",
         class: "flex items-center justify-center h-3 w-3 #{color_class} text-white rounded-full transition-colors duration-800 animate-pulse"
       )
 
       tooltip = content_tag(
-        :div, id: "server-status-tooltip", role: "tooltip",
-        class: "absolute z-10 text-xxs invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 #{color_class} rounded-lg shadow-xs opacity-0 tooltip"
+        :div, id: "server-status-tooltip",
+        class: "absolute z-20 w-28 text-xxs invisible inline-block px-3 py-3 text-sm font-medium text-white transition-opacity duration-300 #{color_class} rounded-lg shadow-xs opacity-0 tooltip"
       ) do
         content_tag(:span, "Fishing Frenzy API - ") +
         content_tag(:span, id: "status") do

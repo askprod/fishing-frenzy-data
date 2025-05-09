@@ -8,7 +8,6 @@ class Adapters::FishingFrenzy::Events < Adapters::FishingFrenzy::Abstract
       events_data[event_data[:id]] = {
         name: event_data[:name],
         description: event_data[:description],
-        active: event_data[:active],
         end_date: (Time.parse(event_data[:endDate]) rescue nil),
         default_theme_id: event_data[:themes].find { |t| t[:name].include? event_data[:name] }[:id],
         pet_ids: event_data[:pets].map { |f| f[:id] }

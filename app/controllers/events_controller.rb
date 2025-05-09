@@ -11,7 +11,7 @@ class EventsController < ApplicationController
   private
 
   def set_events
-    @events = Event.active.ongoing
+    @events = Event.active
   end
 
   def set_event

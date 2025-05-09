@@ -6,6 +6,7 @@ class Utilities::RefreshApiTokens
 
   def call
     response = Apis::FishingFrenzy.call("refresh_tokens")
+
     bearer_token = response.dig(:tokens, :access)
     refresh_token = response.dig(:tokens, :refresh)
 

@@ -9,6 +9,8 @@ class Initializers::RodsTraitsInitializer
 
   def create_records
     @rods.each do |rod|
+      next if rod.traits.exists?(name: "Name")
+
       rod.traits.create(
         name: "Name",
         values: Array(rod.name)

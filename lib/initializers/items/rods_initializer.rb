@@ -25,14 +25,14 @@ class Initializers::Items::RodsInitializer
 
     adapter.parsed_data.each do |rod_id, rod_data|
       if collection.rod_items.exists?(api_id: rod_id)
-        collection.rod_items.find_by(api_id: rod_id).update(rod_data.except(:api_id))
+        collection.rod_items.find_by(api_id: rod_id).update_columns(rod_data.except(:api_id))
       else
         collection.rod_items.create({ api_id: rod_id }.merge(rod_data))
       end
     end
   end
 
-  # /rods on the API returns an empty array so had to find these by hand
+  # /rods on the API returns an empty array so had to buy these by hand
   def rod_ids
     [
       "6718a85dba24bcdd294bcac3", # Basic Rod non_nft
@@ -40,13 +40,13 @@ class Initializers::Items::RodsInitializer
       "6718a85dba24bcdd294bcac5", # Advanced Rod non_nft
       "6718a85dba24bcdd294bcac6", # Master's Rod non_nft
       "6718a85dba24bcdd294bcacb", # Founder's Rod non_nft
-      # Celestial Rod ?
-      # Golden Rod ?
-      # Radiant Rod ?
+      "67d58999bccee2e00b399dd0", # Celestial Rod nft
+      "67d578f4e65eb7cebf8f547b", # Golden Rod nft
+      "67d58999bccee2e00b399dcf", # Radiant Rod nft
       "6718a85dba24bcdd294bcaca", # Mythos Rod nft
-      # Gleaming Rod ?
+      "67d58999bccee2e00b399dce", # Gleaming Rod nft
       "6718a85dba24bcdd294bcac9", # Monument Rod nft
-      # Sparkle Rod ?
+      "67d58999bccee2e00b399dcd", # Sparkle Rod nft
       "6718a85dba24bcdd294bcac7", # Keepsake Rod nft
       "6718a85dba24bcdd294bcac8" # Heritage Rod nft
     ]

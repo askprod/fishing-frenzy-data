@@ -34,29 +34,14 @@
   <p class="italic text-gray-300 text-center text-xs">No data here...</p>
 <% end %>
 
+<%= render partial: "/fish/partials/filters" %>
+
 <div class="mb-5">
   <p class="text-gray-400 mb-2">Items</p>
   <div class="flex gap-1">
-    <span class="<%= label_classes %>"><%= @active_fishes.count %> currently available</span>
+    <span class="<%= label_classes %>"><%= @active_fishes.count %> currently fishable</span>
     <span class="<%= label_classes %>"><%= @all_fishes.count %> total</span>
   </div>
-</div>
-
-<p class="flex items-center text-xs text-gray-400 mb-1">
-  Filters
-</p>
-
-<div class="flex gap-1 mb-5">
-  <% fish_type = params[:fish_type] %>
-  <%= link_to fish_index_path(fish_type: :all), class: label_classes(color: (fish_type&.eql?("all") ? "yellow" : "gray"), extra_classes: "w-18") do %>
-    All
-  <% end %>
-  <%= link_to fish_index_path(fish_type: :shiny), class: label_classes(color: ((fish_type&.eql?("shiny") || fish_type.nil?) ? "yellow" : "gray"), extra_classes: "w-18") do %>
-    Shiny
-  <% end %>
-  <%= link_to fish_index_path(fish_type: :other), class: label_classes(color: (fish_type&.eql?("other") ? "yellow" : "gray"), extra_classes: "w-18") do %>
-    Other
-  <% end %>
 </div>
 
 <% if @display_fishes.any? %>

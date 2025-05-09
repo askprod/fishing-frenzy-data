@@ -1,5 +1,5 @@
 
-<div class="fixed left-0 flex flex-col items-center w-16 h-full overflow-hidden text-gray-700 bg-gray-100 rounded">
+<div class="fixed overflow-visible left-0 flex flex-col items-center w-16 h-full overflow-hidden text-gray-700 bg-gray-100 rounded">
   <div class="flex items-center justify-center mt-6">
 		<%= image_tag("/images/extras/head_icon.png", class: "h-8 w-auto", alt: "Logo") %>
   </div>
@@ -36,6 +36,9 @@
     <% end %>
   </div>
   <div class="flex flex-col items-center mt-2 border-t border-gray-300">
+    <div class="flex items-center justify-center w-12 h-12 relative">
+      <%= server_status_label %>
+    </div>
   </div>
   <%= link_to about_path, class: "flex items-center justify-center w-16 h-16 mt-auto bg-gray-200 #{nav_item_classes("about")}" do %>
     <%= icon_hand_wave(nav_item_active?("about") ? "white" : "gray-400", extra_classes: "animate-pulse") %>

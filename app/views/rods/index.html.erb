@@ -34,13 +34,10 @@
   <p class="italic text-gray-300 text-center text-xs">No data here...</p>
 <% end %>
 
-<div class="mb-5">
-  <p class="text-gray-400 mb-2">Items</p>
-  <div class="flex gap-1">
-    <span class="<%= label_classes %>"><%= @rods.count %> currently available</span>
-    <span class="<%= label_classes(color: "red") %>">5 missing from API</span>
-  </div>
-</div>
+<p class="flex items-center text-base text-gray-400 mb-5">
+  Items
+  <span class="<%= label_classes %> ml-2"><%= @rods.count %></span>
+</p>
 
 <% if @rods.any? %>
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">

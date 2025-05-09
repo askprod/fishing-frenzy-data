@@ -16,7 +16,7 @@
 
 <div data-controller="players">
   <%= form_for :player, url: request_players_path, method: :post do |f| %>
-    <div class="flex w-full max-w-xl">
+    <div class="flex w-full">
       <%= 
         f.text_field :requested_id, 
         class: "bg-white border border-gray-200 rounded-tl-lg rounded-bl-lg shadow-xs w-full text-xs p-3 placeholder:italic placeholder:text-gray-400 focus:border-blue-200 focus:ring-0",

@@ -11,7 +11,6 @@
 #  api_data      :jsonb
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
-#  active        :boolean
 #  has_nft       :boolean
 #  event_id      :integer
 #

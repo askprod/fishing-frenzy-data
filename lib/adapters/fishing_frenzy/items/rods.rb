@@ -15,14 +15,15 @@ class Adapters::FishingFrenzy::Items::Rods < Adapters::FishingFrenzy::Abstract
   end
 
   def excluded_attributes
-    [
-      :name,
-      :order,
-      :userId,
-      :isEquipped,
-      :isPrototype,
-      :isInWallet,
-      :isMinted
+    %i[
+      id
+      name
+      order
+      userId
+      isEquipped
+      isPrototype
+      isInWallet
+      isMinted
     ]
   end
 end

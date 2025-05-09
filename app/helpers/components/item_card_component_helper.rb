@@ -39,11 +39,9 @@ module Components::ItemCardComponentHelper
   end
 
   def item_card_chest_attributes(chest)
-    attributes = {
-      image_path: asset_path("/images/items/item_chest_#{chest.slug.underscore}.png"),
-      title: chest.name
-    }
-
+    attributes = {}
+    attributes[:image_path] = asset_path("/images/items/item_#{chest.image_name}.png")
+    attributes[:title] = chest.name
     attributes[:top_right_labels] = [ nft_label ] if chest.has_nft?
     attributes[:left_footer] = chest.has_nft? ? "Floor #{chest.floor_price}" : "&nbsp;".html_safe
     attributes[:right_footer] = chest.has_nft? ? "#{chest.listed_amount} listed" : "&nbsp;".html_safe
