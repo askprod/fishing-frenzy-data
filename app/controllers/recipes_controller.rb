@@ -42,7 +42,7 @@ class RecipesController < ApplicationController
   end
 
   def set_recipe
-    @recipe = @recipes.find_by(slug: params[:recipe_slug]) if params[:recipe_slug]
+    @recipe = @all_recipes.find_by(slug: params[:recipe_slug]) if params[:recipe_slug]
   end
 
   def apply_filters
