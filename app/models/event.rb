@@ -18,6 +18,7 @@ class Event < ApplicationRecord
   has_many :items, dependent: :destroy
   has_many :fish_items, class_name: "Items::Fish"
   has_many :pet_items, class_name: "Items::Pet"
+  has_many :recipes, class_name: "Cooking::Recipe"
 
   validates :name, presence: true, uniqueness: true
   validates :slug, presence: true, uniqueness: true

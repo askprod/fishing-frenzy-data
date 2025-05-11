@@ -1,11 +1,14 @@
 <p class="flex items-center text-base text-gray-400 mb-5">
   Items
-  <span class="<%= label_classes %> ml-2"><%= @recipes.count %></span>
+  <span class="<%= label_classes %> ml-2"><%= @available_recipes.count %> available</span>
+  <span class="<%= label_classes %> ml-2"><%= @all_recipes.count %> total</span>
 </p>
 
-<% if @recipes.any? %>
+<%= render partial: "recipes/partials/filters" %>
+
+<% if @display_recipes.any? %>
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-    <% @recipes.each do |recipe| %>
+    <% @display_recipes.each do |recipe| %>
       <%= link_to recipe_path(recipe.slug) do %>
         <%= render partial: "recipes/partials/recipe_panel", locals: { recipe: recipe } %>
       <% end %>

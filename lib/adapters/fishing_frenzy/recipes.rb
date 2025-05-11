@@ -9,6 +9,7 @@ class Adapters::FishingFrenzy::Recipes < Adapters::FishingFrenzy::Abstract
     @data.dig(:recipes).each do |recipe_data|
       recipe_id = recipe_data.dig(:id)
       new_data[:recipes][recipe_id] = recipe_data.except(:rewards, :components, :id)
+      new_data[:recipes][recipe_id][:available] = recipe_data[:isEnabled]
       new_data[:recipes][recipe_id][:fish] = {}
       new_data[:recipes][recipe_id][:sushis] = {}
 

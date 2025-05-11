@@ -13,6 +13,8 @@ class FishController < ApplicationController
   def show
   end
 
+  ## FILTERS
+
   def filters_params
     params.fetch(:filters, {}).permit(:fish_type, :event, :rarity)
   end

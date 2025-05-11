@@ -26,7 +26,8 @@ class Initializers::CookingModelsInitializer
 
       new_recipe = Cooking::Recipe.create(
         api_id: recipe_id,
-        api_data: recipe_data.except(:fish, :sushis)
+        api_data: recipe_data.except(:fish, :sushis, :available),
+        available: recipe_data[:available]
       )
 
       recipe_data[:fish].each do |fish_id, fish_data|
