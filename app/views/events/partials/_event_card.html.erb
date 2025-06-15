@@ -2,7 +2,7 @@
   <div class="flex flex-col">
     <div class="md:flex-1">
       <div class="w-full h-42 mb-4 rounded-xl overflow-hidden relative">
-        <%= image_tag("/images/extras/#{event.slug.underscore}.png", class: "w-full h-full object-cover rounded-xl #{"object-[50%_30%]" if event.slug.eql?("default")}") %>
+        <%= image_tag("/images/extras/#{event.slug.underscore}.png", class: "w-full h-full object-cover rounded-xl #{"object-[50%_30%]" if event.slug.in?(["default", "bloom-lagoon"])}") %>
         <div class="absolute bottom-4 left-4 z-10">
           <div class="flex items-center">
             <div class="flex flex-col gap-1">

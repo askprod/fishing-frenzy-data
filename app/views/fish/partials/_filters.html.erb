@@ -4,6 +4,21 @@
 
 <div class="flex flex-wrap gap-x-5 gap-y-2 mb-5">
   <div>
+    <span class="flex items-center text-xs text-gray-400 mb-1">Event</span>
+    <div class="flex gap-1">
+      <%= link_to fish_index_path(filters: filters_params.merge(event: :default)), class: label_classes(color: (safe_event_filter&.eql?("default") ? "green" : "gray"), extra_classes: "w-20") do %>
+        Default
+      <% end %>
+      <%= link_to fish_index_path(filters: filters_params.merge(event: :ronin_reef)), class: label_classes(color: (safe_event_filter&.eql?("ronin_reef") ? "green" : "gray"), extra_classes: "w-20") do %>
+        Ronin Reef
+      <% end %>
+      <%= link_to fish_index_path(filters: filters_params.merge(event: :bloom_lagoon)), class: label_classes(color: (safe_event_filter&.eql?("bloom_lagoon") ? "pink" : "gray"), extra_classes: "w-20") do %>
+        Bloom Lagoon
+      <% end %>
+    </div>
+  </div>
+
+  <div>
     <span class="flex items-center text-xs text-gray-400 mb-1">Type</span>
     <div class="flex gap-1">
       <%= link_to fish_index_path(filters: filters_params.merge(fish_type: :all)), class: label_classes(color: (safe_fish_type_filter&.eql?("all") ? "yellow" : "gray"), extra_classes: "w-20") do %>
@@ -14,18 +29,6 @@
       <% end %>
       <%= link_to fish_index_path(filters: filters_params.merge(fish_type: :non_shiny)), class: label_classes(color: (safe_fish_type_filter&.eql?("non_shiny") ? "yellow" : "gray"), extra_classes: "w-20") do %>
         Non Shiny
-      <% end %>
-    </div>
-  </div>
-
-  <div>
-    <span class="flex items-center text-xs text-gray-400 mb-1">Event</span>
-    <div class="flex gap-1">
-      <%= link_to fish_index_path(filters: filters_params.merge(event: :all)), class: label_classes(color: (safe_event_filter&.eql?("all") ? "green" : "gray"), extra_classes: "w-20") do %>
-        All
-      <% end %>
-      <%= link_to fish_index_path(filters: filters_params.merge(event: :ronin_reef)), class: label_classes(color: (safe_event_filter&.eql?("ronin_reef") ? "green" : "gray"), extra_classes: "w-20") do %>
-        Ronin Reef
       <% end %>
     </div>
   </div>

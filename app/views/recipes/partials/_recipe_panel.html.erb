@@ -22,9 +22,7 @@
     <span class="text-xxs font-regular text-gray-900 mr-1 flex flex-row items-center">
       <span class="ml-1 flex items-center gap-0.5">
         <% if recipe.current_ron_price %>
-          Price
-          <%= recipe.current_ron_price.presence %>
-          <%= image_tag("/images/icons-2/icon_ronin.png", class: "w-[6px]") %>
+          <%= ron_price_label("Price #{recipe.current_ron_price}") %>
         <% else %>
           &nbsp;
         <% end %>

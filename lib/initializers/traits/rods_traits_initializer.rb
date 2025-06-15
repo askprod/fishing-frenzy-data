@@ -1,4 +1,4 @@
-class Initializers::RodsTraitsInitializer
+class Initializers::Traits::RodsTraitsInitializer
   def initialize
     @rods = Items::Rod.with_nfts
   end

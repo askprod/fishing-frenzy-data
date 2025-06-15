@@ -1,4 +1,4 @@
-class Initializers::FishTraitsInitializer
+class Initializers::Traits::FishTraitsInitializer
   def initialize
     @fish = Items::Fish.with_nfts
   end

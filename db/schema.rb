@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_11_080743) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_14_165735) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -47,9 +47,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_11_080743) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "slug"
-    t.bigint "event_id"
     t.boolean "available"
-    t.index ["event_id"], name: "index_cooking_recipes_on_event_id"
   end
 
   create_table "cooking_sushis", force: :cascade do |t|
@@ -319,7 +317,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_11_080743) do
   add_foreign_key "cooking_recipe_fishes", "items"
   add_foreign_key "cooking_recipe_sushis", "cooking_recipes"
   add_foreign_key "cooking_recipe_sushis", "cooking_sushis"
-  add_foreign_key "cooking_recipes", "events"
   add_foreign_key "items", "collections"
   add_foreign_key "items", "events"
   add_foreign_key "leaderboard_refreshes", "leaderboards"

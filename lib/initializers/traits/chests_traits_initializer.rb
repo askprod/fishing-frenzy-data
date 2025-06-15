@@ -1,4 +1,4 @@
-class Initializers::ChestsTraitsInitializer
+class Initializers::Traits::ChestsTraitsInitializer
   def initialize
     @chests = Items::Chest.with_nfts
   end

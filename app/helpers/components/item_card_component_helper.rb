@@ -2,7 +2,6 @@ module Components::ItemCardComponentHelper
   def item_card_fish_attributes(fish)
     labels = [].tap do |arr|
       arr << rarity_label(fish.quality)
-      arr << fish_sell_price_label(fish.sell_price)
       arr << fish_recipes_label(fish.cooking_recipes.count) if fish.cooking_recipes.any?
       arr << event_label(fish.event)
     end
@@ -19,7 +18,11 @@ module Components::ItemCardComponentHelper
 
     attributes[:image_classes] = "ring-1 bg-yellow-200 ring-yellow-400" if fish.has_nft?
     attributes[:top_right_labels] = top_right_labels
-    attributes[:left_footer] = fish.has_nft? ? "Floor #{fish.floor_price}" : "&nbsp;".html_safe
+    attributes[:left_footer] = if fish.has_nft?
+      ron_price_label("Floor #{fish.floor_price}")
+    else
+      fish_sell_price_label(fish.sell_price)
+    end
     attributes[:right_footer] = fish.has_nft? ? "#{fish.listed_amount} listed" : "&nbsp;".html_safe
     attributes
   end

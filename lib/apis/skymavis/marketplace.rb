@@ -1,4 +1,4 @@
-class Apis::Skymavis::Abstract
+class Apis::Skymavis::MarketPlace
   HOST = "https://marketplace-graphql.skymavis.com/graphql"
   attr_reader :operation_name, :query, :variables
 

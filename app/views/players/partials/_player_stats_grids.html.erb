@@ -187,22 +187,25 @@
       <div class="flex text-xxs items-center justify-between">
         <span class="mt-[2px] pl-2">Pearls</span>
         <span class="flex-1 h-px bg-gray-100 mx-4"></span>
-        <span class="<%= label_classes(color: "white") %>">
+        <span class="<%= label_classes(color: "purple") %>">
           <%= number_with_delimiter(player.current_player_metric.pearl) %>
+          <%= image_tag("/images/icons-2/icon_pearl.png", class: "h-[9px] mt-[-1px] ml-1") %>
         </span>
       </div>
       <div class="flex text-xxs items-center justify-between">
-        <span class="mt-[2px] pl-2">Scales</span>
+        <span class="mt-[2px] pl-2">Blooms</span>
         <span class="flex-1 h-px bg-gray-100 mx-4"></span>
-        <span class="<%= label_classes(color: "white") %>">
+        <span class="<%= label_classes(color: "fuchsia") %>">
           <%= number_with_delimiter(player.current_player_metric.scale) %>
+          <%= image_tag("/images/items/item_scale.png", class: "h-[9px] mt-[-1px] ml-1") %>
         </span>
       </div>
       <div class="flex text-xxs items-center justify-between">
         <span class="mt-[2px] pl-2">Founder Emblems</span>
         <span class="flex-1 h-px bg-gray-100 mx-4"></span>
-        <span class="<%= label_classes(color: "white") %>">
+        <span class="<%= label_classes(color: "blue") %>">
           <%= number_with_delimiter(player.current_player_metric.founders_emblems) %>
+          <%= image_tag("/images/items/item_emblem.png", class: "h-[9px] mt-[-1px] ml-1") %>
         </span>
       </div>
       <div class="flex text-xxs items-center justify-between">
@@ -235,7 +238,8 @@
         <span class="flex-1 h-px bg-gray-100 mx-4"></span>
         <div class="px-1.5">
           <% if (pet = player.associated_pet).present? %>
-            <%= link_to pet_path(pet.slug), class: "flex gap-1 items-center" do %>
+            <%= link_to pet_path(pet.slug), class: "flex gap-1 items-center text-blue-400" do %>
+              <%= icon_arrow_up("blue-400", size: 2)%>
               <span class="mt-[2px]"><%= pet.name %> </span>
               <%= image_tag("/images/items/item_#{pet.image_name}.png", class: "rounded-full h-[14px]") %>
             <% end %>

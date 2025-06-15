@@ -25,8 +25,7 @@
           <span class="flex-1 h-px bg-gray-100 mx-4"></span>
           <% if fish.has_nft? %>
             <span class="flex items-center gap-0.5"">
-              <%= (fish.floor_price * recipe_fish.fish_quantity).round(3) %>
-              <%= image_tag("/images/icons-2/icon_ronin.png", class: "w-2") %>
+              <%= ron_price_label("#{(fish.floor_price * recipe_fish.fish_quantity).round(3)}") %>
             </span>
           <% end %>
         </div>
@@ -38,8 +37,7 @@
           </span>
           <span class="flex-1 h-px bg-gray-100 mx-4"></span>
           <span class="<%= label_classes(color: "blue", extra_classes: "gap-0.5", text_size: "xs") %>">
-            <%= @recipe.current_ron_price %>
-            <%= image_tag("/images/icons-2/icon_ronin.png", class: "w-2") %>
+            <%= ron_price_label("#{@recipe.current_ron_price }") %>
           </span>
         </div>
       <% end %>

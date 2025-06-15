@@ -8,18 +8,11 @@
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  slug       :string
-#  event_id   :integer
 #  available  :boolean
-#
-# Indexes
-#
-#  index_cooking_recipes_on_event_id  (event_id)
 #
 
 class Cooking::Recipe < ApplicationRecord
   include ApiDataAccessible
-
-  belongs_to :event, optional: true
 
   has_many :cooking_recipe_sushis, class_name: "Cooking::RecipeSushi", foreign_key: :cooking_recipe_id, dependent: :destroy
   has_many :sushis, through: :cooking_recipe_sushis, class_name: "Cooking::Sushi"
@@ -30,8 +23,6 @@ class Cooking::Recipe < ApplicationRecord
   before_validation :define_slug
 
   scope :available, -> { where(available: true) }
-  scope :with_event, -> { where.not(event_id: nil) }
-  scope :without_event, -> { where(event_id: nil) }
   scope :special, -> {
     joins(:fish)
       .group("cooking_recipes.id")

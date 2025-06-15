@@ -114,4 +114,11 @@ module ApplicationHelper
       "NFT"
     end
   end
+
+  def ron_price_label(text)
+    content_tag(:span, class: "flex items-center gap-1") do
+      concat text
+      concat image_tag("/images/icons-2/icon_ronin.png", class: "w-1.5 h-2.2").html_safe
+    end
+  end
 end

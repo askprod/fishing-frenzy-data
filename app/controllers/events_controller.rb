@@ -11,7 +11,7 @@ class EventsController < ApplicationController
   private
 
   def set_events
-    @events = Event.active
+    @events = Event.active.order(end_date: :desc)
   end
 
   def set_event

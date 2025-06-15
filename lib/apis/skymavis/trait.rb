@@ -14,7 +14,7 @@ class Apis::Skymavis::Trait
   end
 
   def call
-    Apis::Skymavis::Abstract.call(operation_name, @query, variables)
+    Apis::Skymavis::MarketPlace.call(operation_name, @query, variables)
   end
 
   def operation_name

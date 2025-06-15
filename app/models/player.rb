@@ -37,6 +37,7 @@ class Player < ApplicationRecord
       time: 6.hours.ago
     )
   }
+  scope :first_100_by_global_rank, -> { order_by_latest_global_rank.limit(100) }
 
   scope :order_by_latest_global_rank, lambda {
     latest_ranks = Rank
