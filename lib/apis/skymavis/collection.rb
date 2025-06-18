@@ -12,7 +12,7 @@ class Apis::Skymavis::Collection
   end
 
   def call
-    Apis::Skymavis::MarketPlace.call(operation_name, @query, variables)
+    Apis::Skymavis::Marketplace.call(operation_name, @query, variables)
   end
 
   def operation_name
