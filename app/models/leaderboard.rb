@@ -28,11 +28,6 @@ class Leaderboard < ApplicationRecord
   }, prefix: true
 
   scope :ongoing, -> { where("end_date > ?", Time.current) }
-  scope :most_recently_refreshed, -> {
-    joins(:leaderboard_refreshes)
-      .order("leaderboard_refreshes.refreshed_at DESC")
-      .limit(1).first
-  }
 
   def self.refresh_general_leaderboard(should_create_records: false)
     Initializers::Leaderboards::General.call(
@@ -68,6 +63,13 @@ class Leaderboard < ApplicationRecord
 
   def display_end_date?
     end_date < (Time.current + 100.days)
+  end
+
+  def self.most_recently_refreshed
+    left_joins(:leaderboard_refreshes)
+      .where.not(leaderboard_refreshes: { refreshed_at: nil })
+      .order(leaderboard_refreshes: { refreshed_at: :desc })
+      .limit(1).first
   end
 
   private

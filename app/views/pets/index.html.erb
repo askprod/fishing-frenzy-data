@@ -1,11 +1,13 @@
+<%= render partial: "/pets/partials/filters" %>
+
 <p class="flex items-center text-base text-gray-400 mb-5">
   Items
-  <span class="<%= label_classes %> ml-2"><%= @pets.count %></span>
+  <span class="<%= label_classes %> ml-2"><%= @all_pets.count %></span>
 </p>
 
-<% if @pets.any? %>
+<% if @display_pets.any? %>
 	<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-		<% @pets.each do |pet| %>
+		<% @display_pets.each do |pet| %>
       <%= link_to pet_path(pet.slug) do %>
         <%= render UI::ItemCardComponent.new(**item_card_pet_attributes(pet)) %>
       <% end %>

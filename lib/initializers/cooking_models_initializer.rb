@@ -22,7 +22,14 @@ class Initializers::CookingModelsInitializer
     end
 
     @parsed_data[:recipes].each do |recipe_id, recipe_data|
-      next if Cooking::Recipe.exists?(api_id: recipe_id)
+      if Cooking::Recipe.exists?(api_id: recipe_id)
+        Cooking::Recipe.find_by(api_id: recipe_id).update(
+          api_data: recipe_data.except(:fish, :sushis, :available),
+          available: recipe_data[:available]
+        )
+
+        next
+      end
 
       new_recipe = Cooking::Recipe.create(
         api_id: recipe_id,

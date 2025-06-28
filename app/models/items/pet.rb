@@ -24,6 +24,11 @@
 
 class Items::Pet < Item
   scope :display_order, -> { order(Arel.sql("CAST(api_data->>'quality' AS INTEGER) ASC")) }
+  scope :with_event, -> { where.not(event_id: nil) }
+  scope :event_ongoing, -> { joins(:event).merge(Event.ongoing) }
+  scope :by_rarity, ->(int) {
+    where("api_data ->> 'quality' = ?", int)
+  }
 
   def min_catch_fish
     api_data.dig("catchFish", "min")

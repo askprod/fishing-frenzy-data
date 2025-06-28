@@ -25,6 +25,7 @@ class Event < ApplicationRecord
 
   scope :active, -> { where(active: true) }
   scope :ongoing, -> { where("end_date IS NULL OR end_date > ?", Time.current) }
+  scope :not_default, -> { where.not(name: "Default") }
 
   def is_default_event?
     name.eql? "Default"

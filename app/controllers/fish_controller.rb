@@ -24,7 +24,11 @@ class FishController < ApplicationController
   end
 
   def safe_event_filter
-    filters_params[:event].in?(%w[default ronin_reef bloom_lagoon]) ? filters_params[:event] : "bloom_lagoon"
+    if filters_params[:event].in?(%w[default ronin_reef bloom_lagoon])
+      filters_params[:event]
+    else
+      Event.ongoing.not_default.any? ? Event.ongoing.not_default.first.slug : "default"
+    end
   end
 
   def safe_rarity_filter

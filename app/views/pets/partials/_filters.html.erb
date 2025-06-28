@@ -1,0 +1,57 @@
+<div class="mb-2">
+  <p class="text-gray-400 mb-2">Filters</p>
+</div>
+
+<div class="flex flex-wrap gap-x-5 gap-y-2 mb-5">
+  <div>
+    <span class="flex items-center text-xs text-gray-400 mb-1">Event</span>
+    <div class="flex gap-1">
+      <%= link_to pets_path(filters: filters_params.merge(event: :all)), class: label_classes(color: (safe_event_filter&.eql?("all") ? "green" : "gray"), extra_classes: "w-20") do %>
+        All
+      <% end %>
+      <%= link_to pets_path(filters: filters_params.merge(event: :ronin_reef)), class: label_classes(color: (safe_event_filter&.eql?("ronin_reef") ? "green" : "gray"), extra_classes: "w-20") do %>
+        Ronin Reef
+      <% end %>
+      <%= link_to pets_path(filters: filters_params.merge(event: :bloom_lagoon)), class: label_classes(color: (safe_event_filter&.eql?("bloom_lagoon") ? "pink" : "gray"), extra_classes: "w-20") do %>
+        Bloom Lagoon
+      <% end %>
+    </div>
+  </div>
+
+  <div>
+    <span class="flex items-center text-xs text-gray-400 mb-1">Rarity</span>
+    <div class="flex flex-wrap gap-1">
+      <%= link_to pets_path(filters: filters_params.merge(rarity: :all)), 
+        class: label_classes(color: (safe_rarity_filter.eql?("all") ? "lime" : "gray"), 
+        extra_classes: "w-20") do 
+      %>
+        All
+      <% end %>
+      <%= link_to pets_path(filters: filters_params.merge(rarity: 1)), 
+        class: label_classes(color: (safe_rarity_filter.eql?("1") ? "green" : "gray"), extra_classes: "w-20") do 
+      %>
+        Common
+      <% end %>
+      <%= link_to pets_path(filters: filters_params.merge(rarity: 2)),
+          class: label_classes(color: (safe_rarity_filter.eql?("2") ? rarity_color(2) : "gray"), extra_classes: "w-20") do 
+      %>
+        Rare
+      <% end %>
+      <%= link_to pets_path(filters: filters_params.merge(rarity: 3)), 
+        class: label_classes(color: (safe_rarity_filter.eql?("3") ? rarity_color(3) : "gray"), extra_classes: "w-20") do 
+      %>
+        Epic
+      <% end %>
+      <%= link_to pets_path(filters: filters_params.merge(rarity: 4)), 
+        class: label_classes(color: (safe_rarity_filter.eql?("4") ? rarity_color(4) : "gray"), extra_classes: "w-20") do 
+      %>
+        Legendary
+      <% end %>
+      <%= link_to pets_path(filters: filters_params.merge(rarity: 5)), 
+        class: label_classes(color: (safe_rarity_filter.eql?("5") ? rarity_color(5) : "gray"), extra_classes: "w-20") do 
+      %>
+        Mythical
+      <% end %>
+    </div>
+  </div>
+</div>
