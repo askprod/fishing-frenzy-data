@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_15_090911) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_27_094743) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -93,6 +93,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_15_090911) do
     t.datetime "updated_at", null: false
     t.boolean "has_nft"
     t.bigint "event_id"
+    t.boolean "current_best_performer"
     t.index ["api_id"], name: "index_items_on_api_id"
     t.index ["collection_id"], name: "index_items_on_collection_id"
     t.index ["event_id"], name: "index_items_on_event_id"

@@ -1,35 +1,15 @@
 <p class="text-gray-400 mb-5">Best Performers</p>
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-5">
-  <% if (best_performer = @best_fish_performance.best_performer).present? && @best_fish_performance.best_performer_has_increased? %>
-    <%= link_to fish_path(best_performer[:item].slug), class: "transform transition-transform duration-300 hover:translate-y-[-0.2rem] overflow-hidden cursor-pointer" do %>
-      <%= render UI::BestNftCardComponent.new(
-        name: best_performer[:item].name,
-        value: best_performer[:latest_floor_price],
-        image_path: "/images/items/item_#{best_performer[:item].image_name}.png",
-        percentage_change: best_performer[:change_percentage]
-      ) %>
-    <% end %>
-  <% end %>
-
-  <% if (best_performer = @best_chest_performance.best_performer).present? && @best_chest_performance.best_performer_has_increased? %>
-    <%= link_to chest_path(best_performer[:item].slug), class: "transform transition-transform duration-300 hover:translate-y-[-0.2rem] overflow-hidden cursor-pointer" do %>
-      <%= render UI::BestNftCardComponent.new(
-        name: best_performer[:item].name,
-        value: best_performer[:latest_floor_price],
-        image_path: "/images/items/item_#{best_performer[:item].image_name}.png",
-        percentage_change: best_performer[:change_percentage]
-      ) %>
-    <% end %>
-  <% end %>
-
-  <% if (best_performer = @best_rod_performance.best_performer).present? && @best_rod_performance.best_performer_has_increased? %>
-    <%= link_to rod_path(best_performer[:item].slug), class: "transform transition-transform duration-300 hover:translate-y-[-0.2rem] overflow-hidden cursor-pointer" do %>
-      <%= render UI::BestNftCardComponent.new(
-        name: best_performer[:item].name,
-        value: best_performer[:latest_floor_price],
-        image_path: "/images/items/item_#{best_performer[:item].image_name}.png",
-        percentage_change: best_performer[:change_percentage]
-      ) %>
+  <% [[Items::Fish, "fish_path"], [Items::Chest, "chest_path"], [Items::Rod, "rod_path"]].each do |item_class, path_name| %>
+    <% if (best_performer = item_class.best_performer) && best_performer.percentage_increased?("floor_price") %>
+      <%= link_to public_send(path_name, best_performer.slug), class: "transform transition-transform duration-300 hover:translate-y-[-0.2rem] overflow-hidden cursor-pointer" do %>
+        <%= render UI::BestNftCardComponent.new(
+          name: best_performer.name,
+          value: best_performer.floor_price,
+          image_path: "/images/items/item_#{best_performer.image_name}.png",
+          percentage_change: best_performer.percentage_change_by("floor_price")
+        ) %>
+      <% end %>
     <% end %>
   <% end %>
 </div>
@@ -70,9 +50,9 @@
   <p class="italic text-gray-300 text-center text-xs">No data here...</p>
 <% end %>
 
+<% if false # TODO: Add cards and do frontend stuff %>
 <p class="text-gray-400 mb-5">Players</p>
 
-<% if false # TODO: Add cards and do frontend stuff %>
   <% if @player_stats.values.any? %>
     <% @player_stats[:most_gold].each do |player| %>
       <%= player.display_name %>
@@ -87,14 +67,14 @@
       <%= player.current_player_metric.fish_point %>
     <% end %>
   <% end %>
-<% end %>
 
-<% if leaderboards_enabled? %>
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-5">
-    <% @rank_manager.top_and_bottom.each do |leaderboard_type, data| %>
-      <%= render 'dashboard/leaderboard_panel', 
-        leaderboard_type: leaderboard_type, data: data
-      %>
-    <% end %>
-  </div>
+  <% if leaderboards_enabled? %>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-5">
+      <% @rank_manager.top_and_bottom.each do |leaderboard_type, data| %>
+        <%= render 'dashboard/leaderboard_panel', 
+          leaderboard_type: leaderboard_type, data: data
+        %>
+      <% end %>
+    </div>
+  <% end %>
 <% end %>

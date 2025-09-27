@@ -18,7 +18,6 @@
 class Statistic < ApplicationRecord
   belongs_to :statisticable, polymorphic: true
   scope :latest_statistics, -> { order(reference_date: :asc) }
-  # scope :previous_statistic, -> { order(reference_date: :asc).last(2).first }
 
   before_validation :define_default_attributes
 

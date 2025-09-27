@@ -2,17 +2,18 @@
 #
 # Table name: items
 #
-#  id            :integer          not null, primary key
-#  name          :string
-#  slug          :string
-#  type          :string
-#  collection_id :integer          not null
-#  api_id        :string
-#  api_data      :jsonb
-#  created_at    :datetime         not null
-#  updated_at    :datetime         not null
-#  has_nft       :boolean
-#  event_id      :integer
+#  id                     :integer          not null, primary key
+#  name                   :string
+#  slug                   :string
+#  type                   :string
+#  collection_id          :integer          not null
+#  api_id                 :string
+#  api_data               :jsonb
+#  created_at             :datetime         not null
+#  updated_at             :datetime         not null
+#  has_nft                :boolean
+#  event_id               :integer
+#  current_best_performer :boolean
 #
 # Indexes
 #
@@ -30,6 +31,10 @@ class Items::Chest < Item
   has_many :consumables, through: :chest_loots
 
   scope :display_order, -> { order(Arel.sql("has_nft ASC, CAST(api_data->>'quality' AS INTEGER) ASC")) }
+
+  def self.can_be_best_performer?
+    true
+  end
 
   def floor_price
     return 0 unless latest_statistic&.data.present?
