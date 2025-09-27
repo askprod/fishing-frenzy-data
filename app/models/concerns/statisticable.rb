@@ -3,6 +3,8 @@ module Statisticable
 
   included do
     has_many :statistics, as: :statisticable, dependent: :destroy
+    has_one :latest_statistic, -> { latest_statistics }, class_name: "Statistic", as: :statisticable
+    has_one :previous_statistic, -> { latest_statistics.offset(1) }, class_name: "Statistic", as: :statisticable
 
     def self.fetch_and_create_all_statistics(**args)
       self.with_nfts.map { |obj| obj.fetch_and_create_statistics(**args) }
@@ -15,14 +17,6 @@ module Statisticable
         data: adapter.parsed_data,
         reference_date: Time.current
       )
-    end
-
-    def latest_statistic
-      statistics.latest_statistic.presence || nil
-    end
-
-    def previous_statistic
-      statistics.previous_statistic.presence || nil
     end
   end
 end

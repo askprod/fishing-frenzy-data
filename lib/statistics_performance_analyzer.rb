@@ -2,7 +2,8 @@ class StatisticsPerformanceAnalyzer
   attr_reader :collection, :stat_name, :results
 
   def initialize(collection, stat_name: "floor_price")
-    @collection = collection.includes(:statistics)
+    @collection = collection
+      .includes(:latest_statistic, :previous_statistic)
     @stat_name = stat_name
   end
 
