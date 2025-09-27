@@ -16,7 +16,7 @@ module Statisticable
     def self.fetch_and_create_all_statistics(**args)
       self.with_nfts.map do |obj|
         obj.fetch_and_create_statistics(**args)
-        obj.refresh_best_performer("floor_price") if obj.can_set_best_performer?
+        obj.refresh_best_performer("floor_price") if obj.class.can_set_best_performer?
       end
     end
 
