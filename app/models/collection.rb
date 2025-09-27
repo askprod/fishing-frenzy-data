@@ -29,10 +29,6 @@ class Collection < ApplicationRecord
     token_address.present?
   end
 
-  def self.can_set_best_performer?
-    false
-  end
-
   def self.skymavis_adapter_class
     Adapters::Skymavis::Collections
   end

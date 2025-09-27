@@ -13,11 +13,22 @@ module Statisticable
       self.latest_statistics.last(2).first
     end
 
+    def self.can_set_best_performer?
+      false # To override in children
+    end
+
+    def self.best_performer
+      return unless can_set_best_performer?
+
+      where(current_best_performer: true).first
+    end
+
     def self.fetch_and_create_all_statistics(**args)
       self.with_nfts.map do |obj|
         obj.fetch_and_create_statistics(**args)
-        obj.refresh_best_performer("floor_price") if obj.class.can_set_best_performer?
       end
+
+      self.refresh_best_performer("floor_price") if self.can_set_best_performer?
     end
 
     def self.refresh_best_performer(stat_name)
