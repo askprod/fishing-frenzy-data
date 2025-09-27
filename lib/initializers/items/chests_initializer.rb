@@ -12,11 +12,7 @@ class Initializers::Items::ChestsInitializer
   end
 
   def fetch_all_data
-    [].tap do |chest_data|
-      chests_ids.each do |c_id|
-        chest_data << Apis::FishingFrenzy.call("chest", path_params: { chestId: c_id })
-      end
-    end
+    Apis::FishingFrenzy.call("chests_list")
   end
 
   def create_records
@@ -25,25 +21,48 @@ class Initializers::Items::ChestsInitializer
 
     adapter.parsed_data.each do |chest_id, chest_data|
       if collection.chest_items.exists?(api_id: chest_id)
-        collection.chest_items.find_by(api_id: chest_id).update_columns(chest_data.except(:api_id))
+        chest_item = collection.chest_items.find_by(api_id: chest_id)
+        chest_item.update_columns(chest_data.except(:api_id))
       else
-        collection.chest_items.create({ api_id: chest_id }.merge(chest_data))
+        chest_item = collection.chest_items
+          .create({ api_id: chest_id }
+          .merge(chest_data))
+      end
+
+      next if chest_data.dig(:api_data, :lootItems).blank?
+
+      chest_data.dig(:api_data, :lootItems).flatten.each do |loot_item|
+        if loot_item[:type].eql? "gold"
+          create_gold_loot(chest_item, loot_item)
+        elsif loot_item[:itemId].present? && (consumable = Items::Consumable.find_by(api_id: loot_item[:itemId])).present?
+          create_consumable_loot(chest_item, loot_item, consumable)
+        end
       end
     end
   end
 
-  def chests_ids
-    [
-      "66cc4394419b5b2e6c67b3bc", # Legendary Founder Chest nft
-      "67d5899abccee2e00b399dec", # Legendary Origins Chest nft
-      "66cc4374419b5b2e6c67b3b4", # Epic Founder Chest nft
-      "67d5899abccee2e00b399ded", # Epic Origins Chest nft
-      "67d5899abccee2e00b399dee", # Rare Origins Chest nft
-      "67d5899abccee2e00b399def", # Common Origins Chest nft
-      "66cc43a9419b5b2e6c67b3c0", # Rare Founder Chest nft
-      "66cc4383419b5b2e6c67b3b8", # Common Founder Chest nft
-      "66da652977fbb86eacd09fb4", # Participation Chest non_nft
-      "67d5899abccee2e00b399df0" # Starter Chest non_nft
-    ]
+  def create_consumable_loot(chest_item, loot_item, consumable)
+    return if chest_item.chest_loots.consumable.exists?(consumable: consumable)
+
+    chest_item.chest_loots.create!(
+      loot_type: :consumable,
+      consumable: consumable,
+      quantity: loot_item[:quantity],
+      drop_chance: loot_item[:dropRate] * 100
+    )
+  end
+
+  def create_gold_loot(chest_item, loot_item)
+    # TODO: Create Currency Models
+    return if chest_item.chest_loots.gold.exists?(
+      quantity: loot_item[:quantity],
+      drop_chance: loot_item[:dropRate] * 100
+    )
+
+    chest_item.chest_loots.create!(
+      loot_type: :gold,
+      quantity: loot_item[:quantity],
+      drop_chance: loot_item[:dropRate] * 100
+    )
   end
 end

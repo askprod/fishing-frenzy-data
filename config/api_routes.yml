@@ -65,14 +65,17 @@ v1:
       type: "GET"
       path: "chests"
 
+    chests_list:
+      type: "GET"
+      path: "chests/list"
+
     chest:
       type: "GET"
       path: "chests/%{chestId}"
 
     inventory:
       type:  "GET"
-      path: "inventory"
-      # Current connected only—does not work with an id passed
+      path: "inventory/%{inventoryId}" # 404 for now
 
     inventory_rods:
       type: "GET"
@@ -155,14 +158,17 @@ v1:
       type: "GET"
       path: "battle-pass"
 
-    # Changed for tesing purposes
-    test:
-      type: "GET" 
-      path: "user/%{id}/inventory/fish"
-
     recipes:
       type: "GET"
       path: "cooking-recipes/active"
+
+    admire:
+      type: "POST"
+      path: "admire"
+
+    aquarium:
+      type: "GET"
+      path: "aquarium/%{userId}"
 
 
 # /general-config - Fetches general system or game configuration data.

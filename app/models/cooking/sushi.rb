@@ -15,7 +15,7 @@ class Cooking::Sushi < ApplicationRecord
 
   validates :name, presence: true, uniqueness: true
 
-  has_many :cooking_recipe_sushis, class_name: "Cooking::RecipeSushi"
+  has_many :cooking_recipe_sushis, class_name: "Cooking::RecipeSushi", foreign_key: :cooking_sushi_id
   has_many :cooking_recipes, through: :cooking_recipe_sushis
 
   before_validation :define_slug

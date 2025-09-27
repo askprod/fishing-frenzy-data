@@ -99,7 +99,10 @@ const colorSafelist = [
   "ring-emerald-200", "ring-emerald-400", "ring-emerald-800",
   "ring-fuchsia-200", "ring-fuchsia-400", "ring-fuchsia-800",
   "ring-rose-200", "ring-rose-400", "ring-rose-800",
-  "ring-violet-200", "ring-violet-400", "ring-violet-800"
+  "ring-violet-200", "ring-violet-400", "ring-violet-800",
+
+  // Fill Colors
+  "fill-green-400"
 ];
 
 module.exports = {

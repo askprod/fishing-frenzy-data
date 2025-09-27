@@ -1,0 +1,29 @@
+<%= link_to player_path(rank_data[:slug]), class: "p-2 bg-gray-50 flex items-center gap-2 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer" do %>
+  <div class="flex items-center justify-center w-4 h-4 <%= rank_bg_color(index + 1) %> text-white text-xxs font-bold rounded-full">
+    <%= index + 1 %>
+  </div>
+  <div class="flex-1">
+    <div class="flex justify-between items-center gap-3">
+      <span class="text-xs font-medium text-gray-800 truncate max-w-22"><%= rank_data[:player] %></span>
+      <div class="flex text-xxs">
+        <span class="text-xs text-gray-600 mr-2">
+          <%= rank_data[:previous_rank] %> → <%= rank_data[:current_rank] %>
+        </span>
+        <div class="flex items-center flex-col gap-1 cursor-help" data-tooltip-target="percentage-change-tooltip-<%= rank_data[:slug] %>" data-tooltip-trigger="hover" data-tooltip-placement="top">
+          <% if rank_data[:rank_change] > 0 %>
+            <span class="text-green-600 font-medium">+<%= rank_data[:rank_change] %></span>
+          <% else %>
+            <span class="text-red-600 font-medium"><%= rank_data[:rank_change] %></span>
+          <% end %>
+          <div id="percentage-change-tooltip-<%= rank_data[:slug] %>" class="absolute z-20 w-auto text-xxs invisible inline-block px-3 py-3 text-sm font-medium text-white transition-opacity duration-300 bg-gray-800 rounded-lg shadow-xs opacity-0 tooltip">
+            <% if rank_data[:percentage_change] > 0 %>
+              +<%= number_to_percentage(rank_data[:percentage_change], precision: 1) %>
+            <% else %>
+              <%= number_to_percentage(rank_data[:percentage_change], precision: 1) %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

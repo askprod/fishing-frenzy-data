@@ -48,20 +48,26 @@ module Components::ItemCardComponentHelper
     attributes[:top_right_labels] = [ nft_label ] if chest.has_nft?
     attributes[:left_footer] = chest.has_nft? ? "Floor #{chest.floor_price}" : "&nbsp;".html_safe
     attributes[:right_footer] = chest.has_nft? ? "#{chest.listed_amount} listed" : "&nbsp;".html_safe
+    attributes[:labels] = [ rarity_label(chest.quality) ]
     attributes
   end
 
   def player_card_attributes(player)
     labels = [].tap do |arr|
-      arr << player_fishing_rank_label(player) if player.latest_general_rank
-      arr << player_cooking_rank_label(player) if player.latest_cooking_rank
-      arr << player_frenzy_points_rank_label(player) if player.latest_frenzy_points_rank
+      if leaderboards_enabled?
+        arr << player_fishing_rank_label(player) if player.latest_general_rank
+        arr << player_cooking_rank_label(player) if player.latest_cooking_rank
+        arr << player_frenzy_points_rank_label(player) if player.latest_frenzy_points_rank
+        arr << player_aquarium_rank_label(player) if player.latest_aquarium_rank
+      end
     end
 
-    labels << player_no_ranking_label if labels.empty?
+    labels << player_no_ranking_label if leaderboards_enabled? && labels.empty?
 
     top_right_labels = [].tap do |arr|
-      arr << "#{ffdb_rank_label(player.latest_global_rank.rank)}".html_safe if player.latest_global_rank
+      if leaderboards_enabled?
+        arr << "#{ffdb_rank_label(player.latest_global_rank.rank)}".html_safe if player.latest_global_rank
+      end
     end
 
     {}.tap do |hash|

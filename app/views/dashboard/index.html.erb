@@ -1,1 +1,100 @@
-<p class="italic text-gray-300 text-center text-xs">Dashboard coming soon...</p>
+<p class="text-gray-400 mb-5">Best Performers</p>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-5">
+  <% if (best_performer = @best_fish_performance.best_performer).present? && @best_fish_performance.best_performer_has_increased? %>
+    <%= link_to fish_path(best_performer[:item].slug), class: "transform transition-transform duration-300 hover:translate-y-[-0.2rem] overflow-hidden cursor-pointer" do %>
+      <%= render UI::BestNftCardComponent.new(
+        name: best_performer[:item].name,
+        value: best_performer[:latest_floor_price],
+        image_path: "/images/items/item_#{best_performer[:item].image_name}.png",
+        percentage_change: best_performer[:change_percentage]
+      ) %>
+    <% end %>
+  <% end %>
+
+  <% if (best_performer = @best_chest_performance.best_performer).present? && @best_chest_performance.best_performer_has_increased? %>
+    <%= link_to chest_path(best_performer[:item].slug), class: "transform transition-transform duration-300 hover:translate-y-[-0.2rem] overflow-hidden cursor-pointer" do %>
+      <%= render UI::BestNftCardComponent.new(
+        name: best_performer[:item].name,
+        value: best_performer[:latest_floor_price],
+        image_path: "/images/items/item_#{best_performer[:item].image_name}.png",
+        percentage_change: best_performer[:change_percentage]
+      ) %>
+    <% end %>
+  <% end %>
+
+  <% if (best_performer = @best_rod_performance.best_performer).present? && @best_rod_performance.best_performer_has_increased? %>
+    <%= link_to rod_path(best_performer[:item].slug), class: "transform transition-transform duration-300 hover:translate-y-[-0.2rem] overflow-hidden cursor-pointer" do %>
+      <%= render UI::BestNftCardComponent.new(
+        name: best_performer[:item].name,
+        value: best_performer[:latest_floor_price],
+        image_path: "/images/items/item_#{best_performer[:item].image_name}.png",
+        percentage_change: best_performer[:change_percentage]
+      ) %>
+    <% end %>
+  <% end %>
+</div>
+
+<div class="mb-5">
+  <p class="text-gray-400 mb-2">Founder's Pass</p>
+  <p class="text-xxs text-gray-300">
+    last updated 
+    <% if @founders_pass_collection.latest_statistic.present? %>
+      <%= time_ago_in_words(@founders_pass_collection.latest_statistic.reference_date) %> ago
+    <% else %>
+      -
+    <% end %>
+  </p>
+</div>
+
+<% if @founders_pass_collection.latest_statistic.present? && @founders_pass_collection.previous_statistic.present? %>
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-5">
+    <% Utilities::StatisticsAggregator.call(@founders_pass_collection.statistics).each do |stat_name, percentage_changes| %>
+      <%= render UI::StatisticCardComponent.new(
+        name: human_stat_name(stat_name), 
+        value: @founders_pass_collection.latest_statistic.data.dig(stat_name),
+        image_path: %w[floor_price volume].include?(stat_name) ? asset_path("/images/icons-2/icon_ronin.png") : nil,
+        percentage_changes: percentage_changes
+      ) %>
+    <% end %>
+    <%= link_to "https://marketplace.roninchain.com/collections/fishing-frenzy-founders-pass", class: "transform transition-transform duration-300 hover:translate-y-[-0.2rem] overflow-hidden cursor-pointer", target: :blank do %>
+      <div class="bg-white w-full h-full border border-1 border-blue-200 rounded-lg shadow-xs flex flex-col gap-1 justify-center p-3">
+        <span class="text-xxs text-gray-400">For more stats visit the</span>
+        <span class="flex items-center gap-2 text-sm text-blue-400 ">
+          Ronin Marketplace
+          <%= icon_arrow_up("blue-400", size: 3)%>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <p class="italic text-gray-300 text-center text-xs">No data here...</p>
+<% end %>
+
+<p class="text-gray-400 mb-5">Players</p>
+
+<% if false # TODO: Add cards and do frontend stuff %>
+  <% if @player_stats.values.any? %>
+    <% @player_stats[:most_gold].each do |player| %>
+      <%= player.display_name %>
+      <%= player.current_player_metric.gold %>
+    <% end %>
+    <% @player_stats[:cooking_rank].each do |player| %>
+      <%= player.display_name %>
+      <%= player.current_player_metric.cooking_level %>
+    <% end %>
+    <% @player_stats[:fishing_points].each do |player| %>
+      <%= player.display_name %>
+      <%= player.current_player_metric.fish_point %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<% if leaderboards_enabled? %>
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-5">
+    <% @rank_manager.top_and_bottom.each do |leaderboard_type, data| %>
+      <%= render 'dashboard/leaderboard_panel', 
+        leaderboard_type: leaderboard_type, data: data
+      %>
+    <% end %>
+  </div>
+<% end %>

@@ -79,7 +79,7 @@ module ApplicationHelper
     end
   end
 
-  def rariry_text(rarity)
+  def rarity_text(rarity)
     case rarity
     when 1
       "Common"
@@ -94,8 +94,19 @@ module ApplicationHelper
     end
   end
 
+  def rank_bg_color(rank)
+    case rank
+    when 1
+      "bg-amber-400"
+    when 2
+      "bg-slate-400"
+    when 3
+      "bg-yellow-900"
+    end
+  end
+
   def rarity_label(rarity)
-    content_tag(:span, rariry_text(rarity), class: label_classes(color: rarity_color(rarity)))
+    content_tag(:span, rarity_text(rarity), class: label_classes(color: rarity_color(rarity)))
   end
 
   def nav_item_active?(paths = [])
@@ -120,5 +131,12 @@ module ApplicationHelper
       concat text
       concat image_tag("/images/icons-2/icon_ronin.png", class: "w-1.5 h-2.2").html_safe
     end
+  end
+
+  def calculate_percentage_change(previous_rank, current_rank)
+    return 0 if previous_rank.nil? || current_rank.nil? || previous_rank == 0
+
+    change = previous_rank - current_rank
+    (change.to_f / previous_rank.to_f) * 100
   end
 end

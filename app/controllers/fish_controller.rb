@@ -38,9 +38,15 @@ class FishController < ApplicationController
   private
 
   def set_collection
-    @collection = Collection.find_by(name: "Fish")
-    @all_fishes = @collection.items
-    @active_fishes = @all_fishes.joins(:event).includes(:cooking_recipes)
+    @collection = Collection.preload(:statistics).find_by(name: "Fish")
+    @all_fishes = @collection.fish_items
+    @active_fishes = @all_fishes
+      .joins(:event)
+      .preload(
+        :cooking_recipes,
+        :event,
+        :latest_statistic
+      )
 
     @display_fishes = apply_filters
     @display_fishes = @display_fishes.merge(Items::Fish.display_order)

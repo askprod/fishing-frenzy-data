@@ -6,7 +6,7 @@ class Adapters::FishingFrenzy::Items::Chests < Adapters::FishingFrenzy::Abstract
       @data.each do |chest_data|
         chests_data[chest_data[:id]] = {
           api_data: chest_data.except(*excluded_attributes),
-          has_nft: !non_nft_ids.include?(chest_data[:id]),
+          has_nft: chest_data[:isNFT],
           name: chest_data[:name],
           slug: chest_data[:name].parameterize
         }
@@ -16,21 +16,19 @@ class Adapters::FishingFrenzy::Items::Chests < Adapters::FishingFrenzy::Abstract
 
   def excluded_attributes
     %i[
-      id
+      _id
       name
-      price
       description
-      image
-      percentValue
-      isStarterPack
-      isPremium
-    ]
-  end
-
-  def non_nft_ids
-    [
-      "66da652977fbb86eacd09fb4", # Participation Chest
-      "67d5899abccee2e00b399df0" # Starter Chest
+      isMinted
+      isPrototype
+      items
+      createdAt
+      updatedAt
+      __v
+      order
+      isNFT
+      openable
+      id
     ]
   end
 end

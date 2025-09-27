@@ -1,7 +1,7 @@
 class UI::StatisticCardComponent < ViewComponent::Base
   include StatisticsHelper
 
-  def initialize(name: "", value: "", image_path: "", percentage_changes: 0)
+  def initialize(name: "", value: "", image_path: "", percentage_changes: {})
     @name = name
     @value = value
     @image_path = image_path

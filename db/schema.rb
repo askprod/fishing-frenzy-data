@@ -10,9 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_14_165735) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_15_090911) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "chest_loots", force: :cascade do |t|
+    t.bigint "chest_id", null: false
+    t.bigint "consumable_id"
+    t.integer "loot_type"
+    t.integer "quantity"
+    t.float "drop_chance"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["chest_id"], name: "index_chest_loots_on_chest_id"
+    t.index ["consumable_id"], name: "index_chest_loots_on_consumable_id"
+  end
 
   create_table "collections", force: :cascade do |t|
     t.string "name"
@@ -140,6 +152,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_14_165735) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "leaderboard_refresh_id"
+    t.string "previous_tier"
+    t.integer "previous_rank"
     t.index ["leaderboard_refresh_id"], name: "index_ranks_on_leaderboard_refresh_id"
     t.index ["player_id"], name: "index_ranks_on_player_id"
   end
@@ -313,6 +327,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_14_165735) do
     t.index ["item_id"], name: "index_traits_on_item_id"
   end
 
+  add_foreign_key "chest_loots", "items", column: "chest_id"
+  add_foreign_key "chest_loots", "items", column: "consumable_id"
   add_foreign_key "cooking_recipe_fishes", "cooking_recipes"
   add_foreign_key "cooking_recipe_fishes", "items"
   add_foreign_key "cooking_recipe_sushis", "cooking_recipes"

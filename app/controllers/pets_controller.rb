@@ -30,7 +30,7 @@ class PetsController < ApplicationController
   private
 
   def set_collection
-    @collection = Collection.find_by(name: "Pet")
+    @collection = Collection.preload(:statistics).find_by(name: "Pet")
     @all_pets = @collection.pet_items
 
     @display_pets = apply_filters

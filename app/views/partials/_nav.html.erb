@@ -28,8 +28,11 @@
     <%= link_to recipes_path, class: "flex items-center justify-center w-12 h-12 mt-2 rounded #{nav_item_classes("recipe")}" do %>
       <%= icon_chef(nav_item_active?("recipe") ? "white" : "gray-400") %>
     <% end %>
-    <%= link_to sushis_path, class: "flex items-center justify-center w-12 h-12 mt-2 rounded #{nav_item_classes("sushi")}" do %>
-      <%= icon_sushi(nav_item_active?("sushi") ? "white" : "gray-400") %>
+    <%= link_to sushis_path, class: "flex items-center justify-center w-12 h-12 mt-2 rounded #{nav_item_classes("sushis")}" do %>
+      <%= icon_sushi(nav_item_active?("sushis") ? "white" : "gray-400") %>
+    <% end %>
+    <%= link_to consumables_path, class: "flex items-center justify-center w-12 h-12 mt-2 rounded #{nav_item_classes("consumables")}" do %>
+      <%= icon_backpack(nav_item_active?("consumables") ? "white" : "gray-400") %>
     <% end %>
     <%= link_to events_path, class: "flex items-center justify-center w-12 h-12 mt-2 rounded #{nav_item_classes("events")}" do %>
       <%= icon_calendar(nav_item_active?("events") ? "white" : "gray-400") %>

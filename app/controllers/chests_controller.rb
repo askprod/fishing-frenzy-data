@@ -11,8 +11,9 @@ class ChestsController < ApplicationController
   private
 
   def set_collection
-    @collection = Collection.find_by(name: "Chest")
-    @chests = @collection.chest_items.order(has_nft: :desc)
+    @collection = Collection.preload(:statistics).find_by(name: "Chest")
+    @all_chests = @collection.chest_items
+    @chests = @collection.chest_items.merge(Items::Chest.display_order)
   end
 
   def set_chest_variables

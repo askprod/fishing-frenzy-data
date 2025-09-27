@@ -12,6 +12,8 @@
 #
 
 class Leaderboard < ApplicationRecord
+  LEADERBOARDS_ENABLED = false
+
   has_many :ranks
   has_many :players, through: :ranks
   has_many :leaderboard_refreshes
@@ -24,31 +26,48 @@ class Leaderboard < ApplicationRecord
     general: 0,
     cooking: 1,
     frenzy_points: 2,
-    global: 4
+    global: 4,
+    aquarium: 5
   }, prefix: true
 
   scope :ongoing, -> { where("end_date > ?", Time.current) }
 
   def self.refresh_general_leaderboard(should_create_records: false)
+    return unless LEADERBOARDS_ENABLED
+
     Initializers::Leaderboards::General.call(
       should_create_records: should_create_records
     )
   end
 
   def self.refresh_cooking_leaderboard(should_create_records: false)
+    return unless LEADERBOARDS_ENABLED
+
     Initializers::Leaderboards::Cooking.call(
       should_create_records: should_create_records
     )
   end
 
   def self.refresh_frenzy_points_leaderboard(should_create_records: false)
+    return unless LEADERBOARDS_ENABLED
+
     Initializers::Leaderboards::FrenzyPoints.call(
       should_create_records: should_create_records
     )
   end
 
   def self.refresh_global_leaderboard(should_create_records: false)
+    return unless LEADERBOARDS_ENABLED
+
     Initializers::Leaderboards::Global.call(
+      should_create_records: should_create_records
+    )
+  end
+
+  def self.refresh_aquarium_leaderboard(should_create_records: false)
+    return unless LEADERBOARDS_ENABLED
+
+    Initializers::Leaderboards::Aquarium.call(
       should_create_records: should_create_records
     )
   end

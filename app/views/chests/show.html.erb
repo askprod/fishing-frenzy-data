@@ -1,22 +1,35 @@
-<%# TODO: Temp, issue with highcharts %>
-<% if false && @statistics.any? %>
-  <div class="bg-white border border-1 border-gray-200 rounded-lg shadow-xs flex flex-col justify-between overflow-hidden">
-    <div class="p-3">
-      <h3 class="text-sm font-semibold text-gray-800 mb-5">
-        Floor price evolution
-        <% if @statistics.latest_statistic.present? %>
-          <span class="text-xxs text-gray-300">
-            last updated <%= time_ago_in_words(@statistics.latest_statistic.reference_date) %> ago
-          </span>
-        <% end %>
-      </h3>
-      <div 
-          data-controller="chart" 
-          data-chart-data-value="<%= highcharts_formatted_nft_data(@statistics) %>" 
-          style=>
+<div class="max-w-full mx-auto">
+  <div class="flex flex-col">
+    <div class="md:flex-1">
+      <div class="w-full h-42 mb-4 rounded-xl overflow-hidden relative">
+        <%= image_tag("/images/items/item_#{@chest.image_name}.png", class: "w-full h-full object-cover object-center rounded-xl") %>
+        <div class="absolute bottom-4 left-4 z-10">
+          <div class="flex items-center">
+            <%= image_tag("/images/items/item_#{@chest.image_name}.png", class: "w-14 rounded-full mr-4 #{"ring-1 bg-yellow-200 ring-yellow-400" if @chest.has_nft?}") %>
+            <div class="flex flex-col gap-1">
+              <span class="text-white w-full truncate">
+                <%= @chest.name %>
+              </span>
+              <div class="flex gap-2">
+                <% if @chest.has_nft? %>
+                  <%= nft_label %>
+                <% end %>
+                <span class="flex items-center">
+                  <%= rarity_label(@chest.quality) %>
+                </span>
+                <% if @chest.has_nft? && @chest.marketplace_link.present? %>
+                  <%= link_to @chest.marketplace_link, class: label_classes(color: "gray", extra_classes: "flex gap-1 cursor-pointer"), target: :blank do %>
+                    Marketplace
+                    <%= icon_arrow_up("gray-500", size: 2) %>
+                  <% end %>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="absolute inset-0 bg-black/18 backdrop-blur-2xl"></div>
       </div>
     </div>
+    <%= render partial: "chests/partials/chest_grids", locals: { chest: @chest } %>
   </div>
-<% else %>
-  <p class="italic text-gray-300 text-center text-xs">Coming soon...</p>
-<% end %>
+</div>

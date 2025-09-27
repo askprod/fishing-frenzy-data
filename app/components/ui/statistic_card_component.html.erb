@@ -8,15 +8,17 @@
       <% end %>
     </p>
   </div>
-  <div class="flex w-full gap-0.5 justify-end">
-  <% @percentage_changes.each do |time_frame, percentage| %>
-    <div class="flex flex-col gap-0.5 items-center w-11">
-      <span class="text-xxs text-gray-300"><%= time_frame %></span>
-      <span class="text-xxs <%= percentage_color(percentage) %>">
-        <%= percentage_suffix(percentage) %><%= percentage %>%
-      </span>
+  <% if @percentage_changes.any? %>
+    <div class="flex w-full gap-0.5 justify-end">
+    <% @percentage_changes.each do |time_frame, percentage| %>
+      <div class="flex flex-col gap-0.5 items-center w-11">
+        <span class="text-xxs text-gray-300"><%= time_frame %></span>
+        <span class="text-xxs <%= percentage_color(percentage) %>">
+          <%= percentage_suffix(percentage) %><%= percentage %>%
+        </span>
+      </div>
+    <% end %>
     </div>
   <% end %>
-  </div>
 </div>
 

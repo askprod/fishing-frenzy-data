@@ -9,7 +9,7 @@ class Initializers::Leaderboards::Global < Initializers::Leaderboards::Abstract
     leaderboard_refresh = global_leaderboard.leaderboard_refreshes.build
 
     global_leaderboard_data = Utilities::GlobalLeaderboardRanker.call(
-      Player.with_rank.map { |player| [ player.api_id, player.ranks.latest ] }.to_h
+      Player.with_rank.map { |player| [ player.api_id, player.ranks.latest_per_category ] }.to_h
     )
 
     global_leaderboard_data.each do |player_id, player_rank|

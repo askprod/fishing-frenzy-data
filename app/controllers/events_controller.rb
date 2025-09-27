@@ -11,7 +11,9 @@ class EventsController < ApplicationController
   private
 
   def set_events
-    @events = Event.active.order(end_date: :desc)
+    @events = Event.active
+      .preload(:fish_items, :pet_items)
+      .order(end_date: :desc)
   end
 
   def set_event

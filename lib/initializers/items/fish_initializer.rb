@@ -23,6 +23,7 @@ class Initializers::Items::FishInitializer
 
     @data.each do |hash|
       next if Items::Fish.exists?(api_id: hash[:id])
+
       Items::Fish.create!(
         api_id: hash[:id],
         api_data: hash.except(:id),

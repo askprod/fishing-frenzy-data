@@ -9,6 +9,8 @@ module LeaderboardsHelper
       "/images/icons/sushi_icon.png"
     when :frenzy_points
       "/images/icons-2/icon_frenzy_point.png"
+    when :aquarium
+      "/images/icons-2/icon_aquarium.png"
     end
   end
 
@@ -17,7 +19,8 @@ module LeaderboardsHelper
       global: "FFDB Leaderboard",
       general: "Fishing",
       cooking: "Cooking",
-      frenzy_points: "Frenzy Points"
+      frenzy_points: "Frenzy Points",
+      aquarium: "Aquarium"
     }[category.to_sym]
   end
 end

@@ -83,8 +83,20 @@ class Initializers::Leaderboards::Abstract
 
   def create_rank(leaderboard_refresh, player, rank_data)
     Rank.create(
-      { player: player, leaderboard_refresh: leaderboard_refresh }.merge(rank_data)
+      {
+        player: player,
+        leaderboard_refresh: leaderboard_refresh
+      }.merge(rank_data).merge(previous_rank_data(player))
     )
+  end
+
+  def previous_rank_data(player)
+    return {} unless (previous_rank = player.send("latest_#{@category}_rank")).present?
+
+    {}.tap do |previous_rank_data|
+      previous_rank_data[:previous_tier] = previous_rank.tier_name
+      previous_rank_data[:previous_rank] = previous_rank.rank
+    end
   end
 
   def clear_records

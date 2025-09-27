@@ -23,10 +23,22 @@ class Player < ApplicationRecord
   has_many :ranks, class_name: "Rank"
   has_many :leaderboards, through: :ranks
 
-  has_one :latest_global_rank, -> { latest.global }, class_name: "Rank"
-  has_one :latest_general_rank, -> { latest.general }, class_name: "Rank"
-  has_one :latest_cooking_rank, -> { latest.cooking }, class_name: "Rank"
-  has_one :latest_frenzy_points_rank, -> { latest.frenzy_points }, class_name: "Rank"
+  with_options(class_name: "Rank") do
+    has_one :latest_global_rank, -> { latest_per_category.global }
+    has_one :previous_global_rank, -> { previous.global }
+
+    has_one :latest_general_rank, -> { latest_per_category.general }
+    has_one :previous_general_rank, -> { previous.general }
+
+    has_one :latest_cooking_rank, -> { latest_per_category.cooking }
+    has_one :previous_cooking_rank, -> { previous.cooking }
+
+    has_one :latest_frenzy_points_rank, -> { latest_per_category.frenzy_points }
+    has_one :previous_frenzy_points_rank, -> { previous.frenzy_points }
+
+    has_one :latest_aquarium_rank, -> { latest_per_category.aquarium }
+    has_one :previous_aquarium_rank, -> { previous.aquarium }
+  end
 
   pg_search_scope :search_by_keywords,
     against: :search_keywords, using: { tsearch: { prefix: true, any_word: true } }
@@ -37,8 +49,8 @@ class Player < ApplicationRecord
       time: 6.hours.ago
     )
   }
+  scope :random_order, -> { order(Arel.sql("RANDOM()")) }
   scope :first_100_by_global_rank, -> { order_by_latest_global_rank.limit(100) }
-
   scope :order_by_latest_global_rank, lambda {
     latest_ranks = Rank
       .select("DISTINCT ON (ranks.player_id) ranks.player_id, ranks.rank")
@@ -49,16 +61,41 @@ class Player < ApplicationRecord
     joins("LEFT JOIN (#{latest_ranks.to_sql}) latest_rank ON latest_rank.player_id = players.id")
       .order("latest_rank.rank ASC")
   }
-
-  scope :with_rank, -> { includes(:ranks).joins(:ranks).merge(Rank.latest) }
-  scope :without_rank, -> { left_outer_joins(:ranks).where.not(ranks: { id: Rank.latest.select(:id) }).distinct }
+  scope :with_rank, -> { left_joins(:ranks).distinct }
+  scope :by_most_gold, -> {
+    joins(:current_player_metric)
+      .preload(:current_player_metric)
+      .order(Arel.sql("(current_player_metric.api_data->>'gold')::float DESC"))
+      .uniq
+  }
+  scope :by_cooking_level, -> {
+    joins(:current_player_metric)
+    .preload(:current_player_metric)
+    .order(Arel.sql("(current_player_metric.api_data->>'cookingLevel')::int DESC"))
+    .uniq
+  }
+  scope :by_fishing_points, -> {
+    joins(:current_player_metric)
+    .preload(:current_player_metric)
+    .order(Arel.sql("(current_player_metric.api_data->>'fishPoint')::float DESC"))
+    .uniq
+  }
+  scope :by_last_login, -> {
+    joins(:current_player_metric)
+    .preload(:current_player_metric)
+    .order(Arel.sql("(current_player_metric.api_data->>'lastLoginTime')::timestamp DESC"))
+    .uniq
+  }
+  scope :by_last_manual_refresh, -> { order(last_manual_api_refresh_at: :asc) }
 
   after_save :set_slug, if: -> { slug.nil? && current_player_metric.present? }
   after_save :set_search_keywords, if: -> { search_keywords.blank? && current_player_metric.present? }
 
   def display_name
+    return slug unless current_player_metric.present?
+
     current_player_metric.twitter&.dig("name").presence ||
-    current_player_metric.username.presence ||
+    current_player_metric.api_data&.dig("username").presence ||
     Utilities::Other.shorten_eth_address(current_player_metric.wallet_address)
   end
 

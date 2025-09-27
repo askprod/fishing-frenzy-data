@@ -49,6 +49,15 @@ module PlayersHelper
     end
   end
 
+  def player_aquarium_rank_label(player)
+    content_tag(:span, class: label_classes(color: "pink")) do
+      content_tag(:span, class: "inline-flex items-center gap-0.5") do
+        concat image_tag("/images/icons-2/icon_aquarium.png", class: "h-[10px] object-cover mr-0.5")
+        concat ordinal_superscript(player.latest_aquarium_rank.rank)
+      end
+    end
+  end
+
   def player_no_ranking_label
     content_tag(:span, class: label_classes(color: "gray")) do
       "No ranking data"

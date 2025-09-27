@@ -10,11 +10,11 @@ class SushisController < ApplicationController
 
   private
 
-  def set_sushis
-    @sushis = Cooking::Sushi.all
+  def set_sushi
+    @sushi = Cooking::Sushi.find_by(slug: params[:sushi_slug]) if params[:sushi_slug]
   end
 
-  def set_sushi
-    @sushi = @sushis.find_by(slug: params[:sushi_slug]) if params[:sushi_slug]
+  def set_sushis
+    @sushis = Cooking::Sushi.all
   end
 end

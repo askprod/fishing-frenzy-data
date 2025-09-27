@@ -4,7 +4,9 @@ class PlayersController < ApplicationController
   before_action :set_players, :set_leaderboard_variables
   before_action :set_player, only: [ :show, :refresh, :stats_grid ]
   def index
-    @display_players = @players.order_by_latest_global_rank.limit(12)
+    @display_players = @players
+      .by_last_manual_refresh
+      .limit(12)
   end
 
   def show
@@ -42,9 +44,17 @@ class PlayersController < ApplicationController
   def search
     @display_players = (
       if params[:q].blank?
-        @players.order_by_latest_global_rank.limit(12)
+        if leaderboards_enabled?
+          @players.order_by_latest_global_rank.limit(12)
+        else
+          @players.by_last_manual_refresh.limit(12)
+        end
       else
-        @players.search_by_keywords(params[:q]).order_by_latest_global_rank
+        if leaderboards_enabled?
+          @players.search_by_keywords(params[:q]).order_by_latest_global_rank
+        else
+          @players.search_by_keywords(params[:q]).by_last_manual_refresh
+        end
       end
     )
 
@@ -57,7 +67,7 @@ class PlayersController < ApplicationController
   end
 
   def random
-    @players = @players.limit(300).shuffle.sample(12)
+    @players = @players.random_order.limit(12)
 
     render json: {
       count: @players.count,
@@ -98,6 +108,14 @@ class PlayersController < ApplicationController
 
   def set_players
     @players = Player.all
+      .preload(
+        :current_player_metric,
+        :latest_general_rank,
+        :latest_cooking_rank,
+        :latest_frenzy_points_rank,
+        :latest_aquarium_rank,
+        latest_global_rank: :leaderboard_refresh
+      )
   end
 
   def set_leaderboard_variables
@@ -105,9 +123,11 @@ class PlayersController < ApplicationController
     @general_leaderboard = Leaderboard.category_general.most_recently_refreshed
     @cooking_leaderboard = Leaderboard.category_cooking.most_recently_refreshed
     @frenzy_points_leaderboard = Leaderboard.category_frenzy_points.most_recently_refreshed
+    @aquarium_leaderboard = Leaderboard.category_aquarium.most_recently_refreshed
     @leaderboards = [
       @global_leaderboard, @general_leaderboard,
-      @cooking_leaderboard, @frenzy_points_leaderboard
+      @cooking_leaderboard, @frenzy_points_leaderboard,
+      @aquarium_leaderboard
     ].compact
   end
 

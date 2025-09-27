@@ -4,9 +4,14 @@ class ApplicationController < ActionController::Base
   before_action :set_session_id
 
   helper_method :current_session_id
+  helper_method :leaderboards_enabled?
 
   def current_session_id
     session[:session_id]
+  end
+
+  def leaderboards_enabled?
+    Leaderboard::LEADERBOARDS_ENABLED
   end
 
   private

@@ -8,9 +8,11 @@ class RodsController < ApplicationController
   private
 
   def set_collection
-    @collection = Collection.find_by(name: "Rod")
+    @collection = Collection.preload(:statistics).find_by(name: "Rod")
     # Exclude Founders Rod for now
-    @rods = Items::Rod.where.not(name: "Founder’s Rod").merge(@collection.rod_items).display_order
+    @rods = Items::Rod.where.not(name: "Founder’s Rod")
+      .merge(@collection.rod_items)
+      .display_order
   end
 
   def set_rod

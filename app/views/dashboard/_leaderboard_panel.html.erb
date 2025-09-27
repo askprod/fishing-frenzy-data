@@ -1,0 +1,26 @@
+<div class="bg-white border border-1 border-gray-200 rounded-lg shadow-xs flex flex-col p-3">
+  <div class="flex items-center justify-between mb-4">
+    <h2 class="text-sm font-bold text-gray-400 capitalize">
+      <%= leaderboard_type.to_s.humanize %>
+    </h2>
+  </div>
+  <div class="flex flex-col gap-2">
+    <span class="text-xxs text-gray-300">Top performers</span>
+    <% if data[:top].any? %>
+      <% data[:top].each_with_index do |rank_data, index| %>
+        <%= render 'dashboard/leaderboard_item', rank_data: rank_data, index: index %>
+      <% end %>
+    <% else %>
+      <p class="italic text-gray-400 text-xxs">No data available</p>
+    <% end %>
+
+    <span class="text-xxs text-gray-300">Worst performers</span>
+    <% if data[:bottom].any? %>
+      <% data[:bottom].each_with_index do |rank_data, index| %>
+        <%= render 'dashboard/leaderboard_item', rank_data: rank_data, index: index %>
+      <% end %>
+    <% else %>
+      <p class="italic text-gray-400 text-xxs">No data available</p>
+    <% end %>
+  </div>
+</div> 

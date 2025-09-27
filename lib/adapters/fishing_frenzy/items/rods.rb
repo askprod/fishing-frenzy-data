@@ -16,14 +16,8 @@ class Adapters::FishingFrenzy::Items::Rods < Adapters::FishingFrenzy::Abstract
 
   def excluded_attributes
     %i[
-      id
-      name
-      order
-      userId
-      isEquipped
-      isPrototype
-      isInWallet
-      isMinted
+      updatedAt
+      createdAt
     ]
   end
 end

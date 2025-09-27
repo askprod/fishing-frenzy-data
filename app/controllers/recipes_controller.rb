@@ -29,7 +29,10 @@ class RecipesController < ApplicationController
   private
 
   def set_recipes
-    @all_recipes = Cooking::Recipe.all
+    @all_recipes = Cooking::Recipe.all.preload(
+      cooking_recipe_fishes: :fish,
+      cooking_recipe_sushis: :cooking_sushi
+      )
     @available_recipes = @all_recipes.available
 
     @display_recipes = apply_filters

@@ -1,4 +1,4 @@
-<% if @leaderboards.any? %>
+<% if leaderboards_enabled? && @leaderboards.any? %>
   <p class="flex items-center text-gray-400 mb-5">
     Leaderboards
   </p>
