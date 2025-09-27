@@ -34,7 +34,7 @@ class Items::Fish < Item
     where("api_data ->> 'quality' = ?", int)
   }
 
-  def self.can_be_best_performer?
+  def self.can_set_best_performer?
     true
   end
 

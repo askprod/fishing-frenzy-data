@@ -59,12 +59,12 @@ class Item < ApplicationRecord
     )
   end
 
-  def can_be_best_performer?
+  def can_set_best_performer?
     false
   end
 
   def self.best_performer
-    return unless can_be_best_performer?
+    return unless can_set_best_performer?
 
     where(current_best_performer: true).first
   end

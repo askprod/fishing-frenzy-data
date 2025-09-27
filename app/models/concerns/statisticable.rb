@@ -16,12 +16,12 @@ module Statisticable
     def self.fetch_and_create_all_statistics(**args)
       self.with_nfts.map do |obj|
         obj.fetch_and_create_statistics(**args)
-        obj.refresh_best_performer("floor_price")
+        obj.refresh_best_performer("floor_price") if obj.can_set_best_performer?
       end
     end
 
     def self.refresh_best_performer(stat_name)
-      return unless self.can_be_best_performer?
+      return unless self.can_set_best_performer?
 
       performer_klass = StatisticsPerformanceAnalyzer.call(self.with_nfts, stat_name: stat_name)
 

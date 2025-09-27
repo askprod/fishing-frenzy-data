@@ -32,7 +32,7 @@ class Items::Chest < Item
 
   scope :display_order, -> { order(Arel.sql("has_nft ASC, CAST(api_data->>'quality' AS INTEGER) ASC")) }
 
-  def self.can_be_best_performer?
+  def self.can_set_best_performer?
     true
   end
 

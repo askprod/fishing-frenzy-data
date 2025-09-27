@@ -30,7 +30,7 @@ class Items::Rod < Item
 
   before_validation :define_default_attributes
 
-  def self.can_be_best_performer?
+  def self.can_set_best_performer?
     true
   end
 
