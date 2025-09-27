@@ -1,7 +1,8 @@
 class PlayersController < ApplicationController
   include ActionView::Helpers::DateHelper
 
-  before_action :set_players, :set_leaderboard_variables
+  before_action :set_players
+  before_action :set_leaderboard_variables, if: -> { leaderboards_enabled? }
   before_action :set_player, only: [ :show, :refresh, :stats_grid ]
   def index
     @display_players = @players
