@@ -14,7 +14,10 @@ module Statisticable
     end
 
     def self.fetch_and_create_all_statistics(**args)
-      self.with_nfts.map { |obj| obj.fetch_and_create_statistics(**args) }
+      self.with_nfts.map do |obj|
+        obj.fetch_and_create_statistics(**args)
+        obj.refresh_best_performer("floor_price")
+      end
     end
 
     def self.refresh_best_performer(stat_name)
