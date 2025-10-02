@@ -1,13 +1,17 @@
-<p class="text-gray-400 mb-5">Best Performers</p>
+<div class="flex items-center gap-2 mb-5">
+  <p class="text-gray-400">Best Performers</p>
+  <%= nft_label %>
+</div>
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-5">
   <% [[Items::Fish, "fish_path"], [Items::Chest, "chest_path"], [Items::Rod, "rod_path"]].each do |item_class, path_name| %>
-    <% if (best_performer = item_class.best_performer) && best_performer.percentage_increased?("floor_price") %>
+    <% if (best_performer = item_class.best_performer).present? %>
       <%= link_to public_send(path_name, best_performer.slug), class: "transform transition-transform duration-300 hover:translate-y-[-0.2rem] overflow-hidden cursor-pointer" do %>
         <%= render UI::BestNftCardComponent.new(
           name: best_performer.name,
           value: best_performer.floor_price,
+          stats: best_performer.stats_percentage_change_by("floor_price"),
           image_path: "/images/items/item_#{best_performer.image_name}.png",
-          percentage_change: best_performer.percentage_change_by("floor_price")
+          last_update: best_performer.collection.latest_statistic.reference_date
         ) %>
       <% end %>
     <% end %>
@@ -38,7 +42,7 @@
     <% end %>
     <%= link_to "https://marketplace.roninchain.com/collections/fishing-frenzy-founders-pass", class: "transform transition-transform duration-300 hover:translate-y-[-0.2rem] overflow-hidden cursor-pointer", target: :blank do %>
       <div class="bg-white w-full h-full border border-1 border-blue-200 rounded-lg shadow-xs flex flex-col gap-1 justify-center p-3">
-        <span class="text-xxs text-gray-400">For more stats visit the</span>
+        <span class="text-xxs text-gray-400">For more info visit the</span>
         <span class="flex items-center gap-2 text-sm text-blue-400 ">
           Ronin Marketplace
           <%= icon_arrow_up("blue-400", size: 3)%>

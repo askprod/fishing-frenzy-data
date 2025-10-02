@@ -15,6 +15,6 @@ class ConsumablesController < ApplicationController
   end
 
   def set_consumables
-    @consumables = Items::Consumable.all
+    @consumables = Items::Consumable.display_order
   end
 end

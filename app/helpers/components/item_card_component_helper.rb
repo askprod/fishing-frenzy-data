@@ -154,4 +154,13 @@ module Components::ItemCardComponentHelper
       ])
     end
   end
+
+  def item_card_consumable_attributes(consumable)
+    {
+      image_path: asset_path("/images/items/item_#{consumable.image_name}.png"),
+      image_classes: consumable.slug.eql?("exp-scroll") ? "p-2" : "",
+      title: consumable.name,
+      labels: []
+    }
+  end
 end

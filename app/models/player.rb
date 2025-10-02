@@ -86,7 +86,12 @@ class Player < ApplicationRecord
     .order(Arel.sql("(current_player_metric.api_data->>'lastLoginTime')::timestamp DESC"))
     .uniq
   }
-  scope :by_last_manual_refresh, -> { order(last_manual_api_refresh_at: :asc) }
+  scope :by_current_xp, -> {
+    joins(:current_player_metric)
+    .preload(:current_player_metric)
+    .order(Arel.sql("(current_player_metric.api_data->>'exp')::float DESC"))
+    .uniq
+  }
 
   after_save :set_slug, if: -> { slug.nil? && current_player_metric.present? }
   after_save :set_search_keywords, if: -> { search_keywords.blank? && current_player_metric.present? }

@@ -24,5 +24,10 @@
 #
 
 class Items::Consumable < Item
+  NAMES_ORDER = [ "small-bait", "medium-bait", "big-bait", "mythic-bait", "sushi", "exp-scroll" ]
   has_many :chest_loots, class_name: "Chest::Loot", foreign_key: :consumable_id, dependent: :destroy, inverse_of: :consumable
+
+  scope :display_order, -> {
+    order(Arel.sql(NAMES_ORDER.map.with_index { |name, i| "WHEN '#{name}' THEN #{i}" }.prepend("CASE slug").push("END").join(" ")))
+  }
 end

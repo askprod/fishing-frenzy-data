@@ -2,29 +2,29 @@ class StatisticsPerformanceAnalyzer
   attr_reader :collection, :stat_name, :results
 
   def initialize(collection, stat_name: "floor_price")
-    @collection = collection# .preload(:latest_statistics)
-    @stat_name = stat_name
+    @collection = collection
+    @stat_name = stat_name.to_s
   end
 
   def self.call(collection, stat_name: "floor_price")
-    _self = self.new(collection, stat_name: stat_name)
-    _self.call
-    _self
+    instance = new(collection, stat_name: stat_name)
+    instance.call
+    instance
   end
 
   def best_performer
-    @results.first[:item]
-  end
-
-  def best_performer_has_increased?
-    return false if @results.empty?
-
-    @results.first[:change] > 0
+    @results.first
   end
 
   def call
-    @results = @collection.map do | i|
-      { item: i, change: i.percentage_change_by(@stat_name) }
-    end.sort_by { |res| -res[:change] }
+    @results = @collection.preload(:statistics).map do |item|
+      period, change = item.stats_percentage_change_by(@stat_name).max_by { |_, v| v.abs } || [ nil, 0 ]
+
+      {
+        item: item,
+        change: change,
+        period: period
+      }
+    end.sort_by { |res| -res[:change].abs }
   end
 end

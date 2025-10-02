@@ -27,8 +27,6 @@ module Statisticable
       self.with_nfts.map do |obj|
         obj.fetch_and_create_statistics(**args)
       end
-
-      self.refresh_best_performer("floor_price") if self.can_set_best_performer?
     end
 
     def self.refresh_best_performer(stat_name)
@@ -36,7 +34,7 @@ module Statisticable
 
       performer_klass = StatisticsPerformanceAnalyzer.call(self.with_nfts, stat_name: stat_name)
 
-      if (performer = performer_klass.best_performer) && performer_klass.best_performer_has_increased?
+      if performer = performer_klass.best_performer.dig(:item)
         self.update_all(current_best_performer: false)
         performer.update(current_best_performer: true)
       end
@@ -51,16 +49,8 @@ module Statisticable
       )
     end
 
-    def percentage_change_by(stat_name)
-      return 0 unless self.latest_statistic.present? && self.previous_statistic.present?
-      return 0 unless (latest = self.latest_statistic.data[stat_name]).present? && (previous = self.previous_statistic.data[stat_name]).present?
-      return 0 if previous.zero?
-
-      ((latest - previous) / previous * 100).round(2)
-    end
-
-    def percentage_increased?(stat_name)
-      percentage_change_by(stat_name) > 0
+    def stats_percentage_change_by(stat_name)
+      Utilities::StatisticsAggregator.call(self.statistics)[stat_name] || {}
     end
   end
 end

@@ -6,8 +6,8 @@ class PlayersController < ApplicationController
   before_action :set_player, only: [ :show, :refresh, :stats_grid ]
   def index
     @display_players = @players
-      .by_last_manual_refresh
-      .limit(12)
+      .by_current_xp
+      .first(12)
   end
 
   def show
@@ -45,17 +45,9 @@ class PlayersController < ApplicationController
   def search
     @display_players = (
       if params[:q].blank?
-        if leaderboards_enabled?
-          @players.order_by_latest_global_rank.limit(12)
-        else
-          @players.by_last_manual_refresh.limit(12)
-        end
+        @players.by_current_xp.first(12)
       else
-        if leaderboards_enabled?
-          @players.search_by_keywords(params[:q]).order_by_latest_global_rank
-        else
-          @players.search_by_keywords(params[:q]).by_last_manual_refresh
-        end
+        @players.search_by_keywords(params[:q]).by_current_xp.first(12)
       end
     )
 

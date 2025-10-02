@@ -1,1 +1,16 @@
-Consumables
+<p class="flex items-center text-base text-gray-400 mb-5">
+  Consumables
+  <span class="<%= label_classes %> ml-2"><%= @consumables.count %></span>
+</p>
+
+<% if @consumables.any? %>
+	<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+		<% @consumables.each do |consumable| %>
+      <%= link_to consumable_path(consumable.slug) do %>
+        <%= render UI::ItemCardComponent.new(**(item_card_consumable_attributes(consumable))) %>
+      <% end %>
+		<% end %>
+	</div>
+<% else %>
+  <p class="italic text-gray-300 text-center text-xs">No data here...</p>
+<% end %>

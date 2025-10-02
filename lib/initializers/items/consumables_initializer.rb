@@ -12,7 +12,15 @@ class Initializers::Items::ConsumablesInitializer
   end
 
   def fetch_all_data
-    Apis::FishingFrenzy.call("items")
+    first_page = Apis::FishingFrenzy.call("items")
+    total_results = first_page.dig(:totalResults).to_i
+    results = Apis::FishingFrenzy.call("items", get_params: { limit: total_results })
+
+    extra_records_ids.each do |extra_record_id|
+      results[:results] << Apis::FishingFrenzy.call("items/#{extra_record_id}")
+    end
+
+    results
   end
 
   def create_records
@@ -30,5 +38,9 @@ class Initializers::Items::ConsumablesInitializer
           .merge(consumable_data))
       end
     end
+  end
+
+  def extra_records_ids
+    [ "688a26cf2ea7512215bab23e" ]
   end
 end
