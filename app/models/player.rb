@@ -87,10 +87,17 @@ class Player < ApplicationRecord
     .uniq
   }
   scope :by_current_xp, -> {
-    joins(:current_player_metric)
-    .preload(:current_player_metric)
-    .order(Arel.sql("(current_player_metric.api_data->>'exp')::float DESC"))
-    .uniq
+    joins(
+      "INNER JOIN LATERAL (
+         SELECT *
+         FROM players_metrics
+         WHERE players_metrics.player_id = players.id
+         ORDER BY created_at DESC
+         LIMIT 1
+       ) AS current_player_metrics ON current_player_metrics.player_id = players.id"
+    )
+    .select("players.*, (current_player_metrics.api_data->>'exp')::float AS exp")
+    .order("exp DESC")
   }
 
   after_save :set_slug, if: -> { slug.nil? && current_player_metric.present? }
