@@ -39,7 +39,7 @@ class Items::Chest < Item
   def floor_price
     return 0 unless latest_statistic&.data.present?
 
-    latest_statistic.data.dig("floor_price")
+    latest_statistic.data.dig("floor_price").round(2)
   end
 
   def listed_amount
